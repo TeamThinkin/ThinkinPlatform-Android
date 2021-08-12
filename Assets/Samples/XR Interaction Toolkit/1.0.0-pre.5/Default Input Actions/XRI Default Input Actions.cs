@@ -974,6 +974,14 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Test Button 3"",
+                    ""type"": ""Button"",
+                    ""id"": ""4e20ced0-5830-491d-9591-5cfd4b7afaf1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -996,6 +1004,17 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Test Button 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f5a43f0-2d41-45a9-8319-2062e4fc8b97"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Test Button 3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1101,6 +1120,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         m_UIControls = asset.FindActionMap("UI Controls", throwIfNotFound: true);
         m_UIControls_TestButton1 = m_UIControls.FindAction("Test Button 1", throwIfNotFound: true);
         m_UIControls_TestButton2 = m_UIControls.FindAction("Test Button 2", throwIfNotFound: true);
+        m_UIControls_TestButton3 = m_UIControls.FindAction("Test Button 3", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1451,12 +1471,14 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
     private IUIControlsActions m_UIControlsActionsCallbackInterface;
     private readonly InputAction m_UIControls_TestButton1;
     private readonly InputAction m_UIControls_TestButton2;
+    private readonly InputAction m_UIControls_TestButton3;
     public struct UIControlsActions
     {
         private @XRIDefaultInputActions m_Wrapper;
         public UIControlsActions(@XRIDefaultInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @TestButton1 => m_Wrapper.m_UIControls_TestButton1;
         public InputAction @TestButton2 => m_Wrapper.m_UIControls_TestButton2;
+        public InputAction @TestButton3 => m_Wrapper.m_UIControls_TestButton3;
         public InputActionMap Get() { return m_Wrapper.m_UIControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1472,6 +1494,9 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @TestButton2.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnTestButton2;
                 @TestButton2.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnTestButton2;
                 @TestButton2.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnTestButton2;
+                @TestButton3.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnTestButton3;
+                @TestButton3.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnTestButton3;
+                @TestButton3.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnTestButton3;
             }
             m_Wrapper.m_UIControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -1482,6 +1507,9 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @TestButton2.started += instance.OnTestButton2;
                 @TestButton2.performed += instance.OnTestButton2;
                 @TestButton2.canceled += instance.OnTestButton2;
+                @TestButton3.started += instance.OnTestButton3;
+                @TestButton3.performed += instance.OnTestButton3;
+                @TestButton3.canceled += instance.OnTestButton3;
             }
         }
     }
@@ -1554,5 +1582,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
     {
         void OnTestButton1(InputAction.CallbackContext context);
         void OnTestButton2(InputAction.CallbackContext context);
+        void OnTestButton3(InputAction.CallbackContext context);
     }
 }

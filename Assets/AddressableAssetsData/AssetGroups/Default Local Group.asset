@@ -16,13 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 7fbf542cbf1c62847bfef8cece2501c7
-  m_SerializeEntries:
-  - m_GUID: 48c3e119b900e0b479f7a2d0c3bdf99a
-    m_Address: Assets/Materials/Temp.mat
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5b7ed608176e81a489a73a004bf2d9ca, type: 2}
   m_SchemaSet:
