@@ -29,6 +29,7 @@ public class TestButton : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Awake subscribing to events");
         XRInputActions = new XRIDefaultInputActions();
         XRInputActions.UIControls.TestButton1.performed += TestButton1_performed;
         XRInputActions.UIControls.TestButton1.Enable();
@@ -38,26 +39,37 @@ public class TestButton : MonoBehaviour
 
         XRInputActions.UIControls.TestButton3.performed += TestButton3_performed;
         XRInputActions.UIControls.TestButton3.Enable();
+    }
 
-        
+    private void OnDestroy()
+    {
+        XRInputActions.UIControls.TestButton1.performed -= TestButton1_performed;
+        XRInputActions.UIControls.TestButton2.performed -= TestButton2_performed;
+        XRInputActions.UIControls.TestButton3.performed -= TestButton3_performed;
     }
 
     private void TestButton1_performed(InputAction.CallbackContext obj)
     {
-        Debug.Log("Test button fired");
+        Debug.Log("Test button 1 fired");
         AppSceneManager.Instance.LoadRemoteScene(SceneUrl1);
     }
 
     private void TestButton2_performed(InputAction.CallbackContext obj)
     {
-        Debug.Log("Test button fired");
+        Debug.Log("Test button 2 fired");
         AppSceneManager.Instance.LoadRemoteScene(SceneUrl2);
     }
 
     private void TestButton3_performed(InputAction.CallbackContext obj)
     {
-        Debug.Log("Test button fired");
-        AppSceneManager.Instance.LoadRemoteScene(SceneUrl3);
+        Debug.Log("Test button 3 fired");
+        if(UserInfo.CurrentUser != null)
+            UserInfo.CurrentUser.Logout();
+        else
+        {
+            Debug.Log("Cant log out because no user logged in???");
+        }
+        //AppSceneManager.Instance.LoadRemoteScene(SceneUrl3);
     }
 
     private async void doDBTest()
@@ -87,7 +99,8 @@ public class TestButton : MonoBehaviour
     {
         transform.position += Vector3.up;
         //LoadScene("https://storage.googleapis.com/matriculate-assets/{PLATFORM}/catalog_ThinkinContent.json#Assets/Scenes/Classroom.unity");
-        doDBTest();
+        //doDBTest();
+        UserInfo.CurrentUser.Logout();
     }
 }
 

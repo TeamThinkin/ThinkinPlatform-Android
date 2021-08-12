@@ -6,8 +6,8 @@ using UnityEngine;
 [Serializable]
 public class UserInfo
 {
-    public string UID { get; private set; }
-    public string DisplayName { get; private set; }
+    public string UID;
+    public string DisplayName;
 
     public static event Action<UserInfo> OnCurrentUserChanged;
 
@@ -21,6 +21,7 @@ public class UserInfo
                 if(PlayerPrefs.HasKey("UserInfo"))
                 {
                     var json = PlayerPrefs.GetString("UserInfo");
+                    Debug.Log("Current user json: " + json);
                     _currentUser = JsonUtility.FromJson<UserInfo>(json);
                 }
             }
@@ -28,10 +29,23 @@ public class UserInfo
         }
         set
         {
-            if (value == _currentUser) return;
+            if (value != null && value == _currentUser) return;
             _currentUser = value;
-            PlayerPrefs.SetString("UserInfo", JsonUtility.ToJson(_currentUser));
+            string json = JsonUtility.ToJson(_currentUser);
+            Debug.Log("Saving user json: " + json);
+            PlayerPrefs.SetString("UserInfo", json);
             OnCurrentUserChanged?.Invoke(_currentUser);
         }
+    }
+
+    public UserInfo(string UID, string DisplayName)
+    {
+        this.UID = UID;
+        this.DisplayName = DisplayName;
+    }
+
+    public void Logout()
+    {
+        CurrentUser = null;
     }
 }
