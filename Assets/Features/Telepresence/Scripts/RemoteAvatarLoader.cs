@@ -78,10 +78,8 @@ public class RemoteAvatarLoader : RealtimeComponent<UserInfoModel>
         if (model.avatarUrl == loadedAvatarUrl) return;
         loadedAvatarUrl = model.avatarUrl;
 
-        Debug.Log("Loading avatar: " + model.avatarUrl);
         loader.LoadAvatar(model.avatarUrl, (avatar, metadata) =>
         {
-            Debug.Log("Avatar Loaded");
             if (loadedAvatar != null) Destroy(loadedAvatar);
             loadedAvatar = avatar;
             avatar.transform.SetParent(this.transform);
@@ -100,7 +98,7 @@ public class RemoteAvatarLoader : RealtimeComponent<UserInfoModel>
         if (neckBone != null && headBone != null)
         {
             neckBone.position = headBone.position + neckHeadOffset;
-            neckBone.rotation = Quaternion.Slerp(neckBone.rotation, headBone.rotation, 0.5f * Time.deltaTime);
+            neckBone.rotation = Quaternion.Slerp(neckBone.rotation, headBone.rotation, 0.5f * Time.deltaTime); //TODO: Limit non vertical axis rotation so cocking your head to the side doesnt rotate torso
         }
     }
 

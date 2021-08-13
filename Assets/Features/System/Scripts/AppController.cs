@@ -23,4 +23,9 @@ public class AppController : MonoBehaviour
     {
         if(UserInfo.CurrentUser == null) AppSceneManager.Instance.LoadLocalScene("Login");
     }
+
+    public void GoToHomeRoom()
+    {
+        AppSceneManager.Instance.LoadLocalScene("Home Room");
+    }
 }
