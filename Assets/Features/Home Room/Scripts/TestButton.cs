@@ -29,7 +29,6 @@ public class TestButton : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Awake subscribing to events");
         XRInputActions = new XRIDefaultInputActions();
         XRInputActions.UIControls.TestButton1.performed += TestButton1_performed;
         XRInputActions.UIControls.TestButton1.Enable();

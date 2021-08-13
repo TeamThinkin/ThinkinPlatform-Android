@@ -109,4 +109,9 @@ public static class Extensions
     {
         return list.Select(selector).WhereNotNull();
     }
+
+    public static string StripQuotes(this string s)
+    {
+        return s?.Substring(1, s.Length - 2);
+    }
 }

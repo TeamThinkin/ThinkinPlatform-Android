@@ -62,7 +62,7 @@ public class LoginController : MonoBehaviour
         PostlinkElements.SetActive(true);
 
         var dto = JsonConvert.DeserializeObject<LinkAccountDto>(e.data);
-        UserInfo.CurrentUser = new UserInfo(dto.DisplayName, dto.UID);
+        UserInfo.CurrentUser = new UserInfo() { DisplayName = dto.DisplayName, UID = dto.UID };
     }
 
     public void OnContinueButtonPressed()

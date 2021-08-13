@@ -10,7 +10,7 @@ public class UserInfoPresenter : MonoBehaviour
     {
         if(UserInfo.CurrentUser != null)
         {
-            Label.text = "Logged in\n" + UserInfo.CurrentUser.DisplayName + "\n" + UserInfo.CurrentUser.UID;
+            Label.text = "Logged in\n" + UserInfo.CurrentUser.DisplayName + "\n" + UserInfo.CurrentUser.UID + "\n" + UserInfo.CurrentUser.AvatarUrl;
         }
         else
         {

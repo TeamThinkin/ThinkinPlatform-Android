@@ -8,6 +8,7 @@ public class UserInfo
 {
     public string UID;
     public string DisplayName;
+    public string AvatarUrl;
 
     public static event Action<UserInfo> OnCurrentUserChanged;
 
@@ -21,7 +22,6 @@ public class UserInfo
                 if(PlayerPrefs.HasKey("UserInfo"))
                 {
                     var json = PlayerPrefs.GetString("UserInfo");
-                    Debug.Log("Current user json: " + json);
                     _currentUser = JsonUtility.FromJson<UserInfo>(json);
                 }
             }
@@ -31,17 +31,15 @@ public class UserInfo
         {
             if (value != null && value == _currentUser) return;
             _currentUser = value;
-            string json = JsonUtility.ToJson(_currentUser);
-            Debug.Log("Saving user json: " + json);
-            PlayerPrefs.SetString("UserInfo", json);
-            OnCurrentUserChanged?.Invoke(_currentUser);
+            SaveCurrentUser();
         }
     }
 
-    public UserInfo(string UID, string DisplayName)
+    public static void SaveCurrentUser()
     {
-        this.UID = UID;
-        this.DisplayName = DisplayName;
+        string json = JsonUtility.ToJson(_currentUser);
+        PlayerPrefs.SetString("UserInfo", json);
+        OnCurrentUserChanged?.Invoke(_currentUser);
     }
 
     public void Logout()
