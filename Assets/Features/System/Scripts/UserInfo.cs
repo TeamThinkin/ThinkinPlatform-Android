@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class UserInfo
 {
-    public string UID;
+    public string Id;
     public string DisplayName;
     public string AvatarUrl;
 
@@ -15,35 +15,12 @@ public class UserInfo
     private static UserInfo _currentUser;
     public static UserInfo CurrentUser
     {
-        get
-        {
-            if(_currentUser == null)
-            {
-                if(PlayerPrefs.HasKey("UserInfo"))
-                {
-                    var json = PlayerPrefs.GetString("UserInfo");
-                    _currentUser = JsonUtility.FromJson<UserInfo>(json);
-                }
-            }
-            return _currentUser;
-        }
+        get { return _currentUser; }
         set
         {
-            if (value != null && value == _currentUser) return;
+            if (_currentUser == value) return;
             _currentUser = value;
-            SaveCurrentUser();
+            OnCurrentUserChanged?.Invoke(_currentUser);
         }
-    }
-
-    public static void SaveCurrentUser()
-    {
-        string json = JsonUtility.ToJson(_currentUser);
-        PlayerPrefs.SetString("UserInfo", json);
-        OnCurrentUserChanged?.Invoke(_currentUser);
-    }
-
-    public void Logout()
-    {
-        CurrentUser = null;
     }
 }

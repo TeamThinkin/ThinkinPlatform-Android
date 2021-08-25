@@ -23,19 +23,23 @@ public class RemoteAvatarLoader : RealtimeComponent<UserInfoModel>
     private void Awake()
     {
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
-    }
+        WebSocketListener.OnAvatarUrlUpdated += WebSocketListener_OnAvatarUrlUpdated;
+    }    
 
     private void OnDestroy()
     {
         UserInfo.OnCurrentUserChanged -= UserInfo_OnCurrentUserChanged;
+        WebSocketListener.OnAvatarUrlUpdated -= WebSocketListener_OnAvatarUrlUpdated;
     }
 
     private void UserInfo_OnCurrentUserChanged(UserInfo newUser)
     {
-        if (isOwnedLocallyInHierarchy)
-        {
-            updateModelFromUserInfo(newUser);
-        }
+        if (isOwnedLocallyInHierarchy) updateModelFromUserInfo(newUser);
+    }
+
+    private void WebSocketListener_OnAvatarUrlUpdated(string newAvatarUrl)
+    {
+        if (isOwnedLocallyInHierarchy) model.avatarUrl = newAvatarUrl;
     }
 
     private void updateModelFromUserInfo(UserInfo userInfo)

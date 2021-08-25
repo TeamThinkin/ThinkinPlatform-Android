@@ -15,6 +15,15 @@ public class LoginController : MonoBehaviour
         public string DisplayName { get; set; }
     }
 
+    public class CodewordDto
+    {
+        [JsonProperty("uid")]
+        public string UID { get; set; }
+
+        [JsonProperty("codeword")]
+        public string Codeword { get; set; }
+    }
+
     [SerializeField] private GameObject PrelinkElements;
     [SerializeField] private GameObject PostlinkElements;
     [SerializeField] private TMPro.TMP_Text CodewordLabel;
@@ -30,10 +39,10 @@ public class LoginController : MonoBehaviour
         PrelinkElements.SetActive(true);
         PostlinkElements.SetActive(false);
 
-        socket = GameObject.FindObjectOfType<SocketIOController>();
+        socket = SocketIOController.Instance;
 
         socket.On("connect", onSocketConnected);
-        socket.On("linkAccount", onLinkAccount);
+        WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
 
         if (socket.IsConnected) sendAccountLinkingCode();
     }
@@ -42,7 +51,7 @@ public class LoginController : MonoBehaviour
     {
         socket.Emit("clearAccountLinkingCode", codeword);
         socket.Off("connect", onSocketConnected);
-        socket.Off("linkAccount", onLinkAccount);
+        WebSocketListener.OnSetUser -= WebSocketListener_OnSetUser;
     }
 
     private void onSocketConnected(SocketIOEvent e)
@@ -53,16 +62,15 @@ public class LoginController : MonoBehaviour
     private void sendAccountLinkingCode()
     {
         Debug.Log("Sending account linking code");
-        socket.Emit("accountLinkingCode", codeword);
+        socket.Emit("accountLinkingCode", JsonConvert.SerializeObject(new CodewordDto() { UID = AppController.UID, Codeword = codeword }));
     }
 
-    private void onLinkAccount(SocketIOEvent e)
-    {        
+    private void WebSocketListener_OnSetUser(UserDto newUser)
+    {     
         PrelinkElements.SetActive(false);
         PostlinkElements.SetActive(true);
 
-        var dto = JsonConvert.DeserializeObject<LinkAccountDto>(e.data);
-        UserInfo.CurrentUser = new UserInfo() { DisplayName = dto.DisplayName, UID = dto.UID };
+        UserInfo.CurrentUser = new UserInfo() { DisplayName = newUser.DisplayName, Id = newUser.Id, AvatarUrl = newUser.AvatarUrl };
     }
 
     public void OnContinueButtonPressed()
