@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnitySocketIO.Events;
 
@@ -45,13 +47,28 @@ public class AppController : MonoBehaviour
         var userDto = await WebAPI.RegisterDevice(UID);
         if(userDto != null)
         {
-            UserInfo.CurrentUser = new UserInfo()
+            var user = new UserInfo()
             {
                 Id = userDto.Id,
                 AvatarUrl = userDto.AvatarUrl,
                 DisplayName = userDto.DisplayName
             };
 
+            //Fetch Domain Info and structure into models
+            if (userDto.Domains != null)
+            {
+                var manifests = await Task.WhenAll(userDto?.Domains?.Select(i => WebAPI.GetManifest(i.ManifestUrl)));
+
+                user.Domains = new DomainInfo[userDto.Domains.Length];
+                for(int i=0;i<user.Domains.Length;i++)
+                {
+                    var domain = DomainInfo.FromDomainDto(userDto.Domains[i]);
+                    user.Domains[i] = domain;
+                    user.Domains[i].Rooms = manifests[i].Select(i => RoomInfo.FromRoomDto(i, domain)).ToArray();
+                }
+            }
+
+            UserInfo.CurrentUser = user;
             AppSceneManager.Instance.LoadLocalScene("Home Room");
         }
         else

@@ -13,7 +13,7 @@ public static class WebAPI
     private const string ContentBaseUrl = "https://thinkin-setup.glitch.me/api/v1/";
     private const string AuthToken = "3be5f7ac-b5c5-440f-ba9e-fd9b5577a942";
 
-    public static async Task<UserDto> RegisterDevice(string Uid)
+    public static async Task<RegisterDeviceResultDto> RegisterDevice(string Uid)
     {
         using (var request = new UnityWebRequest(ContentBaseUrl + "device/register", "POST"))
         {
@@ -33,7 +33,29 @@ public static class WebAPI
             }
             else
             {
-                return JsonConvert.DeserializeObject<UserDto>(request.downloadHandler.text);
+                return JsonConvert.DeserializeObject<RegisterDeviceResultDto>(request.downloadHandler.text);
+            }
+        }
+    }
+
+    public static async Task<RoomDto[]> GetManifest(string Url)
+    {
+        using (var request = new UnityWebRequest(Url, "GET"))
+        {
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("auth", AuthToken);
+            request.downloadHandler = new DownloadHandlerBuffer();
+
+            await request.SendWebRequest().GetTask();
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Request error: " + request.error);
+                return null;
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<RoomDto[]>(request.downloadHandler.text);
             }
         }
     }

@@ -21,3 +21,35 @@ public class UserDto
     public string AvatarUrl { get; set; }
 }
 
+public class RegisterDeviceResultDto : UserDto
+{
+    [JsonProperty("domains")]
+    public DomainDto[] Domains { get; set; }
+}
+
+public class DomainDto
+{
+    [JsonProperty("_id")]
+    public string Id { get; set; }
+
+    [JsonProperty("displayName")]
+    public string DisplayName { get; set; }
+
+    [JsonProperty("manifestUrl")]
+    public string ManifestUrl { get; set; }
+}
+
+public class RoomDto
+{
+    [JsonProperty("_id")]
+    public string Id { get; set; }
+
+    [JsonProperty("displayName")]
+    public string DisplayName;
+
+    [JsonProperty("domainId")]
+    public string DomainId;
+
+    [JsonProperty("environmentUrl")]
+    public string EnvironmentUrl;
+}

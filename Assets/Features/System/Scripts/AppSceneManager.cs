@@ -57,7 +57,6 @@ public class AppSceneManager : MonoBehaviour
             UnloadScene();
 
             var address = new AddressableUrl(SceneUrl);
-            Debug.Log("!!! Loading scene: " + address.CatalogUrl);
             if (currentCatalogUrl != address.CatalogUrl)
             {
                 var loadCatalogHandle = Addressables.LoadContentCatalogAsync(address.CatalogUrl);

@@ -6,15 +6,11 @@ public class UserInfoPresenter : MonoBehaviour
 {
     [SerializeField] private TMPro.TMP_Text Label;
 
-    private void Awake()
+    public void SetModel(UserInfo User)
     {
-        if(UserInfo.CurrentUser != null)
-        {
-            Label.text = "Logged in\n" + UserInfo.CurrentUser.DisplayName + "\n" + UserInfo.CurrentUser.Id + "\n" + UserInfo.CurrentUser.AvatarUrl;
-        }
+        if (UserInfo.CurrentUser != null)
+            Label.text = "Welcome " + User.DisplayName;
         else
-        {
             Label.text = "Not logged in";
-        }
     }
 }
