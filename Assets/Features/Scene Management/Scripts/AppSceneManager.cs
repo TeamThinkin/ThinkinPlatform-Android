@@ -14,6 +14,7 @@ public class AppSceneManager : MonoBehaviour
 
     public static AppSceneManager Instance { get; private set; }
 
+    [SerializeField] private TransitionController TransitionController;
     [SerializeField] private bool ClearCacheOnAwake;
 
     private AsyncOperationHandle currentSceneHandle;
@@ -22,10 +23,28 @@ public class AppSceneManager : MonoBehaviour
     private string currentScene;
     private string currentCatalogUrl;
 
+    private Action OnceSceneIsHiddenAction;
+
     private void Awake()
     {
         Instance = this;
         if(ClearCacheOnAwake) Caching.ClearCache();
+    }
+
+    private void Start()
+    {
+        TransitionController.OnSceneHidden += TransitionController_OnSceneHidden;
+    }
+
+    private void OnDestroy()
+    {
+        TransitionController.OnSceneHidden -= TransitionController_OnSceneHidden;
+    }
+
+    private void TransitionController_OnSceneHidden()
+    {
+        OnceSceneIsHiddenAction?.Invoke();
+        OnceSceneIsHiddenAction = null;
     }
 
     public void LoadLocalScene(string SceneName)
@@ -37,17 +56,29 @@ public class AppSceneManager : MonoBehaviour
             if (SceneManager.GetSceneAt(i).name == SceneName) return;
         }
 
-        UnloadScene();
+        TransitionController.HideScene();
 
-        SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
+        OnceSceneIsHiddenAction = new Action(() =>
+        {
+            UnloadScene();
 
-        currentScene = SceneName;
-        currentSceneIsRemote = false;
+            SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
+
+            currentScene = SceneName;
+            currentSceneIsRemote = false;
+
+            TransitionController.RevealScene();
+        });
     }
 
     public void LoadRemoteScene(string SceneUrl)
     {
-        StartCoroutine(doLoadRemoteScene(SceneUrl));
+        TransitionController.HideScene();
+
+        OnceSceneIsHiddenAction = new Action(() =>
+        {
+            StartCoroutine(doLoadRemoteScene(SceneUrl));
+        });
     }
 
     private IEnumerator doLoadRemoteScene(string SceneUrl) //Note: I had problems using async operations on the original Quest - mbell, 11/28/20 
@@ -74,6 +105,8 @@ public class AppSceneManager : MonoBehaviour
                 currentScene = SceneUrl;
                 currentSceneIsRemote = true;
                 OnEnvironmentLoaded?.Invoke();
+
+                TransitionController.RevealScene();
             }
             else
             {
