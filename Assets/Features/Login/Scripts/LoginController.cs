@@ -70,7 +70,7 @@ public class LoginController : MonoBehaviour
         PrelinkElements.SetActive(false);
         PostlinkElements.SetActive(true);
 
-        UserInfo.CurrentUser = new UserInfo() { DisplayName = newUser.DisplayName, Id = newUser.Id, AvatarUrl = newUser.AvatarUrl };
+        //UserInfo.CurrentUser = new UserInfo() { DisplayName = newUser.DisplayName, Id = newUser.Id, AvatarUrl = newUser.AvatarUrl };
     }
 
     public void OnContinueButtonPressed()

@@ -33,19 +33,32 @@ public class AppController : MonoBehaviour
     void Start()
     {
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
-        registerDevice();        
+        WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
+        //registerDevice();
+        checkDeviceRegistration();
     }
 
+    
 
     private void OnDestroy()
     {
         UserInfo.OnCurrentUserChanged -= UserInfo_OnCurrentUserChanged;
+        WebSocketListener.OnSetUser -= WebSocketListener_OnSetUser;
     }
 
-    private async void registerDevice()
+    private async void checkDeviceRegistration()
+    {
+        await registerDevice();
+        if(UserInfo.CurrentUser != null)
+            AppSceneManager.Instance.LoadLocalScene("Home Room");
+        else
+            AppSceneManager.Instance.LoadLocalScene("Login");
+    }
+
+    private async Task registerDevice()
     {
         var userDto = await WebAPI.RegisterDevice(UID);
-        if(userDto != null)
+        if (userDto != null)
         {
             var user = new UserInfo()
             {
@@ -60,7 +73,7 @@ public class AppController : MonoBehaviour
                 var manifests = await Task.WhenAll(userDto?.Domains?.Select(i => WebAPI.GetManifest(i.ManifestUrl)));
 
                 user.Domains = new DomainInfo[userDto.Domains.Length];
-                for(int i=0;i<user.Domains.Length;i++)
+                for (int i = 0; i < user.Domains.Length; i++)
                 {
                     var domain = DomainInfo.FromDomainDto(userDto.Domains[i]);
                     user.Domains[i] = domain;
@@ -69,12 +82,13 @@ public class AppController : MonoBehaviour
             }
 
             UserInfo.CurrentUser = user;
-            AppSceneManager.Instance.LoadLocalScene("Home Room");
         }
-        else
-        {
-            AppSceneManager.Instance.LoadLocalScene("Login");
-        }
+        else UserInfo.CurrentUser = null;
+    }
+
+    private void WebSocketListener_OnSetUser(UserDto obj)
+    {
+        registerDevice();
     }
 
     private void UserInfo_OnCurrentUserChanged(UserInfo obj)

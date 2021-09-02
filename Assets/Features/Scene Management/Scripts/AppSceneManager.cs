@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
@@ -58,14 +59,15 @@ public class AppSceneManager : MonoBehaviour
 
         TransitionController.HideScene();
 
-        OnceSceneIsHiddenAction = new Action(() =>
+        OnceSceneIsHiddenAction = new Action(async () =>
         {
-            UnloadScene();
+            await UnloadScene();
 
             SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
 
             currentScene = SceneName;
             currentSceneIsRemote = false;
+            OnEnvironmentLoaded?.Invoke();
 
             TransitionController.RevealScene();
         });
@@ -73,59 +75,57 @@ public class AppSceneManager : MonoBehaviour
 
     public void LoadRemoteScene(string SceneUrl)
     {
+        if (currentScene == SceneUrl) return;
+        
         TransitionController.HideScene();
-
-        OnceSceneIsHiddenAction = new Action(() =>
+            
+        OnceSceneIsHiddenAction = new Action(async () =>
         {
+            await UnloadScene();
             StartCoroutine(doLoadRemoteScene(SceneUrl));
         });
     }
 
     private IEnumerator doLoadRemoteScene(string SceneUrl) //Note: I had problems using async operations on the original Quest - mbell, 11/28/20 
     {
-        if (currentScene != SceneUrl)
+        var address = new AddressableUrl(SceneUrl);
+        if (currentCatalogUrl != address.CatalogUrl)
         {
-            UnloadScene();
+            var loadCatalogHandle = Addressables.LoadContentCatalogAsync(address.CatalogUrl);
+            yield return loadCatalogHandle;
+            currentResourceLocator = loadCatalogHandle.Result;
+            currentCatalogUrl = address.CatalogUrl;
+        }
 
-            var address = new AddressableUrl(SceneUrl);
-            if (currentCatalogUrl != address.CatalogUrl)
-            {
-                var loadCatalogHandle = Addressables.LoadContentCatalogAsync(address.CatalogUrl);
-                yield return loadCatalogHandle;
-                currentResourceLocator = loadCatalogHandle.Result;
-                currentCatalogUrl = address.CatalogUrl;
-            }
+        if (currentResourceLocator.Locate(address.AssetPath, typeof(UnityEngine.ResourceManagement.ResourceProviders.SceneInstance), out IList<IResourceLocation> locations))
+        {
+            var sceneLocation = new LocalizingResourceLocation(locations[0], SceneUrl);
+            //var sceneLocation = locations[0];
+            currentSceneHandle = Addressables.LoadSceneAsync(sceneLocation, LoadSceneMode.Additive);
+            yield return currentSceneHandle;
+            currentScene = SceneUrl;
+            currentSceneIsRemote = true;
+            OnEnvironmentLoaded?.Invoke();
 
-            if (currentResourceLocator.Locate(address.AssetPath, typeof(UnityEngine.ResourceManagement.ResourceProviders.SceneInstance), out IList<IResourceLocation> locations))
-            {
-                var sceneLocation = new LocalizingResourceLocation(locations[0], SceneUrl);
-                //var sceneLocation = locations[0];
-                currentSceneHandle = Addressables.LoadSceneAsync(sceneLocation, LoadSceneMode.Additive);
-                yield return currentSceneHandle;
-                currentScene = SceneUrl;
-                currentSceneIsRemote = true;
-                OnEnvironmentLoaded?.Invoke();
-
-                TransitionController.RevealScene();
-            }
-            else
-            {
-                Debug.LogError("No locations found for scene: " + address.AssetPath);
-            }
+            TransitionController.RevealScene();
+        }
+        else
+        {
+            Debug.LogError("No locations found for scene: " + address.AssetPath);
         }
     }
 
-    public void UnloadScene()
+    public async Task UnloadScene()
     {
         if (currentScene == null) return;
 
         if(currentSceneIsRemote)
         {
-            Addressables.UnloadSceneAsync(currentSceneHandle);
+            await Addressables.UnloadSceneAsync(currentSceneHandle).GetTask();
         }
         else
         {
-            SceneManager.UnloadSceneAsync(currentScene);
+            await SceneManager.UnloadSceneAsync(currentScene).GetTask();
         }
 
         currentScene = null;
