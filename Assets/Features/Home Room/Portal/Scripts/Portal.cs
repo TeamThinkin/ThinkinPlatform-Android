@@ -7,11 +7,11 @@ public class Portal : MonoBehaviour
     [SerializeField] TMPro.TMP_Text Label;
     [SerializeField] Animator StateAnimator;
 
-    private string destinationUrl;
+    private RoomInfo room;
 
     public void SetModel(RoomInfo room)
     {
-        destinationUrl = room.EnvironmentUrl;
+        this.room = room;
         Label.text = room.DisplayName;
     }
 
@@ -27,6 +27,6 @@ public class Portal : MonoBehaviour
 
     public void OnActivated()
     {
-        AppSceneManager.Instance.LoadRemoteScene(destinationUrl);
+        AppSceneManager.Instance.LoadRoom(room);
     }
 }

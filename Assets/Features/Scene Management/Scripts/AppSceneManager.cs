@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 public class AppSceneManager : MonoBehaviour
 {
     public static event Action OnEnvironmentLoaded;
+    public static event Action OnEnvironmentUnloaded;
 
     public static AppSceneManager Instance { get; private set; }
 
@@ -23,8 +24,11 @@ public class AppSceneManager : MonoBehaviour
     private bool currentSceneIsRemote;
     private string currentScene;
     private string currentCatalogUrl;
-
+    private RoomInfo currentRoom;
     private Action OnceSceneIsHiddenAction;
+
+    public RoomInfo CurrentRoom => currentRoom;
+    
 
     private void Awake()
     {
@@ -46,6 +50,20 @@ public class AppSceneManager : MonoBehaviour
     {
         OnceSceneIsHiddenAction?.Invoke();
         OnceSceneIsHiddenAction = null;
+    }
+
+    public void LoadRoom(RoomInfo Room)
+    {
+        if (Room == currentRoom) return;
+
+        TransitionController.HideScene();
+
+        OnceSceneIsHiddenAction = new Action(async () =>
+        {
+            await UnloadScene();
+            currentRoom = Room;
+            StartCoroutine(doLoadRemoteScene(Room.EnvironmentUrl));
+        });
     }
 
     public void LoadLocalScene(string SceneName)
@@ -73,7 +91,7 @@ public class AppSceneManager : MonoBehaviour
         });
     }
 
-    public void LoadRemoteScene(string SceneUrl)
+    private void loadRemoteScene(string SceneUrl)
     {
         if (currentScene == SceneUrl) return;
         
@@ -129,5 +147,7 @@ public class AppSceneManager : MonoBehaviour
         }
 
         currentScene = null;
+        currentRoom = null;
+        OnEnvironmentUnloaded?.Invoke();
     }
 }
