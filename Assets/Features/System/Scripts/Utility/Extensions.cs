@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,7 +104,7 @@ public static class Extensions
 
     public static string ToJSON(this object o)
     {
-        return JsonUtility.ToJson(o);
+        return JsonConvert.SerializeObject(o);
     }
 
     public static Vector3 GetRaycastPoint(this Plane plane, Ray ray)

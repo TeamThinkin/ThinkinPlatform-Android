@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnitySocketIO.Events;
 
 public class AppController : MonoBehaviour
 {
@@ -64,22 +63,23 @@ public class AppController : MonoBehaviour
             {
                 Id = userDto.Id,
                 AvatarUrl = userDto.AvatarUrl,
-                DisplayName = userDto.DisplayName
+                DisplayName = userDto.DisplayName,
+                AuthToken = userDto.Token
             };
 
             //Fetch Domain Info and structure into models
-            if (userDto.Domains != null)
-            {
-                var manifests = await Task.WhenAll(userDto?.Domains?.Select(i => WebAPI.GetManifest(i.ManifestUrl)));
+            //if (userDto.Domains != null)
+            //{
+            //    var manifests = await Task.WhenAll(userDto?.Domains?.Select(i => WebAPI.GetManifest(i.ManifestUrl, user.AuthToken)));
 
-                user.Domains = new DomainInfo[userDto.Domains.Length];
-                for (int i = 0; i < user.Domains.Length; i++)
-                {
-                    var domain = DomainInfo.FromDomainDto(userDto.Domains[i]);
-                    user.Domains[i] = domain;
-                    user.Domains[i].Rooms = manifests[i].Select(i => RoomInfo.FromRoomDto(i, domain)).ToArray();
-                }
-            }
+            //    user.Domains = new DomainInfo[userDto.Domains.Length];
+            //    for (int i = 0; i < user.Domains.Length; i++)
+            //    {
+            //        var domain = DomainInfo.FromDomainDto(userDto.Domains[i]);
+            //        user.Domains[i] = domain;
+            //        user.Domains[i].Rooms = manifests[i].Select(i => RoomInfo.FromRoomDto(i, domain)).ToArray();
+            //    }
+            //}
 
             UserInfo.CurrentUser = user;
         }

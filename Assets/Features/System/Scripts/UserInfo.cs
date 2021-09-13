@@ -8,6 +8,7 @@ public class UserInfo
     public string Id;
     public string DisplayName;
     public string AvatarUrl;
+    public string AuthToken;
 
     public DomainInfo[] Domains;
 

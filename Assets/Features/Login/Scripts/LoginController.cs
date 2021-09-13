@@ -1,8 +1,8 @@
+using Firesplash.UnityAssets.SocketIO;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnitySocketIO.Events;
 
 public class LoginController : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class LoginController : MonoBehaviour
     [SerializeField] private GameObject PostlinkElements;
     [SerializeField] private TMPro.TMP_Text CodewordLabel;
 
-    private SocketIOController socket;
+    private SocketIOInstance socket;
     private string codeword;
 
     void Start()
@@ -39,30 +39,31 @@ public class LoginController : MonoBehaviour
         PrelinkElements.SetActive(true);
         PostlinkElements.SetActive(false);
 
-        socket = SocketIOController.Instance;
+        socket = WebSocketListener.Socket;
 
-        socket.On("connect", onSocketConnected);
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
+        WebSocketListener.OnSocketConnected += WebSocketListener_OnSocketConnected;
 
-        if (socket.IsConnected) sendAccountLinkingCode();
+        if (socket.IsConnected()) sendAccountLinkingCode();
     }
 
-    private void OnDestroy()
-    {
-        socket.Emit("clearAccountLinkingCode", codeword);
-        socket.Off("connect", onSocketConnected);
-        WebSocketListener.OnSetUser -= WebSocketListener_OnSetUser;
-    }
-
-    private void onSocketConnected(SocketIOEvent e)
+    private void WebSocketListener_OnSocketConnected()
     {
         sendAccountLinkingCode();
     }
 
+    private void OnDestroy()
+    {
+        socket?.Emit("clearAccountLinkingCode", codeword, true);
+        WebSocketListener.OnSetUser -= WebSocketListener_OnSetUser;
+        WebSocketListener.OnSocketConnected -= WebSocketListener_OnSocketConnected;
+    }
+
+
     private void sendAccountLinkingCode()
     {
         Debug.Log("Sending account linking code");
-        socket.Emit("accountLinkingCode", JsonConvert.SerializeObject(new CodewordDto() { UID = AppController.UID, Codeword = codeword }));
+        socket.Emit("accountLinkingCode", new CodewordDto { UID = AppController.UID, Codeword = codeword }.ToJSON(), false);
     }
 
     private void WebSocketListener_OnSetUser(UserDto newUser)

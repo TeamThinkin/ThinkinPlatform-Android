@@ -10,8 +10,8 @@ using UnityEngine.Networking;
 
 public static class WebAPI
 {
-    private const string ContentBaseUrl = "https://thinkin-setup.glitch.me/api/v1/";
-    private const string AuthToken = "3be5f7ac-b5c5-440f-ba9e-fd9b5577a942";
+    private const string ContentBaseUrl = "https://thinkin-api.glitch.me/v1/";
+    //private const string AuthToken = "3be5f7ac-b5c5-440f-ba9e-fd9b5577a942";
 
     public static async Task<RegisterDeviceResultDto> RegisterDevice(string Uid)
     {
@@ -20,7 +20,6 @@ public static class WebAPI
             var json = "{\"uid\": \"" + Uid + "\" }";
             var bytes = System.Text.Encoding.UTF8.GetBytes(json);
             request.SetRequestHeader("Content-Type", "application/json");
-            request.SetRequestHeader("auth", AuthToken);
             request.uploadHandler = new UploadHandlerRaw(bytes);
             request.downloadHandler = new DownloadHandlerBuffer();
 
@@ -38,7 +37,7 @@ public static class WebAPI
         }
     }
 
-    public static async Task<RoomDto[]> GetManifest(string Url)
+    public static async Task<RoomDto[]> GetManifest(string Url, string AuthToken)
     {
         using (var request = new UnityWebRequest(Url, "GET"))
         {

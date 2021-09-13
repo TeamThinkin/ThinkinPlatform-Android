@@ -28,7 +28,7 @@ public class HomeRoomController : MonoBehaviour
     {
         if (UserInfo.CurrentUser == null) return;
 
-        RoomsPresenter.SetModel(UserInfo.CurrentUser.Domains.SelectMany(i => i.Rooms));
+        //RoomsPresenter.SetModel(UserInfo.CurrentUser.Domains.SelectMany(i => i.Rooms));
         UserPresenter.SetModel(UserInfo.CurrentUser);
     }
 }

@@ -1,8 +1,8 @@
+using Firesplash.UnityAssets.SocketIO;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnitySocketIO.Events;
 
 public class WebSocketListener : MonoBehaviour
 {
@@ -10,39 +10,47 @@ public class WebSocketListener : MonoBehaviour
     public static event System.Action<UserDto> OnSetUser;
     public static event System.Action<string> OnAvatarUrlUpdated;
 
-    private SocketIOController socket;
+    public static SocketIOInstance Socket { get; private set; }
+
+    private void Awake()
+    {
+        var communicator = GetComponent<SocketIOCommunicator>();
+        Socket = communicator.Instance;
+    }
 
     void Start()
     {
-        socket = GetComponent<SocketIOController>();
-        socket.On("connect", onSocketConnected);
-        socket.On("avatarUrlUpdated", onAvatarUrlUpdatedReceived);
-        socket.On("setUser", onSetUserReceived);
+        
+        Socket.On("connect", onSocketConnected);
+        Socket.On("avatarUrlUpdated", onAvatarUrlUpdatedReceived);
+        Socket.On("setUser", onSetUserReceived);
     }
 
     private void OnDestroy()
     {
-        socket.Off("connect", onSocketConnected);
-        socket.Off("avatarUrlUpdated", onAvatarUrlUpdatedReceived);
-        socket.Off("setUser", onSetUserReceived);
+        Socket?.Off("connect", onSocketConnected);
+        Socket?.Off("avatarUrlUpdated", onAvatarUrlUpdatedReceived);
+        Socket?.Off("setUser", onSetUserReceived);
     }
 
-    private void onSocketConnected(SocketIOEvent e)
+    private void onSocketConnected(string e)
     {
         OnSocketConnected?.Invoke();
     }
 
-    private void onAvatarUrlUpdatedReceived(SocketIOEvent e)
+    private void onAvatarUrlUpdatedReceived(string e)
     {
         if (OnAvatarUrlUpdated == null) return;
-        var url = e.data.StripQuotes();
+        Debug.Log("Received avatar url: *" + e + "*");
+        var url = e.StripQuotes();
+        Debug.Log("Url: *" + url + "*");
         OnAvatarUrlUpdated(url);
     }
 
-    private void onSetUserReceived(SocketIOEvent e)
+    private void onSetUserReceived(string e)
     {
         if (OnSetUser == null) return;
-        var dto = JsonConvert.DeserializeObject<UserDto>(e.data);
+        var dto = JsonConvert.DeserializeObject<UserDto>(e);
         OnSetUser(dto);
     }
 }

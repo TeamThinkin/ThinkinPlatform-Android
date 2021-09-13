@@ -8,6 +8,9 @@ public class UserDto
     [JsonProperty("_id")]
     public string Id { get; set; }
 
+    [JsonProperty("token")]
+    public string Token { get; set; }
+
     [JsonProperty("hasPassword")]
     public bool HasPassword { get; set; }
 
