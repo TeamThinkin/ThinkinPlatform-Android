@@ -33,7 +33,6 @@ public class AppController : MonoBehaviour
     {
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
-        //registerDevice();
         checkDeviceRegistration();
     }
 
@@ -48,8 +47,9 @@ public class AppController : MonoBehaviour
     private async void checkDeviceRegistration()
     {
         await registerDevice();
-        if(UserInfo.CurrentUser != null)
-            AppSceneManager.Instance.LoadLocalScene("Home Room");
+        if (UserInfo.CurrentUser != null)
+            AppSceneManager.Instance.LoadUrl("https://thinkin-api.glitch.me/v1/auth/collection/test-room");
+        //AppSceneManager.Instance.LoadLocalScene("Home Room");
         else
             AppSceneManager.Instance.LoadLocalScene("Login");
     }

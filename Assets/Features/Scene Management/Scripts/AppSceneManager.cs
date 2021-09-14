@@ -18,6 +18,7 @@ public class AppSceneManager : MonoBehaviour
 
     [SerializeField] private TransitionController TransitionController;
     [SerializeField] private bool ClearCacheOnAwake;
+    [SerializeField] private Transform RoomItemContainer;
 
     private AsyncOperationHandle currentSceneHandle;
     private IResourceLocator currentResourceLocator;
@@ -52,6 +53,23 @@ public class AppSceneManager : MonoBehaviour
         OnceSceneIsHiddenAction = null;
     }
 
+    public async void LoadUrl(string Url)
+    {
+        Debug.Log("Scene Manager loading url: " + Url);
+        RoomItemContainer.ClearChildren();
+        var dtos = await WebAPI.GetCollectionContents(Url);
+        foreach(var dto in dtos)
+        {
+            var item = PresenterFactory.Instance.Instantiate(dto);
+            if (item != null)
+            {
+                item.name = dto.Id;
+                item.transform.SetParent(RoomItemContainer);
+            }
+            else Debug.Log("Skipping unrecognized item: " + dto.MimeType);
+        }
+    }
+
     public void LoadRoom(RoomInfo Room)
     {
         if (Room == currentRoom) return;
@@ -63,6 +81,20 @@ public class AppSceneManager : MonoBehaviour
             await UnloadScene();
             currentRoom = Room;
             StartCoroutine(doLoadRemoteScene(Room.EnvironmentUrl));
+        });
+    }
+
+    public void LoadRemoteScene(string SceneUrl)
+    {
+        if (currentScene == SceneUrl) return;
+
+        TransitionController.HideScene();
+
+        OnceSceneIsHiddenAction = new Action(async () =>
+        {
+            await UnloadScene();
+            currentScene = SceneUrl;
+            StartCoroutine(doLoadRemoteScene(SceneUrl));
         });
     }
 
