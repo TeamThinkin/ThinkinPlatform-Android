@@ -8,27 +8,25 @@ public class SyncTelepresenceRoom : MonoBehaviour
 
     private void Start()
     {
-        AppSceneManager.OnEnvironmentLoaded += AppSceneManager_OnEnvironmentLoaded;
-        AppSceneManager.OnEnvironmentUnloaded += AppSceneManager_OnEnvironmentUnloaded;
+        RoomManager.OnRoomLoaded += RoomManager_OnRoomLoaded;
+        RoomManager.OnRoomUnloaded += RoomManager_OnRoomUnloaded;
     }
 
     private void OnDestroy()
     {
-        AppSceneManager.OnEnvironmentLoaded -= AppSceneManager_OnEnvironmentLoaded;
-        AppSceneManager.OnEnvironmentUnloaded -= AppSceneManager_OnEnvironmentUnloaded;
+        RoomManager.OnRoomLoaded -= RoomManager_OnRoomLoaded;
+        RoomManager.OnRoomUnloaded -= RoomManager_OnRoomUnloaded;
     }
 
-    private void AppSceneManager_OnEnvironmentLoaded()
+    private void RoomManager_OnRoomLoaded()
     {
-        if (AppSceneManager.CurrentRoom == null) return;
-        
-        Normcore.Connect(AppSceneManager.CurrentRoom.Id);
-        Debug.Log("Normcore connect to: " + AppSceneManager.CurrentRoom.Id);
+        if (RoomManager.CurrentRoomId == null) return;
+
+        Normcore.Connect(RoomManager.CurrentRoomId.ToString());
     }
 
-    private void AppSceneManager_OnEnvironmentUnloaded()
+    private void RoomManager_OnRoomUnloaded()
     {
-        Debug.Log("Disconnect normcore");
         Normcore.Disconnect();
     }
 }

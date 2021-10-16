@@ -17,7 +17,6 @@ public class LocalScenePresenter : MonoBehaviour, IContentItemPresenter
     public async Task LoadFromDto(CollectionContentItemDto Dto)
     {
         dto = Dto as LocalSceneContentItemDto;
-        Debug.Log("Local Scene Presenter: " + dto.Path);
         await AppSceneManager.Instance.LoadLocalScene(dto.Path);
     }
 }

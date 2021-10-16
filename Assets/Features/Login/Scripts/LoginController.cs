@@ -63,19 +63,17 @@ public class LoginController : MonoBehaviour
     private void sendAccountLinkingCode()
     {
         Debug.Log("Sending account linking code");
-        socket.Emit("accountLinkingCode", new CodewordDto { UID = AppController.UID, Codeword = codeword }.ToJSON(), false);
+        socket.Emit("accountLinkingCode", new CodewordDto { UID = DeviceRegistrationController.UID, Codeword = codeword }.ToJSON(), false);
     }
 
     private void WebSocketListener_OnSetUser(UserDto newUser)
     {     
         PrelinkElements.SetActive(false);
         PostlinkElements.SetActive(true);
-
-        //UserInfo.CurrentUser = new UserInfo() { DisplayName = newUser.DisplayName, Id = newUser.Id, AvatarUrl = newUser.AvatarUrl };
     }
 
     public void OnContinueButtonPressed()
     {
-        AppSceneManager.Instance.LoadLocalScene("Home Room");
+        RoomManager.Instance.LoadUrl(UserInfo.CurrentUser.HomeRoomUrl);
     }
 }

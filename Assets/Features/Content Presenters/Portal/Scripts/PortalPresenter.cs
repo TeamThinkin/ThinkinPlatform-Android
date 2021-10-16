@@ -29,7 +29,7 @@ public class PortalPresenter : MonoBehaviour, IContentItemPresenter
 
     public void OnActivated()
     {
-        AppSceneManager.Instance.LoadUrl(dto.Url);
+        RoomManager.Instance.LoadUrl(dto.Url);
     }
 
     public async Task LoadFromDto(CollectionContentItemDto Dto)

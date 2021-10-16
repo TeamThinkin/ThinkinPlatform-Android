@@ -8,8 +8,18 @@ public class TransitionController : MonoBehaviour
 
     public event System.Action OnSceneHidden;
 
-    public void HideScene()
+    public static TransitionController Instance { get; private set; }
+
+    private System.Action onSceneHiddenCallback;
+
+    private void Awake()
     {
+        Instance = this;
+    }
+
+    public void HideScene(System.Action OnSceneHiddenCallback = null)
+    {
+        this.onSceneHiddenCallback = OnSceneHiddenCallback;
         TransitionAnimator.SetBool("IsSolid", true);
     }
 
@@ -20,6 +30,7 @@ public class TransitionController : MonoBehaviour
 
     public void OnSolidfiedEvent()
     {
+        onSceneHiddenCallback?.Invoke();
         OnSceneHidden?.Invoke();
     }
 }

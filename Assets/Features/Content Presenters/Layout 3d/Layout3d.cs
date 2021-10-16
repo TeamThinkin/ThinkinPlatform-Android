@@ -20,13 +20,6 @@ public class Layout3d : MonoBehaviour, IContentItemPresenter
     {
         dto = Dto as Layout3dContentItemDto;
 
-        await executeLayout();
-    }
-
-    private async Task executeLayout()
-    {
-        Debug.Log("Layout requesting " + dto.Url);
-
         var dtos = await WebAPI.GetCollectionContents(dto.Url);
         foreach (ItemTransformDto dto in dtos)
         {
