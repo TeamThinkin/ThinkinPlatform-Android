@@ -20,10 +20,10 @@ public class SyncTelepresenceRoom : MonoBehaviour
 
     private void AppSceneManager_OnEnvironmentLoaded()
     {
-        if (AppSceneManager.Instance.CurrentRoom == null) return;
+        if (AppSceneManager.CurrentRoom == null) return;
         
-        Normcore.Connect(AppSceneManager.Instance.CurrentRoom.Id);
-        Debug.Log("Normcore connect to: " + AppSceneManager.Instance.CurrentRoom.Id);
+        Normcore.Connect(AppSceneManager.CurrentRoom.Id);
+        Debug.Log("Normcore connect to: " + AppSceneManager.CurrentRoom.Id);
     }
 
     private void AppSceneManager_OnEnvironmentUnloaded()

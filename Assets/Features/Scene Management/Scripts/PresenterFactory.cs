@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PresenterFactory : MonoBehaviour
@@ -31,15 +32,16 @@ public class PresenterFactory : MonoBehaviour
         }
     }
 
-    public GameObject Instantiate(CollectionContentItemDto Dto)
+    public async Task<IContentItemPresenter> Instantiate(CollectionContentItemDto Dto)
     {
         var dtoType = Dto.GetType();
         if (dtoToPresenterPrefab.ContainsKey(dtoType))
         {
             var presenterPrefab = dtoToPresenterPrefab[dtoType];
             var item = GameObject.Instantiate(presenterPrefab);
-            item.GetComponent<IContentItemPresenter>().SetDto(Dto);
-            return item;
+            var presenter = item.GetComponent<IContentItemPresenter>();
+            await presenter.LoadFromDto(Dto);
+            return presenter;
         }
         return null;
     }

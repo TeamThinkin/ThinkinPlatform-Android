@@ -47,9 +47,9 @@ public class AppController : MonoBehaviour
     private async void checkDeviceRegistration()
     {
         await registerDevice();
+        
         if (UserInfo.CurrentUser != null)
-            AppSceneManager.Instance.LoadUrl("https://thinkin-api.glitch.me/v1/auth/collection/test-room");
-        //AppSceneManager.Instance.LoadLocalScene("Home Room");
+            AppSceneManager.Instance.LoadUrl(UserInfo.CurrentUser.HomeRoomUrl);
         else
             AppSceneManager.Instance.LoadLocalScene("Login");
     }
@@ -64,7 +64,8 @@ public class AppController : MonoBehaviour
                 Id = userDto.Id,
                 AvatarUrl = userDto.AvatarUrl,
                 DisplayName = userDto.DisplayName,
-                AuthToken = userDto.Token
+                AuthToken = userDto.Token,
+                HomeRoomUrl = userDto.HomeRoomUrl
             };
 
             //Fetch Domain Info and structure into models

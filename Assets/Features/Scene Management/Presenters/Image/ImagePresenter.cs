@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class ImagePresenter : MonoBehaviour, IContentItemPresenter
 {
     private Type[] dtoTypes = { typeof(ImageContentItemDto) };
     public Type[] DtoTypes => dtoTypes;
+    public GameObject GameObject => gameObject;
 
 
     private ImageContentItemDto dto;
@@ -14,17 +16,8 @@ public class ImagePresenter : MonoBehaviour, IContentItemPresenter
     public string Id => dto?.Id;
 
 
-    public void SetDto(CollectionContentItemDto Dto)
+    public async Task LoadFromDto(CollectionContentItemDto Dto)
     {
         dto = Dto as ImageContentItemDto;
     }
-}
-
-public interface IContentItemPresenter
-{
-    Type[] DtoTypes { get; }
-
-    string Id { get; }
-
-    void SetDto(CollectionContentItemDto Dto);
 }

@@ -32,8 +32,11 @@ public class UserDto
     [JsonProperty("email")]
     public string Email { get; set; }
 
-    [JsonProperty("AvatarUrl")]
+    [JsonProperty("avatarUrl")]
     public string AvatarUrl { get; set; }
+
+    [JsonProperty("homeRoomUrl")]
+    public string HomeRoomUrl { get; set; }
 }
 
 public class DomainDto
@@ -90,11 +93,26 @@ public class EnvironmentContentItemDto : FileContentItemDto
 {
 }
 
+[MimeType("environment/local")]
+public class LocalSceneContentItemDto : CollectionContentItemDto
+{
+    [JsonProperty("displayName")]
+    public string DisplayName { get; set; }
+
+    [JsonProperty("path")]
+    public string Path { get; set; }
+}
+
 [MimeType("image/jpg", "image/jpeg", "image/png")]
 public class ImageContentItemDto : FileContentItemDto
 {
     [JsonProperty("corsFriendly")]
     public bool IsCorsFriendly { get; set; }
+}
+
+[MimeType("link/room")]
+public class RoomLinkContentItemDto : FileContentItemDto
+{
 }
 
 [MimeType("layout/3d")]
@@ -103,12 +121,7 @@ public class Layout3dContentItemDto : FileContentItemDto
 }
 
 [MimeType("link/collection")]
-public class CollectionLink : FileContentItemDto
-{
-}
-
-[MimeType("link/room")]
-public class RoomLink : FileContentItemDto
+public class CollectionLinkContentItemDto : FileContentItemDto
 {
 }
 

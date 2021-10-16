@@ -9,6 +9,7 @@ public class UserInfo
     public string DisplayName;
     public string AvatarUrl;
     public string AuthToken;
+    public string HomeRoomUrl;
 
     public DomainInfo[] Domains;
 

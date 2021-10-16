@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Layout3d : MonoBehaviour, IContentItemPresenter
 {
     private Type[] dtoTypes = { typeof(Layout3dContentItemDto) };
     public Type[] DtoTypes => dtoTypes;
+    public GameObject GameObject => gameObject;
 
     private string Url;
 
@@ -14,15 +16,14 @@ public class Layout3d : MonoBehaviour, IContentItemPresenter
 
     public string Id => dto?.Id;
     
-    public void SetDto(CollectionContentItemDto Dto)
+    public async Task LoadFromDto(CollectionContentItemDto Dto)
     {
         dto = Dto as Layout3dContentItemDto;
 
-        //Invoke("executeLayout", 2);
-        executeLayout();
+        await executeLayout();
     }
 
-    private async void executeLayout()
+    private async Task executeLayout()
     {
         Debug.Log("Layout requesting " + dto.Url);
 
