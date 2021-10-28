@@ -1,3 +1,4 @@
+using Normal.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class TabletSpawnArea : XRBaseInteractable
 {
+    [SerializeField] private GameObject TabletPrefab;
+
     public XRGrabInteractable tabletGrabber;
 
     [SerializeField] private XRInteractionManager InteractionManager;
@@ -12,6 +15,11 @@ public class TabletSpawnArea : XRBaseInteractable
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
+        var options = new Realtime.InstantiateOptions();
+        options.ownedByClient = true;
+        var tablet = Realtime.Instantiate("Tablet", options);
+        tablet.GetComponent<RealtimeTransform>()?.RequestOwnership();
+        tabletGrabber = tablet.GetComponent<XRGrabInteractable>();
         moveTabletToInteractor(args.interactor);
         InteractionManager.SelectEnter(args.interactor, tabletGrabber);
     }
