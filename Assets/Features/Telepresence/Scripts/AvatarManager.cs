@@ -2,8 +2,10 @@ using Normal.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.XR.Interaction.Toolkit;
 using Wolf3D.ReadyPlayerMe.AvatarSDK;
 
 public class AvatarManager : MonoBehaviour
@@ -20,13 +22,22 @@ public class AvatarManager : MonoBehaviour
     private Transform neckBone;
     private Transform headBone;
     private Vector3 neckHeadOffset;
+    private XRDirectInteractor leftController;
+    private XRDirectInteractor rightController;
 
     private static AvatarLoader loader = new AvatarLoader();
+    private XRIDefaultInputActions inputActions;
+    private Animator handAnimator;
 
     private void Awake()
     {
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnAvatarUrlUpdated += WebSocketListener_OnAvatarUrlUpdated;
+
+        inputActions = new XRIDefaultInputActions();
+        inputActions.XRIRightHand.GripStrength.Enable();
+        inputActions.XRIRightHand.IsFingerOnGrip.Enable();
+        inputActions.XRIRightHand.IsFingerOnTrigger.Enable();
     }    
 
     private void OnDestroy()
@@ -61,7 +72,24 @@ public class AvatarManager : MonoBehaviour
             avatar.transform.localPosition = new Vector3(0, 0, 0);
             avatar.transform.rotation = Quaternion.Euler(0, 0, 0);
             addConstraints(avatar);
+            addAnimationController(avatar);
         });
+    }
+
+    private void Update()
+    {
+        if (handAnimator != null)
+        {
+            Debug.Log("IsFingerOnGrip: " + inputActions.XRIRightHand.IsFingerOnGrip.ReadValue<float>());
+            Debug.Log("IsFingerOnTrigger: " + inputActions.XRIRightHand.IsFingerOnTrigger.ReadValue<float>());
+            Debug.Log("Grip Strength: " + inputActions.XRIRightHand.GripStrength.ReadValue<float>());
+
+            float grip = inputActions.XRIRightHand.GripStrength.ReadValue<float>();
+            bool isFingerOnTrigger = inputActions.XRIRightHand.IsFingerOnTrigger.ReadValue<float>() > 0;
+            handAnimator.SetBool("Is Finger On Trigger", isFingerOnTrigger);
+            handAnimator.SetFloat("Grip", grip);
+            handAnimator.SetBool("Is Pointing", !isFingerOnTrigger && grip < 0.1f);
+        }
     }
 
     private void LateUpdate()
@@ -71,6 +99,12 @@ public class AvatarManager : MonoBehaviour
             neckBone.position = headBone.position + neckHeadOffset;
             neckBone.rotation = Quaternion.Slerp(neckBone.rotation, headBone.rotation, 0.5f * Time.deltaTime); //TODO: Limit non vertical axis rotation so cocking your head to the side doesnt rotate torso
         }
+    }
+
+    private void addAnimationController(GameObject avatar)
+    {
+        handAnimator = avatar.AddComponent<Animator>();
+        handAnimator.runtimeAnimatorController = Instantiate(Resources.Load<RuntimeAnimatorController>("Animation/Avatar Hands"));
     }
 
     private void addConstraints(GameObject avatar)

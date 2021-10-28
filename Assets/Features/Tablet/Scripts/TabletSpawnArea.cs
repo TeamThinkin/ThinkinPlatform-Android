@@ -34,4 +34,22 @@ public class TabletSpawnArea : XRBaseInteractable
         tabletGrabber.transform.rotation = interactor.attachTransform.rotation * rotDelta;
         tabletGrabber.transform.position = interactor.attachTransform.position + positionDelta;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var tablet = other.gameObject.GetComponent<Tablet>();
+        if(tablet != null)
+        {
+            tablet.IsInDespawnZone = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var tablet = other.gameObject.GetComponent<Tablet>();
+        if (tablet != null)
+        {
+            tablet.IsInDespawnZone = false;
+        }
+    }
 }

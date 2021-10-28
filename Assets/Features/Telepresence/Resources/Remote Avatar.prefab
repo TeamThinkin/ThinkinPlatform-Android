@@ -402,6 +402,8 @@ MonoBehaviour:
   LeftHandAnchor: {fileID: 4659100447777303784}
   HeadAnchor: {fileID: 22330523366887107}
   MouthMover: {fileID: 6084475611685727520}
+  HandsAnimatorController: {fileID: 9100000, guid: fe4c393238d9d4443abddfe395e0fcfb, type: 2}
+  HandsAnimator: {fileID: 0}
 --- !u!1 &1573471737031190
 GameObject:
   m_ObjectHideFlags: 0
