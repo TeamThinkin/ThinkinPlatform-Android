@@ -55,7 +55,7 @@
                     "name": "Position",
                     "type": "Value",
                     "id": "83a7af0b-87e3-42c3-a909-95fbf8091e4f",
-                    "expectedControlType": "Vector3",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
@@ -152,6 +152,22 @@
                     "type": "Value",
                     "id": "bfa204c7-3c92-4193-bad1-39eb71920042",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Is Finger On Trigger",
+                    "type": "Value",
+                    "id": "cf6b1e67-e419-4333-854c-2ab92573ccc1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Grip Strength",
+                    "type": "Value",
+                    "id": "f0e8b912-db8a-4517-9cdd-19f82523858a",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
                 }
@@ -497,6 +513,28 @@
                     "action": "Translate Anchor",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "64f60aac-d099-482e-b44d-0d6149507032",
+                    "path": "<XRController>{LeftHand}/triggerTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Is Finger On Trigger",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5b59a1c4-b545-4dab-ab78-fcbbf74fefd5",
+                    "path": "<XRController>{LeftHand}/grip",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grip Strength",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -613,14 +651,6 @@
                     "type": "Value",
                     "id": "f4ac0d8b-1cf5-4ccd-85b3-4b88379103a4",
                     "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Is Finger On Grip",
-                    "type": "Value",
-                    "id": "faf0c874-aa25-43f6-aecb-02ce782feac1",
-                    "expectedControlType": "Touch",
                     "processors": "",
                     "interactions": ""
                 },
@@ -972,17 +1002,6 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Is Finger On Trigger",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6458b4fc-d29b-4afd-b1e3-4879c01ba02e",
-                    "path": "<XRController>{RightHand}/secondaryTouched",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Is Finger On Grip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

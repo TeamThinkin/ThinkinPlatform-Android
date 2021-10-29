@@ -32,7 +32,7 @@ public static class DeviceRegistrationController
     {
         await RegisterDevice();
 
-        if (UserInfo.CurrentUser != null)
+        if (UserInfo.CurrentUser != UserInfo.UnknownUser)
             RoomManager.Instance.LoadUrl(UserInfo.CurrentUser.HomeRoomUrl);
         else
             AppSceneManager.Instance.LoadLocalScene("Login");
@@ -51,10 +51,12 @@ public static class DeviceRegistrationController
                 AuthToken = userDto.Token,
                 HomeRoomUrl = userDto.HomeRoomUrl
             };
-
             UserInfo.CurrentUser = user;
         }
-        else UserInfo.CurrentUser = null;
+        else
+        {
+            UserInfo.CurrentUser = UserInfo.UnknownUser;
+        }
     }
 
 }

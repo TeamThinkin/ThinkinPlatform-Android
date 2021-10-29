@@ -24,7 +24,6 @@ public class Tablet : MonoBehaviour
     private void grabInteractable_SelectExited(SelectExitEventArgs e)
     {
         if (e.isCanceled) return;
-        Debug.Log("Tablet dropped. In despawn zone: " + IsInDespawnZone);
         if(IsInDespawnZone) Realtime.Destroy(this.gameObject);
     }
 }

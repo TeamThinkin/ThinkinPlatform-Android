@@ -33,12 +33,11 @@ public static class WebAPI
             var json = body.ToJSON();
             var bytes = System.Text.Encoding.UTF8.GetBytes(json);
             request.SetRequestHeader("Content-Type", "application/json");
-            if(UserInfo.CurrentUser != null) request.SetRequestHeader("auth", UserInfo.CurrentUser.AuthToken);
+            if(!string.IsNullOrEmpty(UserInfo.CurrentUser?.AuthToken)) request.SetRequestHeader("auth", UserInfo.CurrentUser.AuthToken);
             request.uploadHandler = new UploadHandlerRaw(bytes);
             request.downloadHandler = new DownloadHandlerBuffer();
 
             await request.SendWebRequest().GetTask();
-
             if (request.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogError("Request error: " + request.error);

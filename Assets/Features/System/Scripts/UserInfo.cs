@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UserInfo
 {
+    public bool IsLoggedIn;
     public string Id;
     public string DisplayName;
     public string AvatarUrl;
@@ -14,6 +15,13 @@ public class UserInfo
     public DomainInfo[] Domains;
 
     public static event Action<UserInfo> OnCurrentUserChanged;
+    private static UserInfo _unknownUser = new UserInfo()
+    {
+        IsLoggedIn = false,
+        DisplayName = "Unkown User"
+    };
+    public static UserInfo UnknownUser => _unknownUser;
+
 
     private static UserInfo _currentUser;
     public static UserInfo CurrentUser

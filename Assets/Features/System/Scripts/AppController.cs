@@ -22,6 +22,7 @@ public class AppController : MonoBehaviour
 
     private void WebSocketListener_OnSetUser(UserDto obj)
     {
+        Debug.Log("App Controller sees that the user has been set (logged in)");
         DeviceRegistrationController.RegisterDevice();
     }
 

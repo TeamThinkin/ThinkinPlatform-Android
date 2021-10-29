@@ -68,7 +68,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""name"": ""Position"",
                     ""type"": ""Value"",
                     ""id"": ""83a7af0b-87e3-42c3-a909-95fbf8091e4f"",
-                    ""expectedControlType"": ""Vector3"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -165,6 +165,22 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""bfa204c7-3c92-4193-bad1-39eb71920042"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Is Finger On Trigger"",
+                    ""type"": ""Value"",
+                    ""id"": ""cf6b1e67-e419-4333-854c-2ab92573ccc1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Grip Strength"",
+                    ""type"": ""Value"",
+                    ""id"": ""f0e8b912-db8a-4517-9cdd-19f82523858a"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -510,6 +526,28 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Translate Anchor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64f60aac-d099-482e-b44d-0d6149507032"",
+                    ""path"": ""<XRController>{LeftHand}/triggerTouched"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Is Finger On Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b59a1c4-b545-4dab-ab78-fcbbf74fefd5"",
+                    ""path"": ""<XRController>{LeftHand}/grip"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grip Strength"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -626,14 +664,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""f4ac0d8b-1cf5-4ccd-85b3-4b88379103a4"",
                     ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Is Finger On Grip"",
-                    ""type"": ""Value"",
-                    ""id"": ""faf0c874-aa25-43f6-aecb-02ce782feac1"",
-                    ""expectedControlType"": ""Touch"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -990,17 +1020,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6458b4fc-d29b-4afd-b1e3-4879c01ba02e"",
-                    ""path"": ""<XRController>{RightHand}/secondaryTouched"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Generic XR Controller"",
-                    ""action"": ""Is Finger On Grip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""d6c1693f-f503-4ec0-9080-b6fcf3f0449e"",
                     ""path"": ""<XRController>{RightHand}/grip"",
                     ""interactions"": """",
@@ -1158,6 +1177,8 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         m_XRILeftHand_Move = m_XRILeftHand.FindAction("Move", throwIfNotFound: true);
         m_XRILeftHand_RotateAnchor = m_XRILeftHand.FindAction("Rotate Anchor", throwIfNotFound: true);
         m_XRILeftHand_TranslateAnchor = m_XRILeftHand.FindAction("Translate Anchor", throwIfNotFound: true);
+        m_XRILeftHand_IsFingerOnTrigger = m_XRILeftHand.FindAction("Is Finger On Trigger", throwIfNotFound: true);
+        m_XRILeftHand_GripStrength = m_XRILeftHand.FindAction("Grip Strength", throwIfNotFound: true);
         // XRI RightHand
         m_XRIRightHand = asset.FindActionMap("XRI RightHand", throwIfNotFound: true);
         m_XRIRightHand_Position = m_XRIRightHand.FindAction("Position", throwIfNotFound: true);
@@ -1174,7 +1195,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         m_XRIRightHand_RotateAnchor = m_XRIRightHand.FindAction("Rotate Anchor", throwIfNotFound: true);
         m_XRIRightHand_TranslateAnchor = m_XRIRightHand.FindAction("Translate Anchor", throwIfNotFound: true);
         m_XRIRightHand_IsFingerOnTrigger = m_XRIRightHand.FindAction("Is Finger On Trigger", throwIfNotFound: true);
-        m_XRIRightHand_IsFingerOnGrip = m_XRIRightHand.FindAction("Is Finger On Grip", throwIfNotFound: true);
         m_XRIRightHand_GripStrength = m_XRIRightHand.FindAction("Grip Strength", throwIfNotFound: true);
         // UI Controls
         m_UIControls = asset.FindActionMap("UI Controls", throwIfNotFound: true);
@@ -1284,6 +1304,8 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_XRILeftHand_Move;
     private readonly InputAction m_XRILeftHand_RotateAnchor;
     private readonly InputAction m_XRILeftHand_TranslateAnchor;
+    private readonly InputAction m_XRILeftHand_IsFingerOnTrigger;
+    private readonly InputAction m_XRILeftHand_GripStrength;
     public struct XRILeftHandActions
     {
         private @XRIDefaultInputActions m_Wrapper;
@@ -1301,6 +1323,8 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_XRILeftHand_Move;
         public InputAction @RotateAnchor => m_Wrapper.m_XRILeftHand_RotateAnchor;
         public InputAction @TranslateAnchor => m_Wrapper.m_XRILeftHand_TranslateAnchor;
+        public InputAction @IsFingerOnTrigger => m_Wrapper.m_XRILeftHand_IsFingerOnTrigger;
+        public InputAction @GripStrength => m_Wrapper.m_XRILeftHand_GripStrength;
         public InputActionMap Get() { return m_Wrapper.m_XRILeftHand; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1349,6 +1373,12 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @TranslateAnchor.started -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnTranslateAnchor;
                 @TranslateAnchor.performed -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnTranslateAnchor;
                 @TranslateAnchor.canceled -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnTranslateAnchor;
+                @IsFingerOnTrigger.started -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnIsFingerOnTrigger;
+                @IsFingerOnTrigger.performed -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnIsFingerOnTrigger;
+                @IsFingerOnTrigger.canceled -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnIsFingerOnTrigger;
+                @GripStrength.started -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnGripStrength;
+                @GripStrength.performed -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnGripStrength;
+                @GripStrength.canceled -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnGripStrength;
             }
             m_Wrapper.m_XRILeftHandActionsCallbackInterface = instance;
             if (instance != null)
@@ -1392,6 +1422,12 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @TranslateAnchor.started += instance.OnTranslateAnchor;
                 @TranslateAnchor.performed += instance.OnTranslateAnchor;
                 @TranslateAnchor.canceled += instance.OnTranslateAnchor;
+                @IsFingerOnTrigger.started += instance.OnIsFingerOnTrigger;
+                @IsFingerOnTrigger.performed += instance.OnIsFingerOnTrigger;
+                @IsFingerOnTrigger.canceled += instance.OnIsFingerOnTrigger;
+                @GripStrength.started += instance.OnGripStrength;
+                @GripStrength.performed += instance.OnGripStrength;
+                @GripStrength.canceled += instance.OnGripStrength;
             }
         }
     }
@@ -1414,7 +1450,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_XRIRightHand_RotateAnchor;
     private readonly InputAction m_XRIRightHand_TranslateAnchor;
     private readonly InputAction m_XRIRightHand_IsFingerOnTrigger;
-    private readonly InputAction m_XRIRightHand_IsFingerOnGrip;
     private readonly InputAction m_XRIRightHand_GripStrength;
     public struct XRIRightHandActions
     {
@@ -1434,7 +1469,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         public InputAction @RotateAnchor => m_Wrapper.m_XRIRightHand_RotateAnchor;
         public InputAction @TranslateAnchor => m_Wrapper.m_XRIRightHand_TranslateAnchor;
         public InputAction @IsFingerOnTrigger => m_Wrapper.m_XRIRightHand_IsFingerOnTrigger;
-        public InputAction @IsFingerOnGrip => m_Wrapper.m_XRIRightHand_IsFingerOnGrip;
         public InputAction @GripStrength => m_Wrapper.m_XRIRightHand_GripStrength;
         public InputActionMap Get() { return m_Wrapper.m_XRIRightHand; }
         public void Enable() { Get().Enable(); }
@@ -1487,9 +1521,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @IsFingerOnTrigger.started -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnIsFingerOnTrigger;
                 @IsFingerOnTrigger.performed -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnIsFingerOnTrigger;
                 @IsFingerOnTrigger.canceled -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnIsFingerOnTrigger;
-                @IsFingerOnGrip.started -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnIsFingerOnGrip;
-                @IsFingerOnGrip.performed -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnIsFingerOnGrip;
-                @IsFingerOnGrip.canceled -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnIsFingerOnGrip;
                 @GripStrength.started -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnGripStrength;
                 @GripStrength.performed -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnGripStrength;
                 @GripStrength.canceled -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnGripStrength;
@@ -1539,9 +1570,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @IsFingerOnTrigger.started += instance.OnIsFingerOnTrigger;
                 @IsFingerOnTrigger.performed += instance.OnIsFingerOnTrigger;
                 @IsFingerOnTrigger.canceled += instance.OnIsFingerOnTrigger;
-                @IsFingerOnGrip.started += instance.OnIsFingerOnGrip;
-                @IsFingerOnGrip.performed += instance.OnIsFingerOnGrip;
-                @IsFingerOnGrip.canceled += instance.OnIsFingerOnGrip;
                 @GripStrength.started += instance.OnGripStrength;
                 @GripStrength.performed += instance.OnGripStrength;
                 @GripStrength.canceled += instance.OnGripStrength;
@@ -1645,6 +1673,8 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnRotateAnchor(InputAction.CallbackContext context);
         void OnTranslateAnchor(InputAction.CallbackContext context);
+        void OnIsFingerOnTrigger(InputAction.CallbackContext context);
+        void OnGripStrength(InputAction.CallbackContext context);
     }
     public interface IXRIRightHandActions
     {
@@ -1662,7 +1692,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         void OnRotateAnchor(InputAction.CallbackContext context);
         void OnTranslateAnchor(InputAction.CallbackContext context);
         void OnIsFingerOnTrigger(InputAction.CallbackContext context);
-        void OnIsFingerOnGrip(InputAction.CallbackContext context);
         void OnGripStrength(InputAction.CallbackContext context);
     }
     public interface IUIControlsActions
