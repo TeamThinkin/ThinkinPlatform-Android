@@ -181,8 +181,8 @@ GameObject:
   - component: {fileID: 8821876660106793051}
   - component: {fileID: 8821876660106793050}
   - component: {fileID: 8821876660106793049}
-  - component: {fileID: 8821876660106793048}
   - component: {fileID: 8821876660106793062}
+  - component: {fileID: 4948745491390997563}
   m_Layer: 0
   m_Name: Portal
   m_TagString: SelectOnActivate
@@ -238,7 +238,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Label: {fileID: 8821876660090164701}
   StateAnimator: {fileID: 8821876660106793050}
---- !u!114 &8821876660106793048
+--- !u!65 &8821876660106793062
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8821876660106793053}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.97, y: 2.0344038, z: 0.03}
+  m_Center: {x: 0, y: 1.0129621, z: 0}
+--- !u!114 &4948745491390997563
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,7 +260,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8821876660106793053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
+  m_Script: {fileID: 11500000, guid: aaca13379190a98468dc390cce16cca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
@@ -260,7 +273,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8821876660106793049}
-        m_TargetAssemblyTypeName: Portal, Assembly-CSharp
+        m_TargetAssemblyTypeName: PortalPresenter, Assembly-CSharp
         m_MethodName: OnHoverStart
         m_Mode: 1
         m_Arguments:
@@ -275,7 +288,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8821876660106793049}
-        m_TargetAssemblyTypeName: Portal, Assembly-CSharp
+        m_TargetAssemblyTypeName: PortalPresenter, Assembly-CSharp
         m_MethodName: OnHoverEnd
         m_Mode: 1
         m_Arguments:
@@ -343,19 +356,6 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
---- !u!65 &8821876660106793062
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8821876660106793053}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.97, y: 2.0344038, z: 0.03}
-  m_Center: {x: 0, y: 1.0129621, z: 0}
 --- !u!1001 &8821876661192777382
 PrefabInstance:
   m_ObjectHideFlags: 0
