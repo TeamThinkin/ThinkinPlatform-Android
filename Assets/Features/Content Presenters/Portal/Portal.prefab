@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 8821876660106793062}
   m_Layer: 0
   m_Name: Portal
-  m_TagString: Untagged
+  m_TagString: SelectOnActivate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
