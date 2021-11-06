@@ -5,19 +5,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class RemoteAvatarController : RealtimeComponent<UserInfoModel>, IProvideHandData
+public class RemoteAvatarController : RealtimeComponent<UserInfoModel>
 {
     [SerializeField] private Transform HeadTransform;
     [SerializeField] private Transform RightHandTransform;
     [SerializeField] private Transform LeftHandTransform;
     [SerializeField] private TMP_Text DisplayNameLabel;
     [SerializeField] private MouthMoveBlendShape MouthMover;
-
-    private AvatarHandData leftHandData = new AvatarHandData();
-    private AvatarHandData rightHandData = new AvatarHandData();
+    [SerializeField] private RemoteAvatarHandController LeftHand;
+    [SerializeField] private RemoteAvatarHandController RightHand;
 
     private SkinController currentSkin;
-
 
     protected override void OnRealtimeModelReplaced(UserInfoModel previousModel, UserInfoModel currentModel)
     {
@@ -109,34 +107,7 @@ public class RemoteAvatarController : RealtimeComponent<UserInfoModel>, IProvide
             currentSkin = null;
         }
 
-        currentSkin = await SkinController.CreateSkin(false, avatarUrl, HeadTransform, LeftHandTransform, RightHandTransform, this);
+        currentSkin = await SkinController.CreateSkin(false, avatarUrl, HeadTransform, LeftHandTransform, RightHandTransform, LeftHand, RightHand);
         linkMouthMover();
-    }
-
-    private void Update()
-    {
-        if(model != null && isOwnedLocallyInHierarchy)
-        {
-            leftHandData = LocalAvatarManager.Instance.GetLeftHandData();
-            rightHandData = LocalAvatarManager.Instance.GetRightHandData();
-            model.leftHandGripStrength = leftHandData.GripStrength;
-            model.leftHandIsPointing = leftHandData.IsPointing;
-            model.rightHandGripStrength = rightHandData.GripStrength;
-            model.rightHandIsPointing = rightHandData.IsPointing;
-        }
-    }
-
-    public AvatarHandData GetLeftHandData()
-    {
-        leftHandData.GripStrength = model.leftHandGripStrength;
-        leftHandData.IsPointing = model.leftHandIsPointing;
-        return leftHandData;
-    }
-
-    public AvatarHandData GetRightHandData()
-    {
-        rightHandData.GripStrength = model.rightHandGripStrength;
-        rightHandData.IsPointing = model.rightHandIsPointing;
-        return rightHandData;
     }
 }

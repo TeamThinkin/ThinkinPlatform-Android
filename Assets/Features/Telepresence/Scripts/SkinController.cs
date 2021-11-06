@@ -7,14 +7,7 @@ using Wolf3D.ReadyPlayerMe.AvatarSDK;
 
 public interface IProvideHandData
 {
-    AvatarHandData GetLeftHandData();
-    AvatarHandData GetRightHandData();
-}
-
-public struct AvatarHandData
-{
-    public bool IsPointing;
-    public float GripStrength;
+    AvatarHandData GetHandData();
 }
 
 public class SkinController : MonoBehaviour
@@ -27,7 +20,8 @@ public class SkinController : MonoBehaviour
     private Transform headTransform;
     private Transform leftHandTransform;
     private Transform rightHandTransform;
-    private IProvideHandData handDataProvider;
+    private IProvideHandData leftHandDataProvider;
+    private IProvideHandData rightHandDataProvider;
     private Transform neckBone;
     private Transform headBone;
     private Vector3 neckHeadOffset;
@@ -36,20 +30,20 @@ public class SkinController : MonoBehaviour
     private Animator rightHandAnimator;
     private Animator leftHandAnimator;
     
-    public static async Task<SkinController> CreateSkin(bool IsLocal, string AvatarUrl, Transform HeadTransform, Transform LeftHandTransform, Transform RightHandTransform, IProvideHandData HandDataProvider)
+    public static async Task<SkinController> CreateSkin(bool IsLocal, string AvatarUrl, Transform HeadTransform, Transform LeftHandTransform, Transform RightHandTransform, IProvideHandData LeftHandDataProvider, IProvideHandData RightHandDataProvider)
     {
         var avatar = await loadAvatarFromUrl(AvatarUrl);
         var skinController = avatar.AddComponent<SkinController>();
-        skinController.SetSourceData(IsLocal, HeadTransform, LeftHandTransform, RightHandTransform, HandDataProvider);
+        skinController.SetSourceData(IsLocal, HeadTransform, LeftHandTransform, RightHandTransform, LeftHandDataProvider, RightHandDataProvider);
         return skinController;
     }
 
     private void Update()
     {
-        if (handDataProvider != null)
+        if (leftHandDataProvider != null)
         {
-            leftHandData = handDataProvider.GetLeftHandData();
-            rightHandData = handDataProvider.GetRightHandData();
+            leftHandData = leftHandDataProvider.GetHandData();
+            rightHandData = rightHandDataProvider.GetHandData();
 
             rightHandAnimator.SetFloat("Grip", rightHandData.GripStrength);
             rightHandAnimator.SetBool("Is Pointing", rightHandData.IsPointing);
@@ -67,14 +61,15 @@ public class SkinController : MonoBehaviour
         }
     }
 
-    public void SetSourceData(bool IsLocal, Transform HeadTransform, Transform LeftHandTransform, Transform RightHandTransform, IProvideHandData HandDataProvider)
+    public void SetSourceData(bool IsLocal, Transform HeadTransform, Transform LeftHandTransform, Transform RightHandTransform, IProvideHandData LeftHandDataProvider, IProvideHandData RightHandDataProvider)
     {
         this.headTransform = HeadTransform;
         this.leftHandTransform = LeftHandTransform;
         this.rightHandTransform = RightHandTransform;
-        this.handDataProvider = HandDataProvider;
+        this.leftHandDataProvider = LeftHandDataProvider;
+        this.rightHandDataProvider = RightHandDataProvider;
 
-        if(IsLocal) patchRendererBounds(gameObject);
+        if (IsLocal) patchRendererBounds(gameObject);
         addBoneConstraints(gameObject);
         addAnimationController(gameObject);
     }
