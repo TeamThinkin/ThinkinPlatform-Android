@@ -8,12 +8,17 @@ public class Tablet : MonoBehaviour
 {
     public bool IsInDespawnZone;
 
+    [SerializeField] private LayoutContainer MenuContentContainer;
+    [SerializeField] private LayoutContainer MenuScrollArea;
+
     private XRGrabInteractable grabInteractable;
 
     private void Start()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
         grabInteractable.selectExited.AddListener(grabInteractable_SelectExited);
+
+        MenuScrollArea.UpdateLayout();
     }
 
     private void OnDestroy()

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
+/// <summary>
+/// This is the basic XRGrabInteractable but with the addition of individual attach points for left and right hands
+/// </summary>
 public class Grabbable : XRGrabInteractable
 {
     [SerializeField] private Transform LeftAttachTransform;

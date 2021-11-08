@@ -23,30 +23,20 @@ public class RoomManager : MonoBehaviour
         Instance = this;
     }
 
-    public async void LoadUrl(string Url)
+    public void LoadUrl(string Url)
     {
         CurrentRoomId = Url.GetHashCode();
 
+        var dtoTask = WebAPI.GetCollectionContents(Url);
         TransitionController.Instance.HideScene(async () =>
-        {
+        {            
+            ContentItems.Clear();
             OnRoomUnloaded?.Invoke();
             RoomItemContainer.ClearChildren();
-            ContentItems.Clear();
-            var dtos = await WebAPI.GetCollectionContents(Url);
-            var items = await Task.WhenAll(dtos.Select(dto => PresenterFactory.Instance.Instantiate(dto)));
-            for (int i = 0; i < dtos.Length; i++)
-            {
-                var item = items[i];
-                var dto = dtos[i];
 
-                if (item != null)
-                {
-                    item.GameObject.name = dto.Id;
-                    item.GameObject.transform.SetParent(RoomItemContainer);
-                    ContentItems.Add(item);
-                }
-                else Debug.Log("Skipping unrecognized item: " + dto.MimeType);
-            }
+            var dtos = await dtoTask;
+            ContentItems.AddRange(await CollectionManager.LoadDtosIntoContainer(RoomItemContainer, dtos));
+            
             OnRoomLoaded?.Invoke();
             TransitionController.Instance.RevealScene();
         });

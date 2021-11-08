@@ -10,7 +10,6 @@ public class TestButton : MonoBehaviour
 
     public void DoTheThing()
     {
-        Debug.Log("The thing has been done: " + Random.Range(0, 100));
         Label.text = Random.Range(0, 100).ToString();
     }
 

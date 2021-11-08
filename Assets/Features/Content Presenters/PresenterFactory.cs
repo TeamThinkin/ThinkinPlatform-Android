@@ -40,9 +40,12 @@ public class PresenterFactory : MonoBehaviour
             var presenterPrefab = dtoToPresenterPrefab[dtoType];
             var item = GameObject.Instantiate(presenterPrefab);
             var presenter = item.GetComponent<IContentItemPresenter>();
+            if (presenter == null) Debug.Log("Couldnt get presenter for item: " + dtoType.Name);
             await presenter.LoadFromDto(Dto);
+            presenter.GameObject.name = Dto.Id;
             return presenter;
         }
+        Debug.Log("Unrecognized presenter type: " + Dto.MimeType);
         return null;
     }
 }

@@ -9,6 +9,13 @@ public struct MomentumVector3
 
     private Vector3 smoothValue;
 
+    public MomentumVector3(float DecayRate)
+    {
+        this.Value = Vector3.zero;
+        this.smoothValue = this.Value;
+        this.DecayRate = DecayRate;
+    }
+
     public void Set(Vector3 Value)
     {
         this.Value = Value;

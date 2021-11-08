@@ -39,7 +39,7 @@ public class MoveToSpawnPoint : MonoBehaviour
 
         transform.rotation = targetRot;
 
-        var playerOffset = (transform.position - Camera.main.transform.position).Flatten();
+        var playerOffset = (transform.position - Camera.main.transform.position).FlattenY();
         transform.position = targetPoint + playerOffset;
         
     }

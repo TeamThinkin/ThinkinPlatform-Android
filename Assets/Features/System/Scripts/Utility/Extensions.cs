@@ -83,8 +83,41 @@ public static class Extensions
         }
     }
 
-    public static Vector3 Flatten(this Vector3 vector)
+    public static Vector3 FlattenX(this Vector3 vector)
     {
+        vector.x = 0;
+        return vector;
+    }
+
+    public static Vector3 FlattenY(this Vector3 vector)
+    {
+        vector.y = 0;
+        return vector;
+    }
+
+    public static Vector3 FlattenZ(this Vector3 vector)
+    {
+        vector.z = 0;
+        return vector;
+    }
+
+    public static Vector3 IsolateX(this Vector3 vector)
+    {
+        vector.y = 0;
+        vector.z = 0;
+        return vector;
+    }
+
+    public static Vector3 IsolateY(this Vector3 vector)
+    {
+        vector.x = 0;
+        vector.z = 0;
+        return vector;
+    }
+
+    public static Vector3 IsolateZ(this Vector3 vector)
+    {
+        vector.x = 0;
         vector.y = 0;
         return vector;
     }
