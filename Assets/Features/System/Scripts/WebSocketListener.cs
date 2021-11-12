@@ -24,6 +24,7 @@ public class WebSocketListener : MonoBehaviour
         Socket.On("connect", onSocketConnected);
         Socket.On("avatarUrlUpdated", onAvatarUrlUpdatedReceived);
         Socket.On("setUser", onSetUserReceived);
+        Socket.On("userLocationChanged", onUserLocationChange);
     }
 
     private void OnDestroy()
@@ -31,11 +32,18 @@ public class WebSocketListener : MonoBehaviour
         Socket?.Off("connect", onSocketConnected);
         Socket?.Off("avatarUrlUpdated", onAvatarUrlUpdatedReceived);
         Socket?.Off("setUser", onSetUserReceived);
+        Socket?.Off("userLocationChanged", onUserLocationChange);
     }
 
     private void onSocketConnected(string e)
     {
         OnSocketConnected?.Invoke();
+    }
+
+    private void onUserLocationChange(string e)
+    {
+        var roomUrl = e;
+        RoomManager.Instance.LoadUrl(roomUrl);
     }
 
     private void onAvatarUrlUpdatedReceived(string e)

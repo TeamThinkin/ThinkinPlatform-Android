@@ -11,6 +11,7 @@ public class UserInfo
     public string AvatarUrl;
     public string AuthToken;
     public string HomeRoomUrl;
+    public string CurrentRoomUrl;
 
     public DomainInfo[] Domains;
 

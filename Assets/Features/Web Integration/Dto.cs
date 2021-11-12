@@ -37,6 +37,9 @@ public class UserDto
 
     [JsonProperty("homeRoomUrl")]
     public string HomeRoomUrl { get; set; }
+
+    [JsonProperty("currentRoomUrl")]
+    public string CurrentRoomUrl { get; set; }
 }
 
 public class DomainDto

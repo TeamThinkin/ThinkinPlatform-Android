@@ -6,6 +6,8 @@ using UnityEngine;
 
 public static class DeviceRegistrationController
 {
+    private static bool isListeningToWebsocket;
+
     private static string _uid;
     public static string UID
     {
@@ -33,9 +35,26 @@ public static class DeviceRegistrationController
         await RegisterDevice();
 
         if (UserInfo.CurrentUser != UserInfo.UnknownUser)
-            RoomManager.Instance.LoadUrl(UserInfo.CurrentUser.HomeRoomUrl);
-        else
-            AppSceneManager.Instance.LoadLocalScene("Login");
+        {
+            if (!isListeningToWebsocket)
+            {
+                isListeningToWebsocket = true;
+                WebSocketListener.OnSocketConnected += WebSocketListener_OnSocketConnected;
+            }
+            registerDeviceWithWebSocket();
+            RoomManager.Instance.LoadUrl(!string.IsNullOrEmpty(UserInfo.CurrentUser.CurrentRoomUrl) ? UserInfo.CurrentUser.CurrentRoomUrl : UserInfo.CurrentUser.HomeRoomUrl);
+        }
+        else await AppSceneManager.Instance.LoadLocalScene("Login");
+    }
+
+    private static void WebSocketListener_OnSocketConnected()
+    {
+        registerDeviceWithWebSocket();
+    }
+
+    private static void registerDeviceWithWebSocket()
+    {
+        WebSocketListener.Socket.Emit("registerDevice", UserInfo.CurrentUser.AuthToken);
     }
 
     public static async Task RegisterDevice()
@@ -49,7 +68,8 @@ public static class DeviceRegistrationController
                 AvatarUrl = userDto.AvatarUrl,
                 DisplayName = userDto.DisplayName,
                 AuthToken = userDto.Token,
-                HomeRoomUrl = userDto.HomeRoomUrl
+                HomeRoomUrl = userDto.HomeRoomUrl,
+                CurrentRoomUrl = userDto.CurrentRoomUrl
             };
             UserInfo.CurrentUser = user;
         }

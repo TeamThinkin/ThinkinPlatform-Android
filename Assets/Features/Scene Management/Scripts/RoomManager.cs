@@ -25,7 +25,10 @@ public class RoomManager : MonoBehaviour
 
     public void LoadUrl(string Url)
     {
-        CurrentRoomId = Url.GetHashCode();
+        var newRoomId = Url.GetHashCode();
+        if (newRoomId == CurrentRoomId) return;
+
+        CurrentRoomId = newRoomId;
 
         var dtoTask = WebAPI.GetCollectionContents(Url);
         TransitionController.Instance.HideScene(async () =>
