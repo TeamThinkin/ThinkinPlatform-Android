@@ -38,4 +38,9 @@ public class ButtonInteractable : XRSimpleInteractable
             controller = null;
         }
     }
+
+    public override bool IsSelectableBy(XRBaseInteractor interactor)
+    {
+        return false;
+    }
 }

@@ -5,6 +5,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class ScrollAreaInteractable : XRBaseInteractable
 {
+    [SerializeField] private bool AllowXMovement = true;
+    [SerializeField] private bool AllowYMovement;
+
     private ScrollArea scrollArea;
 
     private Vector3 referencePoint;
@@ -25,7 +28,11 @@ public class ScrollAreaInteractable : XRBaseInteractable
         if (isDragging)
         {
             referencePoint = getReferencePoint();
-            dragDirection.Set(transform.InverseTransformDirection(referencePoint - lastReferencePoint).IsolateX());
+            var point = transform.InverseTransformDirection(referencePoint - lastReferencePoint);
+            if (!AllowXMovement) point.x = 0;
+            if (!AllowYMovement) point.y = 0;
+            dragDirection.Set(point);
+            
             lastReferencePoint = referencePoint;
         }
         else
