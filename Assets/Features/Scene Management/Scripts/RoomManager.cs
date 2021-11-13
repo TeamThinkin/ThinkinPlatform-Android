@@ -28,6 +28,10 @@ public class RoomManager : MonoBehaviour
         var newRoomId = Url.GetHashCode();
         if (newRoomId == CurrentRoomId) return;
 
+        Debug.Log("Loading new room url: " + Url);
+
+        WebSocketListener.Socket.Emit("userLocationChanged", Url);
+
         CurrentRoomId = newRoomId;
 
         var dtoTask = WebAPI.GetCollectionContents(Url);

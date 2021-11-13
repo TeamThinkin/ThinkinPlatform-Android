@@ -8,6 +8,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 public class AppSceneManager : MonoBehaviour
@@ -20,7 +21,7 @@ public class AppSceneManager : MonoBehaviour
 
     public static AppSceneManager Instance { get; private set; }
 
-    private static AsyncOperationHandle currentSceneHandle;
+    private static AsyncOperationHandle<SceneInstance> currentSceneHandle;
     private static IResourceLocator currentResourceLocator;
     private static bool currentSceneIsRemote;
     private static string currentScene;
@@ -71,8 +72,12 @@ public class AppSceneManager : MonoBehaviour
         if (currentResourceLocator.Locate(address.AssetPath, typeof(UnityEngine.ResourceManagement.ResourceProviders.SceneInstance), out IList<IResourceLocation> locations))
         {
             var sceneLocation = new LocalizingResourceLocation(locations[0], SceneUrl);
-            await Addressables.LoadSceneAsync(sceneLocation, LoadSceneMode.Additive).GetTask();
             
+            //await Addressables.LoadSceneAsync(sceneLocation, LoadSceneMode.Additive).GetTask();
+
+            currentSceneHandle = Addressables.LoadSceneAsync(sceneLocation, LoadSceneMode.Additive);
+            await currentSceneHandle.GetTask();
+
             currentScene = SceneUrl;
             currentSceneIsRemote = true;
             OnEnvironmentLoaded?.Invoke();
