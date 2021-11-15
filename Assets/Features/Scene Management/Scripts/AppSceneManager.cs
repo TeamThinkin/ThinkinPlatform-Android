@@ -72,9 +72,6 @@ public class AppSceneManager : MonoBehaviour
         if (currentResourceLocator.Locate(address.AssetPath, typeof(UnityEngine.ResourceManagement.ResourceProviders.SceneInstance), out IList<IResourceLocation> locations))
         {
             var sceneLocation = new LocalizingResourceLocation(locations[0], SceneUrl);
-            
-            //await Addressables.LoadSceneAsync(sceneLocation, LoadSceneMode.Additive).GetTask();
-
             currentSceneHandle = Addressables.LoadSceneAsync(sceneLocation, LoadSceneMode.Additive);
             await currentSceneHandle.GetTask();
 

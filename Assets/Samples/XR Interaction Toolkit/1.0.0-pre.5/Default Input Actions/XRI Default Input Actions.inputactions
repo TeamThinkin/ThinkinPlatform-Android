@@ -170,6 +170,14 @@
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Alt Modifier",
+                    "type": "Button",
+                    "id": "8aae5cb3-54cd-439b-8ecc-c7c07b0bd0d2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -524,6 +532,17 @@
                     "action": "Grip Strength",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bea442dc-54f0-4752-8f06-394f7faaf732",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Alt Modifier",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -648,6 +667,14 @@
                     "type": "Value",
                     "id": "6ce480fc-d768-4b6b-b8d8-b8028bc01a1c",
                     "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Alt Modifier",
+                    "type": "Button",
+                    "id": "3ad902eb-b558-4b67-81d1-1d765f7df083",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -991,6 +1018,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Grip Strength",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e45f4c47-a7ad-4fee-828e-46d1174f52a7",
+                    "path": "<XRController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Generic XR Controller",
+                    "action": "Alt Modifier",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

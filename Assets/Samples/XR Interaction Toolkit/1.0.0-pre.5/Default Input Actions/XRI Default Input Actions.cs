@@ -183,6 +183,14 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Alt Modifier"",
+                    ""type"": ""Button"",
+                    ""id"": ""8aae5cb3-54cd-439b-8ecc-c7c07b0bd0d2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -537,6 +545,17 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Grip Strength"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bea442dc-54f0-4752-8f06-394f7faaf732"",
+                    ""path"": ""<XRController>{LeftHand}/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Generic XR Controller"",
+                    ""action"": ""Alt Modifier"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -661,6 +680,14 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""6ce480fc-d768-4b6b-b8d8-b8028bc01a1c"",
                     ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Alt Modifier"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ad902eb-b558-4b67-81d1-1d765f7df083"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -1006,6 +1033,17 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Grip Strength"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e45f4c47-a7ad-4fee-828e-46d1174f52a7"",
+                    ""path"": ""<XRController>{RightHand}/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Generic XR Controller"",
+                    ""action"": ""Alt Modifier"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1157,6 +1195,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         m_XRILeftHand_TranslateAnchor = m_XRILeftHand.FindAction("Translate Anchor", throwIfNotFound: true);
         m_XRILeftHand_IsFingerOnTrigger = m_XRILeftHand.FindAction("Is Finger On Trigger", throwIfNotFound: true);
         m_XRILeftHand_GripStrength = m_XRILeftHand.FindAction("Grip Strength", throwIfNotFound: true);
+        m_XRILeftHand_AltModifier = m_XRILeftHand.FindAction("Alt Modifier", throwIfNotFound: true);
         // XRI RightHand
         m_XRIRightHand = asset.FindActionMap("XRI RightHand", throwIfNotFound: true);
         m_XRIRightHand_Position = m_XRIRightHand.FindAction("Position", throwIfNotFound: true);
@@ -1174,6 +1213,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         m_XRIRightHand_TranslateAnchor = m_XRIRightHand.FindAction("Translate Anchor", throwIfNotFound: true);
         m_XRIRightHand_IsFingerOnTrigger = m_XRIRightHand.FindAction("Is Finger On Trigger", throwIfNotFound: true);
         m_XRIRightHand_GripStrength = m_XRIRightHand.FindAction("Grip Strength", throwIfNotFound: true);
+        m_XRIRightHand_AltModifier = m_XRIRightHand.FindAction("Alt Modifier", throwIfNotFound: true);
         // UI Controls
         m_UIControls = asset.FindActionMap("UI Controls", throwIfNotFound: true);
         m_UIControls_TestButton1 = m_UIControls.FindAction("Test Button 1", throwIfNotFound: true);
@@ -1284,6 +1324,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_XRILeftHand_TranslateAnchor;
     private readonly InputAction m_XRILeftHand_IsFingerOnTrigger;
     private readonly InputAction m_XRILeftHand_GripStrength;
+    private readonly InputAction m_XRILeftHand_AltModifier;
     public struct XRILeftHandActions
     {
         private @XRIDefaultInputActions m_Wrapper;
@@ -1303,6 +1344,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         public InputAction @TranslateAnchor => m_Wrapper.m_XRILeftHand_TranslateAnchor;
         public InputAction @IsFingerOnTrigger => m_Wrapper.m_XRILeftHand_IsFingerOnTrigger;
         public InputAction @GripStrength => m_Wrapper.m_XRILeftHand_GripStrength;
+        public InputAction @AltModifier => m_Wrapper.m_XRILeftHand_AltModifier;
         public InputActionMap Get() { return m_Wrapper.m_XRILeftHand; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1357,6 +1399,9 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @GripStrength.started -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnGripStrength;
                 @GripStrength.performed -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnGripStrength;
                 @GripStrength.canceled -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnGripStrength;
+                @AltModifier.started -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnAltModifier;
+                @AltModifier.performed -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnAltModifier;
+                @AltModifier.canceled -= m_Wrapper.m_XRILeftHandActionsCallbackInterface.OnAltModifier;
             }
             m_Wrapper.m_XRILeftHandActionsCallbackInterface = instance;
             if (instance != null)
@@ -1406,6 +1451,9 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @GripStrength.started += instance.OnGripStrength;
                 @GripStrength.performed += instance.OnGripStrength;
                 @GripStrength.canceled += instance.OnGripStrength;
+                @AltModifier.started += instance.OnAltModifier;
+                @AltModifier.performed += instance.OnAltModifier;
+                @AltModifier.canceled += instance.OnAltModifier;
             }
         }
     }
@@ -1429,6 +1477,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_XRIRightHand_TranslateAnchor;
     private readonly InputAction m_XRIRightHand_IsFingerOnTrigger;
     private readonly InputAction m_XRIRightHand_GripStrength;
+    private readonly InputAction m_XRIRightHand_AltModifier;
     public struct XRIRightHandActions
     {
         private @XRIDefaultInputActions m_Wrapper;
@@ -1448,6 +1497,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         public InputAction @TranslateAnchor => m_Wrapper.m_XRIRightHand_TranslateAnchor;
         public InputAction @IsFingerOnTrigger => m_Wrapper.m_XRIRightHand_IsFingerOnTrigger;
         public InputAction @GripStrength => m_Wrapper.m_XRIRightHand_GripStrength;
+        public InputAction @AltModifier => m_Wrapper.m_XRIRightHand_AltModifier;
         public InputActionMap Get() { return m_Wrapper.m_XRIRightHand; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1502,6 +1552,9 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @GripStrength.started -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnGripStrength;
                 @GripStrength.performed -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnGripStrength;
                 @GripStrength.canceled -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnGripStrength;
+                @AltModifier.started -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnAltModifier;
+                @AltModifier.performed -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnAltModifier;
+                @AltModifier.canceled -= m_Wrapper.m_XRIRightHandActionsCallbackInterface.OnAltModifier;
             }
             m_Wrapper.m_XRIRightHandActionsCallbackInterface = instance;
             if (instance != null)
@@ -1551,6 +1604,9 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @GripStrength.started += instance.OnGripStrength;
                 @GripStrength.performed += instance.OnGripStrength;
                 @GripStrength.canceled += instance.OnGripStrength;
+                @AltModifier.started += instance.OnAltModifier;
+                @AltModifier.performed += instance.OnAltModifier;
+                @AltModifier.canceled += instance.OnAltModifier;
             }
         }
     }
@@ -1653,6 +1709,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         void OnTranslateAnchor(InputAction.CallbackContext context);
         void OnIsFingerOnTrigger(InputAction.CallbackContext context);
         void OnGripStrength(InputAction.CallbackContext context);
+        void OnAltModifier(InputAction.CallbackContext context);
     }
     public interface IXRIRightHandActions
     {
@@ -1671,6 +1728,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         void OnTranslateAnchor(InputAction.CallbackContext context);
         void OnIsFingerOnTrigger(InputAction.CallbackContext context);
         void OnGripStrength(InputAction.CallbackContext context);
+        void OnAltModifier(InputAction.CallbackContext context);
     }
     public interface IUIControlsActions
     {
