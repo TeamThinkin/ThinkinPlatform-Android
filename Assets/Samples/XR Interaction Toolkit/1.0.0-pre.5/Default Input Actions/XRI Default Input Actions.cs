@@ -1074,6 +1074,14 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Left Mouse Button"",
+                    ""type"": ""Button"",
+                    ""id"": ""ce3ff9f8-217c-44e3-afed-85277997942b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -1107,6 +1115,17 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Test Button 3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fb21ac64-47a8-4224-81f4-4ba798214930"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left Mouse Button"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1219,6 +1238,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         m_UIControls_TestButton1 = m_UIControls.FindAction("Test Button 1", throwIfNotFound: true);
         m_UIControls_TestButton2 = m_UIControls.FindAction("Test Button 2", throwIfNotFound: true);
         m_UIControls_TestButton3 = m_UIControls.FindAction("Test Button 3", throwIfNotFound: true);
+        m_UIControls_LeftMouseButton = m_UIControls.FindAction("Left Mouse Button", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1618,6 +1638,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_UIControls_TestButton1;
     private readonly InputAction m_UIControls_TestButton2;
     private readonly InputAction m_UIControls_TestButton3;
+    private readonly InputAction m_UIControls_LeftMouseButton;
     public struct UIControlsActions
     {
         private @XRIDefaultInputActions m_Wrapper;
@@ -1625,6 +1646,7 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         public InputAction @TestButton1 => m_Wrapper.m_UIControls_TestButton1;
         public InputAction @TestButton2 => m_Wrapper.m_UIControls_TestButton2;
         public InputAction @TestButton3 => m_Wrapper.m_UIControls_TestButton3;
+        public InputAction @LeftMouseButton => m_Wrapper.m_UIControls_LeftMouseButton;
         public InputActionMap Get() { return m_Wrapper.m_UIControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1643,6 +1665,9 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @TestButton3.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnTestButton3;
                 @TestButton3.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnTestButton3;
                 @TestButton3.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnTestButton3;
+                @LeftMouseButton.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnLeftMouseButton;
+                @LeftMouseButton.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnLeftMouseButton;
+                @LeftMouseButton.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnLeftMouseButton;
             }
             m_Wrapper.m_UIControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -1656,6 +1681,9 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
                 @TestButton3.started += instance.OnTestButton3;
                 @TestButton3.performed += instance.OnTestButton3;
                 @TestButton3.canceled += instance.OnTestButton3;
+                @LeftMouseButton.started += instance.OnLeftMouseButton;
+                @LeftMouseButton.performed += instance.OnLeftMouseButton;
+                @LeftMouseButton.canceled += instance.OnLeftMouseButton;
             }
         }
     }
@@ -1735,5 +1763,6 @@ public class @XRIDefaultInputActions : IInputActionCollection, IDisposable
         void OnTestButton1(InputAction.CallbackContext context);
         void OnTestButton2(InputAction.CallbackContext context);
         void OnTestButton3(InputAction.CallbackContext context);
+        void OnLeftMouseButton(InputAction.CallbackContext context);
     }
 }

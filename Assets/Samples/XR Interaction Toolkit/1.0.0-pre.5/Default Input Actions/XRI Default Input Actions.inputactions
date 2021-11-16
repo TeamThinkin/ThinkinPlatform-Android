@@ -1061,6 +1061,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Left Mouse Button",
+                    "type": "Button",
+                    "id": "ce3ff9f8-217c-44e3-afed-85277997942b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -1094,6 +1102,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Test Button 3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fb21ac64-47a8-4224-81f4-4ba798214930",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left Mouse Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
