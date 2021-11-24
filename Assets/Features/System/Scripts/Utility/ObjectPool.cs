@@ -15,7 +15,6 @@ public class TypedObjectPool<T> : ObjectPool<T> where T : MonoBehaviour
 
     protected override T CreatedNewItem()
     {
-        Debug.Log("Instantiating new item");
         return GameObject.Instantiate(itemPrefab).GetComponent<T>();
     }
 

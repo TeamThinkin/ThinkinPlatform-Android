@@ -14,16 +14,20 @@ using UnityEngine.Networking;
 
 public static class WebAPI
 {
-    private const string ContentBaseUrl = "https://thinkin-api.glitch.me/v1/";
+    public static string HomeServerApiBaseUrl
+    {
+        get { return "https://" + Config.HomeServerAuthorityAddress + "/v1/"; }
+    }
 
     public static async Task<RegisterDeviceResultDto> RegisterDevice(string Uid)
     {
-        return await postRequest<RegisterDeviceResultDto>(ContentBaseUrl + "device/register", new RegisterDeviceRequestDto() { Uid = Uid });
+        return await postRequest<RegisterDeviceResultDto>(HomeServerApiBaseUrl + "device/register", new RegisterDeviceRequestDto() { Uid = Uid });
     }
 
     public static async Task<CollectionContentItemDto[]> GetCollectionContents(string Url)
     {
-        return await getRequest<CollectionContentItemDto[]>(Url, new ContentItemDtoConverter());
+        var result = await getRequest<CollectionContentItemDto[]>(Url, new ContentItemDtoConverter());
+        return result;
     }
 
     public static async Task<TResult> postRequest<TResult>(string Url, object body)
@@ -52,6 +56,7 @@ public static class WebAPI
 
     private static async Task<T> getRequest<T>(string Url, JsonConverter Converter = null)
     {
+        Debug.Log("Get request: " + Url);
         using (var request = new UnityWebRequest(Url, "GET"))
         {
             request.SetRequestHeader("Content-Type", "application/json");

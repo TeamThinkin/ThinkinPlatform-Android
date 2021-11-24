@@ -39,9 +39,9 @@ public class ContentItemDtoConverter : JsonConverter<CollectionContentItemDto>
         if (contentTypes.ContainsKey(mimeType))
         {
             var type = contentTypes[mimeType];
-            return item.ToObject(type) as CollectionContentItemDto;
+            var result = item.ToObject(type) as CollectionContentItemDto;
+            return result;
         }
-
         return null;
     }
 

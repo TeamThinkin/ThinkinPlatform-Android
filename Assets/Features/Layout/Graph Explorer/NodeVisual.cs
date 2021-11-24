@@ -1,24 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
-public class NodeVisual : MonoBehaviour
+public class NodeVisual : ButtonInteractable
 {
     [SerializeField] private TMPro.TMP_Text Label;
     [SerializeField] private Animator NodeAnimator;
     [SerializeField] private GameObject Link;
 
-    public GraphNode<VisualNode> Node { get; private set; }
+    public NodeViewModel NodeViewModel { get; private set; }
 
     private System.Action onCloseAnimationCompleteCallback;
 
-    public void SetNode(GraphNode<VisualNode> Node) 
+    public void SetNodeViewModel(NodeViewModel NodeViewModel) 
     {
-        this.Node = Node;
-        Label.text = Node.Item.Dto.Name;
-        gameObject.name = Node.Item.Dto.Name;
-        Link.SetActive(Node.ParentNode != null);
+        this.NodeViewModel = NodeViewModel;
+        Label.text = NodeViewModel.Node.ToString();
+        gameObject.name = Label.text;
+        Link.SetActive(NodeViewModel.Node.ParentNode != null);
     }
 
     public void OnCloseAnimationComplete() //Called from Animation
@@ -30,5 +32,11 @@ public class NodeVisual : MonoBehaviour
     {
         NodeAnimator.SetBool("Is Open", false);
         onCloseAnimationCompleteCallback = OnComplete;
+    }
+
+    protected override void OnActivated(ActivateEventArgs args)
+    {
+        base.OnActivated(args);
+        NodeViewModel.ParentController.SelectNode(NodeViewModel.Node);
     }
 }

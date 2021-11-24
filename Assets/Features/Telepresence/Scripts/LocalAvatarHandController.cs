@@ -47,8 +47,7 @@ public class LocalAvatarHandController : MonoBehaviour, IProvideHandData
     private void Update()
     {
         updateHandData();
-        //RayInteractor.gameObject.SetActive(handData.IsPointing);
-        RayVisualizer.enabled = handData.IsPointing;
+        //RayVisualizer.enabled = handData.IsPointing;
     }
 
     private void updateHandData()

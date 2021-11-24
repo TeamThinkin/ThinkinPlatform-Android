@@ -80,13 +80,13 @@ public class CollectionContentItemDto
 
     [JsonProperty("type")]
     public string Type { get; set; }
+
+    [JsonProperty("displayName")]
+    public string DisplayName { get; set; }
 }
 
 public class FileContentItemDto : CollectionContentItemDto
 {
-    [JsonProperty("displayName")]
-    public string DisplayName { get; set; }
-
     [JsonProperty("url")]
     public string Url { get; set; }
 }
@@ -99,9 +99,6 @@ public class EnvironmentContentItemDto : FileContentItemDto
 [MimeType("environment/local")]
 public class LocalSceneContentItemDto : CollectionContentItemDto
 {
-    [JsonProperty("displayName")]
-    public string DisplayName { get; set; }
-
     [JsonProperty("path")]
     public string Path { get; set; }
 }

@@ -23,7 +23,9 @@ public class ButtonInteractable : XRSimpleInteractable
 
     private void Action_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        this.activated.Invoke(new ActivateEventArgs() { interactable = this, interactor = interactor });
+        var e = new ActivateEventArgs() { interactable = this, interactor = interactor };
+        this.OnActivated(e);
+        this.activated.Invoke(e);
     }
 
     protected override void OnHoverExited(HoverExitEventArgs args)
