@@ -160,7 +160,6 @@ public class GraphExplorer : MonoBehaviour
                 else
                 {
                     childViewModel.Rotation = visual.transform.localRotation = rotation * Quaternion.AngleAxis(stepSize * -i + startAngle, Vector3.forward);
-                    //childViewModel.Position = visual.transform.localPosition = childViewModel.Visual.transform.localPosition + (visual.transform.localRotation * position);
                     childViewModel.Position = visual.transform.localPosition = viewModel.Visual.transform.localPosition + (visual.transform.localRotation * position);
                     childViewModel.IsLayoutDetermined = true;
                 }
@@ -171,17 +170,40 @@ public class GraphExplorer : MonoBehaviour
         }
     }
 
-    private void centerViewOnNode(NodeViewModel viewModel)
+    //This one uses world coordinates
+    //private void centerViewOnNode(NodeViewModel viewModel)
+    //{
+    //    //Center view on selected node
+    //    var rotOffset = TargetPosition.rotation * Quaternion.Inverse(viewModel.Visual.transform.rotation);
+    //    var targetRot = rotOffset * Offset.rotation;
+    //    var originalRot = Offset.rotation;
+    //    Offset.rotation = targetRot;
+    //    var targetPosition = Offset.position + (TargetPosition.position - viewModel.Visual.transform.position);
+    //    Offset.rotation = originalRot;
+
+    //    startAnimateOffsetTo(targetPosition, targetRot);
+    //}
+
+    private void centerViewOnNode(NodeViewModel viewModel) //Using local space
     {
         //Center view on selected node
-        var rotOffset = TargetPosition.rotation * Quaternion.Inverse(viewModel.Visual.transform.rotation);
-        var targetRot = rotOffset * Offset.rotation;
-        var originalRot = Offset.rotation;
-        Offset.rotation = targetRot;
-        var targetPosition = Offset.position + (TargetPosition.position - viewModel.Visual.transform.position);
-        Offset.rotation = originalRot;
+        var visualLocalRot = Quaternion.Inverse(transform.rotation) * viewModel.Visual.transform.rotation;
+
+        var rotOffset = TargetPosition.localRotation * Quaternion.Inverse(visualLocalRot);
+        var targetRot = rotOffset * Offset.localRotation;
+        var originalRot = Offset.localRotation;
+        Offset.localRotation = targetRot;
+        var visualLocalPosition = transform.InverseTransformPoint(viewModel.Visual.transform.position);
+        var targetPosition = Offset.localPosition + (TargetPosition.localPosition - visualLocalPosition);
+        Offset.localRotation = originalRot;
 
         startAnimateOffsetTo(targetPosition, targetRot);
+    }
+
+    private string vectorString(Vector3 v)
+    {
+        string format = "0.000000";
+        return "(" + v.x.ToString(format) + ", " + v.y.ToString(format) + ", " + v.z.ToString(format) + ")";
     }
 
     private void startAnimateOffsetTo(Vector3 targetPosition, Quaternion targetRotation)
@@ -190,31 +212,56 @@ public class GraphExplorer : MonoBehaviour
         animateOffsetCoroutine = StartCoroutine(animateOffsetTo(targetPosition, targetRotation));
     }
 
-    private IEnumerator animateOffsetTo(Vector3 targetPosition, Quaternion targetRotation)
+    private IEnumerator animateOffsetTo(Vector3 targetPosition, Quaternion targetRotation) //Using local space
     {
         float duration = 0.25f;
         float elapsed = 0;
         float t;
 
-        var startingPosition = Offset.position;
-        var startingRotation = Offset.rotation;
+        var startingPosition = Offset.localPosition;
+        var startingRotation = Offset.localRotation;
 
         while (elapsed <= duration)
         {
             t = TransitionCurve.Evaluate(elapsed / duration);
 
-            Offset.position = Vector3.Lerp(startingPosition, targetPosition, t);
-            Offset.rotation = Quaternion.Slerp(startingRotation, targetRotation, t);
+            Offset.localPosition = Vector3.Lerp(startingPosition, targetPosition, t);
+            Offset.localRotation = Quaternion.Slerp(startingRotation, targetRotation, t);
 
             yield return null;
             elapsed += Time.deltaTime;
         }
 
-        Offset.position = targetPosition;
-        Offset.rotation = targetRotation;
+        Offset.localPosition = targetPosition;
+        Offset.localRotation = targetRotation;
     }
 
-    
+    //This one uses world space
+    //private IEnumerator animateOffsetTo(Vector3 targetPosition, Quaternion targetRotation)
+    //{
+    //    float duration = 0.25f;
+    //    float elapsed = 0;
+    //    float t;
+
+    //    var startingPosition = Offset.position;
+    //    var startingRotation = Offset.rotation;
+
+    //    while (elapsed <= duration)
+    //    {
+    //        t = TransitionCurve.Evaluate(elapsed / duration);
+
+    //        Offset.position = Vector3.Lerp(startingPosition, targetPosition, t);
+    //        Offset.rotation = Quaternion.Slerp(startingRotation, targetRotation, t);
+
+    //        yield return null;
+    //        elapsed += Time.deltaTime;
+    //    }
+
+    //    Offset.position = targetPosition;
+    //    Offset.rotation = targetRotation;
+    //}
+
+
 
     private void Update()
     {
@@ -258,126 +305,4 @@ public class NodeViewModel
     {
         return Node?.ToString() ?? base.ToString();
     }
-}
-
-
-public interface INodeItem<T> where T : class
-{
-    void SetNode(GraphNode<T> Node);
-}
-
-public interface IGraphNode
-{
-    object Item { get; set; }
-    IGraphNode ParentNode { get; set; }
-    IEnumerable<IGraphNode> ChildNodes { get; }
-    void AddChildNode(IGraphNode ChildNode);
-    void RemoveChildNode(IGraphNode ChildNode);
-}
-
-
-public class GraphNode<T> : IGraphNode where T: class
-{
-    public List<GraphNode<T>> ChildNodes = new List<GraphNode<T>>();
-    public GraphNode<T> ParentNode;
-
-    private T _item;
-    public T Item
-    {
-        get { return _item; }
-        set
-        {
-            _item = value;
-            var nodeItem = _item as INodeItem<T>;
-            nodeItem.SetNode(this);
-        }
-    }
-
-    #region -- IGraphNode --
-    object IGraphNode.Item 
-    {
-        get => _item; 
-        set
-        {
-            Item = value as T;
-        }
-    }
-
-    IGraphNode IGraphNode.ParentNode 
-    { 
-        get => ParentNode; 
-        set
-        {
-            ParentNode = value as GraphNode<T>;
-        }
-    }
-
-    IEnumerable<IGraphNode> IGraphNode.ChildNodes => ChildNodes;
-    #endregion
-
-    public GraphNode() { }
-
-    public GraphNode(T Item, params GraphNode<T>[] Nodes)
-    {
-        this.Item = Item;
-        
-        foreach(var node in Nodes)
-        {
-            AddChildNode(node);
-        }
-    }
-
-    public void AddChildNode(GraphNode<T> ChildNode)
-    {
-        ChildNodes.Add(ChildNode);
-        ChildNode.ParentNode = this;
-    }
-
-    public void AddChildNode(IGraphNode ChildNode)
-    {
-        AddChildNode(ChildNode as GraphNode<T>);
-    }
-
-    public void RemoveChildNode(GraphNode<T> ChildNode)
-    {
-        ChildNode.ParentNode = null;
-        ChildNodes.Remove(ChildNode);
-    }
-
-    public void RemoveChildNode(IGraphNode ChildNode)
-    {
-        RemoveChildNode(ChildNode as GraphNode<T>);
-    }
-
-    public GraphNode<T> GetChild(T Item)
-    {
-        return ChildNodes.FirstOrDefault(i => i.Item == Item);
-    }
-
-    /// <summary>
-    /// Warning: This does not detect circular graph connections and will hang if used on one
-    /// </summary>
-    public GraphNode<D> Project<D>(Func<T, D> projector) where D: class
-    {
-        return new GraphNode<D>(projector(Item), ChildNodes.Select(child => child.Project(projector)).ToArray());
-    }
-
-    //public IEnumerable<GraphNode<T>> Flatten()
-    //{
-    //    yield return this;
-    //    foreach(var child in ChildNodes)
-    //    {
-    //        foreach(var item in child.Flatten())
-    //        {
-    //            yield return item;
-    //        }
-    //    }
-    //}
-
-    public override string ToString()
-    {
-        return Item?.ToString() ?? base.ToString();
-    }
-
-
 }

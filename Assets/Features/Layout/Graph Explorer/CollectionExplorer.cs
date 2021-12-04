@@ -43,7 +43,6 @@ public class CollectionExplorer : MonoBehaviour
         List.SetItems(node.Item.Items);
 
         await Task.WhenAll(node.ChildNodes.Select(i => i.Item.PopulateItems()));
-        Debug.Log("Child items expanded");
     }
 
     #region -- Mock Graph Structure --

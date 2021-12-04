@@ -40,9 +40,9 @@ public class ScrollArea : LayoutContainer
         constrainScrollPosition();
     }
 
-    public void OffsetScrollPosition(Vector3 Offset)
+    public void OffsetScrollPosition(Vector3 LocalOffset)
     {
-        ContentContainer.transform.localPosition += Offset;
+        ContentContainer.transform.localPosition += LocalOffset;
         constrainScrollPosition();
     }
 
@@ -55,8 +55,9 @@ public class ScrollArea : LayoutContainer
         var layoutMax = transform.InverseTransformPoint(LayoutAreaReference.TransformPoint(Vector3.one * 0.5f));
         var position = ContentContainer.transform.localPosition;
 
-        
-        if (contentBounds.min.x > layoutMin.x)
+        if (contentBounds.size.x < (layoutMax - layoutMin).x)
+            position.x = layoutMax.x;
+        else if (contentBounds.min.x > layoutMin.x)
             position.x = layoutMin.x + contentBounds.size.x;
         else if (contentBounds.max.x < layoutMax.x)
             position.x = layoutMax.x;

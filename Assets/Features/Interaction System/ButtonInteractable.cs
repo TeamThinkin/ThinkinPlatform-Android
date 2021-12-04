@@ -25,7 +25,7 @@ public class ButtonInteractable : XRSimpleInteractable
     {
         var e = new ActivateEventArgs() { interactable = this, interactor = interactor };
         this.OnActivated(e);
-        this.activated.Invoke(e);
+        //this.activated.Invoke(e);
     }
 
     protected override void OnHoverExited(HoverExitEventArgs args)

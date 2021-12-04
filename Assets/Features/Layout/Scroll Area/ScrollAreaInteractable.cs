@@ -10,8 +10,8 @@ public class ScrollAreaInteractable : XRBaseInteractable
 
     private ScrollArea scrollArea;
 
-    private Vector3 referencePoint;
-    private Vector3 lastReferencePoint;
+    private Vector3 worldReferencePoint;
+    private Vector3 lastWorldReferencePoint;
     private MomentumVector3 dragDirection = new MomentumVector3(0.05f);
     private Plane referencePlane = new Plane();
     private Ray ray = new Ray();
@@ -27,13 +27,15 @@ public class ScrollAreaInteractable : XRBaseInteractable
     {
         if (isDragging)
         {
-            referencePoint = getReferencePoint();
-            var point = transform.InverseTransformDirection(referencePoint - lastReferencePoint);
-            if (!AllowXMovement) point.x = 0;
-            if (!AllowYMovement) point.y = 0;
-            dragDirection.Set(point);
+            worldReferencePoint = getReferencePoint();
+            var localDirection = transform.InverseTransformDirection(worldReferencePoint - lastWorldReferencePoint);
+            if (!AllowXMovement) localDirection.x = 0;
+            if (!AllowYMovement) localDirection.y = 0;
+            localDirection.z = 0;
+
+            dragDirection.Set(localDirection);
             
-            lastReferencePoint = referencePoint;
+            lastWorldReferencePoint = worldReferencePoint;
         }
         else
         {
@@ -46,8 +48,10 @@ public class ScrollAreaInteractable : XRBaseInteractable
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
+        if (args.interactable != this) return;
+
         interactor = args.interactor;
-        lastReferencePoint = getReferencePoint();
+        lastWorldReferencePoint = getReferencePoint();
         dragDirection.Value = Vector3.zero;
         isDragging = true;
     }
