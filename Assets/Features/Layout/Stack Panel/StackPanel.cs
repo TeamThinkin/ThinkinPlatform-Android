@@ -46,8 +46,8 @@ public class StackPanel : LayoutContainer
         //    child.localPosition += offset;
         //}
 
-        BoundsVisualizer.transform.localPosition = bounds.center;
-        BoundsVisualizer.transform.localScale = bounds.size;
+        //BoundsVisualizer.transform.localPosition = bounds.center;
+        //BoundsVisualizer.transform.localScale = bounds.size;
     }
 
     public override Bounds GetBounds()

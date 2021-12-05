@@ -17,7 +17,6 @@ public class TabList : MonoBehaviour
         buttons = transform.GetChildren().SelectNotNull(i => i.GetComponent<TabViewButton>()).ToArray();
         foreach (var button in buttons)
         {
-            Debug.Log("Initialize button: " + button.gameObject.name);
             button.IsActive = false;
             button.activated.AddListener(Button_OnActivated);
         }

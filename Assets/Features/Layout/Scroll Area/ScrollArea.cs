@@ -6,13 +6,19 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class ScrollArea : LayoutContainer
 {
-    [SerializeField] private LayoutContainer ContentContainer;
+    [SerializeField] private GameObject ContentContainer;
     [SerializeField] private Transform LayoutAreaReference;
 
     private const float shrinkWindow = 0.05f;
 
     private Transform[] children;
     private Vector3 refPoint;
+    private LayoutContainer contentLayoutContainer;
+
+    private void Awake()
+    {
+        contentLayoutContainer = ContentContainer.GetComponent<LayoutContainer>();
+    }
 
     private void Update()
     {
@@ -48,7 +54,7 @@ public class ScrollArea : LayoutContainer
 
     private void constrainScrollPosition()
     {
-        var contentBounds = ContentContainer.GetBounds();
+        var contentBounds = contentLayoutContainer.GetBounds();
         contentBounds.center += ContentContainer.transform.localPosition;
 
         var layoutMin = transform.InverseTransformPoint(LayoutAreaReference.TransformPoint(Vector3.one * -0.5f));
@@ -73,12 +79,12 @@ public class ScrollArea : LayoutContainer
 
     public override Bounds GetBounds()
     {
-        return ContentContainer.GetBounds();
+        return contentLayoutContainer.GetBounds();
     }
 
     public override void UpdateLayout()
     {
-        ContentContainer.UpdateLayout();
+        contentLayoutContainer.UpdateLayout();
         constrainScrollPosition();
         children = ContentContainer.transform.GetChildren().ToArray();
     }

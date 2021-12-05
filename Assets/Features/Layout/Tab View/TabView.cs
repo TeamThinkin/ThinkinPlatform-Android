@@ -27,7 +27,7 @@ public class TabView : MonoBehaviour
     {
         if (TabIndex == SelectedTabIndex) return;
         if (TabIndex >= panels.Length) return;
-
+        
         if(SelectedTabIndex > -1)
         {
             panels[SelectedTabIndex].Hide();

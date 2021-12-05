@@ -14,6 +14,5 @@ public class ToggleState : MonoBehaviour
     {
         CurrentState = IsOn;
         Renderer.sharedMaterial = IsOn ? OnMaterial : OffMaterial;
-        Debug.Log("Setting toggle state: " + IsOn + " " + gameObject.name);
     }
 }
