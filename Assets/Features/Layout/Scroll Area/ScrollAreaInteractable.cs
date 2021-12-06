@@ -7,6 +7,9 @@ public class ScrollAreaInteractable : XRBaseInteractable
 {
     [SerializeField] private bool AllowXMovement = true;
     [SerializeField] private bool AllowYMovement;
+    [SerializeField] private bool AllowZooming;
+
+    [SerializeField] private float ZoomSpeed = 10f;
 
     private ScrollArea scrollArea;
 
@@ -17,6 +20,7 @@ public class ScrollAreaInteractable : XRBaseInteractable
     private Ray ray = new Ray();
     private XRBaseInteractor interactor;
     private bool isDragging;
+    private Vector3 lastDragLocalPosition;
 
     override protected void Awake()
     {
@@ -29,13 +33,19 @@ public class ScrollAreaInteractable : XRBaseInteractable
         {
             worldReferencePoint = getReferencePoint();
             var localDirection = transform.InverseTransformDirection(worldReferencePoint - lastWorldReferencePoint);
+            var localDragPosition = transform.InverseTransformPoint(interactor.transform.position);
+            var localDragDelta = localDragPosition - lastDragLocalPosition;
+
             if (!AllowXMovement) localDirection.x = 0;
             if (!AllowYMovement) localDirection.y = 0;
+            if(AllowZooming) scrollArea.Zoom += localDragDelta.z * ZoomSpeed;
+
             localDirection.z = 0;
 
             dragDirection.Set(localDirection);
             
             lastWorldReferencePoint = worldReferencePoint;
+            lastDragLocalPosition = localDragPosition;
         }
         else
         {
@@ -51,6 +61,7 @@ public class ScrollAreaInteractable : XRBaseInteractable
         if (args.interactable != this) return;
 
         interactor = args.interactor;
+        lastDragLocalPosition = transform.InverseTransformPoint(interactor.transform.position);
         lastWorldReferencePoint = getReferencePoint();
         dragDirection.Value = Vector3.zero;
         isDragging = true;
