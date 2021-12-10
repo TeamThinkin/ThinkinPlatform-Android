@@ -122,6 +122,14 @@ public static class Extensions
         return vector;
     }
 
+    public static Vector3 Scale(this Vector3 vector, float x, float y, float z)
+    {
+        vector.x *= x;
+        vector.y *= y;
+        vector.z *= z;
+        return vector;
+    }
+
     public static Quaternion Straighten(this Quaternion rot)
     {
         return Quaternion.Euler(0, rot.eulerAngles.y, 0);

@@ -11,8 +11,8 @@ public class RegisterDeviceRequestDto
 
 public class RegisterDeviceResultDto : UserDto
 {
-    [JsonProperty("domains")]
-    public DomainDto[] Domains { get; set; }
+    //[JsonProperty("domains")]
+    //public DomainDto[] Domains { get; set; }
 }
 
 public class UserDto
@@ -42,17 +42,26 @@ public class UserDto
     public string CurrentRoomUrl { get; set; }
 }
 
-public class DomainDto
+public class MapDto
 {
     [JsonProperty("_id")]
     public string Id { get; set; }
 
     [JsonProperty("displayName")]
     public string DisplayName { get; set; }
-
-    [JsonProperty("manifestUrl")]
-    public string ManifestUrl { get; set; }
 }
+
+//public class DomainDto
+//{
+//    [JsonProperty("_id")]
+//    public string Id { get; set; }
+
+//    [JsonProperty("displayName")]
+//    public string DisplayName { get; set; }
+
+//    [JsonProperty("manifestUrl")]
+//    public string ManifestUrl { get; set; }
+//}
 
 public class RoomDto
 {

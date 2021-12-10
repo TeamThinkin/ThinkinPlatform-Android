@@ -25,7 +25,7 @@ public class TypedObjectPool<T> : ObjectPool<T> where T : MonoBehaviour
 
     protected override void PrepareItemForRelease(T Item)
     {
-        Item.gameObject.SetActive(false);
+        if(Item.gameObject != null) Item.gameObject.SetActive(false);
     }
 }
 
@@ -65,6 +65,26 @@ public class ObjectPool<T> where T : class
     protected virtual void PrepareItemForRelease(T Item)
     {
         onReleaseAction(Item);
+    }
+
+    public void Clear()
+    {
+        foreach(var item in pool)
+        {
+            if (item.IsActive)
+            {
+                PrepareItemForRelease(item.Item);
+                item.IsActive = false;
+            }
+        }
+    }
+
+    public IEnumerable<T> ActiveItems
+    {
+        get
+        {
+            return pool.Where(i => i.IsActive).Select(i => i.Item);
+        }
     }
 
     public T Get()

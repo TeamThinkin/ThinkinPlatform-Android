@@ -24,6 +24,11 @@ public static class WebAPI
         return await postRequest<RegisterDeviceResultDto>(HomeServerApiBaseUrl + "device/register", new RegisterDeviceRequestDto() { Uid = Uid });
     }
 
+    public static async Task<MapDto[]> Map()
+    {
+        return await getRequest<MapDto[]>(HomeServerApiBaseUrl + "auth/map");
+    }
+
     public static async Task<CollectionContentItemDto[]> GetCollectionContents(string Url)
     {
         var result = await getRequest<CollectionContentItemDto[]>(Url, new ContentItemDtoConverter());
@@ -72,7 +77,10 @@ public static class WebAPI
             }
             else
             {
-                return JsonConvert.DeserializeObject<T>(request.downloadHandler.text, Converter);
+                if(Converter != null)
+                    return JsonConvert.DeserializeObject<T>(request.downloadHandler.text, Converter);
+                else
+                    return JsonConvert.DeserializeObject<T>(request.downloadHandler.text);
             }
         }
     }

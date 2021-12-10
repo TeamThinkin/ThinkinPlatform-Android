@@ -19,7 +19,9 @@ public class TransitionController : MonoBehaviour
 
     public void HideScene(System.Action OnSceneHiddenCallback = null)
     {
+        gameObject.SetActive(true);
         this.onSceneHiddenCallback = OnSceneHiddenCallback;
+
         TransitionAnimator.SetBool("IsSolid", true);
     }
 
@@ -28,9 +30,14 @@ public class TransitionController : MonoBehaviour
         TransitionAnimator.SetBool("IsSolid", false);
     }
 
-    public void OnSolidfiedEvent()
+    public void OnSolidfiedEvent() //Called from Animation Event
     {
         onSceneHiddenCallback?.Invoke();
         OnSceneHidden?.Invoke();
+    }
+
+    public void OnDissolvedEvent() //Called from Animation Event
+    {
+        gameObject.SetActive(false);
     }
 }

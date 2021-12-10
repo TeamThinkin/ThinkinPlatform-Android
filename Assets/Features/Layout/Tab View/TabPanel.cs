@@ -23,7 +23,10 @@ public class TabPanel : MonoBehaviour
             gameObject.SetActive(true);
             startAnimateScale(1);
         }
+        OnShow();
     }
+
+
 
     public void Hide(bool Immediate = false)
     {
@@ -31,15 +34,20 @@ public class TabPanel : MonoBehaviour
         {
             transform.localScale = Vector3.zero;
             gameObject.SetActive(false);
+            OnHide();
         }
         else
         {
             startAnimateScale(0, () =>
             {
                 gameObject.SetActive(false);
+                OnHide();
             });
         }
     }
+
+    protected virtual void OnShow() { }
+    protected virtual void OnHide() { }
 
     private void startAnimateScale(float targetScale, Action completeCallback = null)
     {

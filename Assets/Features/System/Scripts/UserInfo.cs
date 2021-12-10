@@ -13,7 +13,7 @@ public class UserInfo
     public string HomeRoomUrl;
     public string CurrentRoomUrl;
 
-    public DomainInfo[] Domains;
+    //public DomainInfo[] Domains;
 
     public static event Action<UserInfo> OnCurrentUserChanged;
     private static UserInfo _unknownUser = new UserInfo()
@@ -37,39 +37,39 @@ public class UserInfo
     }
 }
 
-public class DomainInfo
-{
-    public string Id;
-    public string DisplayName;
-    public string ManifestUrl;
-    public RoomInfo[] Rooms;
+//public class DomainInfo
+//{
+//    public string Id;
+//    public string DisplayName;
+//    public string ManifestUrl;
+//    public RoomInfo[] Rooms;
 
-    public static DomainInfo FromDomainDto(DomainDto dto)
-    {
-        return new DomainInfo()
-        {
-            Id = dto.Id,
-            DisplayName = dto.DisplayName,
-            ManifestUrl = dto.ManifestUrl
-        };
-    }
-}
+//    public static DomainInfo FromDomainDto(DomainDto dto)
+//    {
+//        return new DomainInfo()
+//        {
+//            Id = dto.Id,
+//            DisplayName = dto.DisplayName,
+//            ManifestUrl = dto.ManifestUrl
+//        };
+//    }
+//}
 
 public class RoomInfo
 {
     public string Id;
     public string DisplayName;
     public string EnvironmentUrl;
-    public DomainInfo ParentDomain;
+    //public DomainInfo ParentDomain;
 
-    public static RoomInfo FromRoomDto(RoomDto dto, DomainInfo ParentDomain)
-    {
-        return new RoomInfo()
-        {
-            Id = dto.Id,
-            DisplayName = dto.DisplayName,
-            EnvironmentUrl = dto.EnvironmentUrl,
-            ParentDomain = ParentDomain
-        };
-    }
+    //public static RoomInfo FromRoomDto(RoomDto dto, DomainInfo ParentDomain)
+    //{
+    //    return new RoomInfo()
+    //    {
+    //        Id = dto.Id,
+    //        DisplayName = dto.DisplayName,
+    //        EnvironmentUrl = dto.EnvironmentUrl,
+    //        ParentDomain = ParentDomain
+    //    };
+    //}
 }
