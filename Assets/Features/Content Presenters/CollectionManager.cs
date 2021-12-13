@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,12 +74,21 @@ public static class CollectionManager
         }
     }
 
-    public static async Task<CollectionContentItemDto[]> GetCollectionContents(string Url)
+    public static async Task<CollectionContentItemDto[]> GetCollectionContents(string Url, Func<CollectionContentItemDto, bool> filter = null)
     {
         var dtos = await WebAPI.GetCollectionContents(Url);
         //TODO: implement local caching layer
+        if (filter != null) dtos = dtos.Where(filter).ToArray();
+
         return dtos;
     }
+
+    public static async Task<T[]> GetCollectionContents<T>(string Url) where T: CollectionContentItemDto
+    {
+        var dtos = await GetCollectionContents(Url);
+        return dtos.Where(i => i is T).Select(i => i as T).ToArray();
+    }
+
     public static async Task<IContentItemPresenter[]> LoadUrlIntoContainer(Transform ContentContainer, string Url)
     {
         var dtos = await GetCollectionContents(Url);

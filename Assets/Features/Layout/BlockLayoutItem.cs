@@ -12,7 +12,6 @@ public class BlockLayoutItem : MonoBehaviour, ILayoutItem
     {
         bounds.center = BlockReference.localPosition;
         bounds.size = BlockReference.localScale;
-        //bounds.extents = bounds.size / 2;
         return bounds;
     }
 

@@ -24,9 +24,9 @@ public static class WebAPI
         return await postRequest<RegisterDeviceResultDto>(HomeServerApiBaseUrl + "device/register", new RegisterDeviceRequestDto() { Uid = Uid });
     }
 
-    public static async Task<MapDto[]> Map()
+    public static async Task<RegistryEntryDto[]> Map()
     {
-        return await getRequest<MapDto[]>(HomeServerApiBaseUrl + "auth/map");
+        return await getRequest<RegistryEntryDto[]>(HomeServerApiBaseUrl + "auth/map");
     }
 
     public static async Task<CollectionContentItemDto[]> GetCollectionContents(string Url)

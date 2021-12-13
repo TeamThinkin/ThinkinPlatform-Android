@@ -6,8 +6,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class ScrollArea : LayoutContainer
 {
+    [SerializeField] private GameObject _contentContainer;
     [SerializeField] private Transform ZoomContainer;
-    [SerializeField] private GameObject ContentContainer;
     [SerializeField] private Transform LayoutAreaReference;
     [SerializeField] private float _zoom = 1;
     [SerializeField] private float MinZoom = 0.05f;
@@ -19,10 +19,11 @@ public class ScrollArea : LayoutContainer
     private const float shrinkWindow = 0.05f;
 
     private Vector3 refPoint;
-    private ILayoutItem contentLayoutContainer;
     private Bounds layoutBounds = new Bounds();
     private Bounds contentBounds = new Bounds();
     private Bounds adjustedContentBounds = new Bounds();
+
+    public GameObject ContentContainer => _contentContainer;
 
     public float Zoom
     {
@@ -35,7 +36,6 @@ public class ScrollArea : LayoutContainer
 
     private void Awake()
     {
-        contentLayoutContainer = ContentContainer.GetComponent<ILayoutItem>();
         updateLayoutBounds();
     }
 
@@ -45,39 +45,11 @@ public class ScrollArea : LayoutContainer
         scaleOutOfBoundsItems();
     }
 
-    private void updateLayoutBounds()
-    {
-        layoutBounds.center = LayoutAreaReference.localPosition;
-        layoutBounds.size = LayoutAreaReference.localScale - (LayoutPadding * Vector3.one);
-    }
 
-    private void updateContentBounds()
+    public void CenterContent()
     {
-        adjustedContentBounds = contentBounds = contentLayoutContainer.GetBounds();
-        adjustedContentBounds.center += ContentContainer.transform.localPosition;
-        adjustedContentBounds.center *= Zoom;
-        adjustedContentBounds.size *= Zoom;
-    }
-
-    //private void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.blue;
-    //    Gizmos.DrawCube(layoutBounds.center, layoutBounds.size);
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawCube(adjustedContentBounds.center, adjustedContentBounds.size);
-    //}
-
-    private void scaleOutOfBoundsItems()
-    {
-        foreach(Transform child in ContentContainer.transform)
-        {
-            refPoint = LayoutAreaReference.InverseTransformPoint(child.position);
-            child.localScale = Vector3.one *
-                refPoint.x.Remap(-0.5f - shrinkWindow, -0.5f + shrinkWindow, 0, 1, true) *
-                refPoint.x.Remap(0.5f - shrinkWindow, 0.5f + shrinkWindow, 1, 0, true) *
-                refPoint.y.Remap(-0.5f - shrinkWindow, -0.5f + shrinkWindow, 0, 1, true) *
-                refPoint.y.Remap(0.5f - shrinkWindow, 0.5f + shrinkWindow, 1, 0, true);
-        }
+        if (!hasContentBounds()) return;
+        SetScrollPosition(-contentBounds.center);
     }
 
     public void SetScrollPosition(Vector3 LocalPosition)
@@ -88,14 +60,83 @@ public class ScrollArea : LayoutContainer
 
     public void OffsetScrollPosition(Vector3 LocalOffset)
     {
+        if (LocalOffset.sqrMagnitude < Mathf.Epsilon) return;
         ContentContainer.transform.localPosition += LocalOffset * (1 / Zoom);
         constrainScrollPosition();
     }
 
+
+    private void updateLayoutBounds()
+    {
+        layoutBounds.center = LayoutAreaReference.localPosition;
+        layoutBounds.size = LayoutAreaReference.localScale - (LayoutPadding * Vector3.one);
+    }
+
+    private void updateContentBounds()
+    {
+        var layoutItems = ContentContainer.transform.GetChildren().SelectNotNull(i => i.GetComponent<ILayoutItem>()).ToArray();
+        bool isFirstItem = true;
+        foreach (Transform childTransform in ContentContainer.transform)
+        {
+            var layoutItem = childTransform.GetComponent<ILayoutItem>();
+            if (layoutItem != null)
+            {
+                var bounds = layoutItem.GetBounds();
+                bounds.center += childTransform.localPosition;
+
+                if (isFirstItem)
+                {
+                    contentBounds = bounds;
+                    isFirstItem = false;
+                }
+                else
+                {
+                    contentBounds.Encapsulate(bounds);
+                }
+            }
+        }
+
+        updateAdjustContentBounds();
+    }
+
+    private void updateAdjustContentBounds()
+    {
+        adjustedContentBounds = contentBounds;
+        adjustedContentBounds.center += ContentContainer.transform.localPosition;
+        adjustedContentBounds.center *= Zoom;
+        adjustedContentBounds.size *= Zoom;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawCube(layoutBounds.center, layoutBounds.size);
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(adjustedContentBounds.center, adjustedContentBounds.size);
+    }
+
+    private void scaleOutOfBoundsItems()
+    {
+        foreach (Transform child in ContentContainer.transform)
+        {
+            refPoint = LayoutAreaReference.InverseTransformPoint(child.position);
+            child.localScale = Vector3.one *
+                refPoint.x.Remap(-0.5f - shrinkWindow, -0.5f + shrinkWindow, 0, 1, true) *
+                refPoint.x.Remap(0.5f - shrinkWindow, 0.5f + shrinkWindow, 1, 0, true) *
+                refPoint.y.Remap(-0.5f - shrinkWindow, -0.5f + shrinkWindow, 0, 1, true) *
+                refPoint.y.Remap(0.5f - shrinkWindow, 0.5f + shrinkWindow, 1, 0, true);
+        }
+    }
+
+    private bool hasContentBounds()
+    {
+        return contentBounds.size.x > 0;
+    }
+
     private void constrainScrollPosition()
     {
-        if (contentLayoutContainer == null) return;
-        updateContentBounds();
+        if (!hasContentBounds()) return;
+        updateAdjustContentBounds();
 
         var position = ContentContainer.transform.localPosition;
 
@@ -124,17 +165,13 @@ public class ScrollArea : LayoutContainer
 
     public override Bounds GetBounds()
     {
-        return contentLayoutContainer.GetBounds();
+        return layoutBounds;
+        //return contentLayoutContainer.GetBounds();
     }
 
     public override void UpdateLayout()
     {
-        if(contentLayoutContainer == null)
-        {
-            Debug.LogError(gameObject.name + " scroll area has no contentLayoutContainer");
-            return;
-        }
-        contentLayoutContainer.UpdateLayout();
+        updateContentBounds();
         constrainScrollPosition();
     }
 }

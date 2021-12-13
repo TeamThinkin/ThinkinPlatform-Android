@@ -6,6 +6,7 @@ using UnityEngine;
 public class MapPanel : TabPanel
 {
     [SerializeField] private DropDownBox MapsDropDownBox;
+    [SerializeField] private MapView MapContents;
 
     protected override void OnShow()
     {
@@ -13,7 +14,7 @@ public class MapPanel : TabPanel
 
         if (UserInfo.CurrentUser != null && UserInfo.CurrentUser != UserInfo.UnknownUser)
         {
-            loadMaps();
+            loadMapList();
         }
 
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
@@ -35,17 +36,26 @@ public class MapPanel : TabPanel
 
     private void UserInfo_OnCurrentUserChanged(UserInfo obj)
     {
-        loadMaps();
+        loadMapList();
     }
 
     private void MapsDropDownBox_SelectedItemChanged(ListItemDto obj)
     {
         Debug.Log("Maps panel sees that the selected map has changed to: " + obj.Text);
+        var selectedMapDto = obj.Value as RegistryEntryDto;
+        populateMap(selectedMapDto.Url);
     }
 
-    private async void loadMaps()
+    private async void loadMapList()
     {
         var mapDtos = await WebAPI.Map();
-        MapsDropDownBox.SetItems(mapDtos.Select(i => new ListItemDto() { Value = i, Text = i.DisplayName }));
+        var list = mapDtos.Select(i => new ListItemDto() { Value = i, Text = i.DisplayName });
+        MapsDropDownBox.SetItems(list);
+    }
+
+    private async void populateMap(string mapUrl)
+    {
+        Debug.Log("Populating map: " + mapUrl);
+        MapContents.LoadCollection(mapUrl);
     }
 }

@@ -46,7 +46,7 @@ public class DropDownBox : MonoBehaviour
         ToggleButton.activated.AddListener(ToggleButton_OnClick);
         ListItemsContainer.UpdateLayout();
 
-        loadMockOptions();
+        //loadMockOptions();
     }
 
     private void loadMockOptions()
@@ -82,9 +82,6 @@ public class DropDownBox : MonoBehaviour
         ListBackground.localScale = new Vector3(1, listBounds.size.y, 1);
 
         SelectedItem = listItems.ActiveItems.First().Dto;
-
-
-        Debug.Log("Set selected item to: " + SelectedItem.Text);
     }
 
     private void ToggleButton_OnClick(ActivateEventArgs e)

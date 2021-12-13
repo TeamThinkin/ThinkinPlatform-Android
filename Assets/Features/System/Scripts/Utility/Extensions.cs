@@ -130,6 +130,11 @@ public static class Extensions
         return vector;
     }
 
+    public static void Print(this Vector3 vector, string prefix = null)
+    {
+        Debug.Log(prefix + vector.x.ToString("0.0000") + ", " + vector.y.ToString("0.0000") + ", " + vector.z.ToString("0.0000"));
+    }
+
     public static Quaternion Straighten(this Quaternion rot)
     {
         return Quaternion.Euler(0, rot.eulerAngles.y, 0);

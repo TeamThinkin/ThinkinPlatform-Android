@@ -8,8 +8,18 @@ using UnityEngine;
 
 public class AppController : MonoBehaviour
 {
+    [SerializeField] private GameObject _contentSymbolPrefab;
+
+    public static GameObject ContentSymbolPrefab { get; private set; }
+
+    public static AppController Instance { get; private set; }
+
     void Start()
     {
+        Instance = this;
+
+        ContentSymbolPrefab = _contentSymbolPrefab;
+        
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
         DeviceRegistrationController.CheckDeviceRegistration();

@@ -42,42 +42,6 @@ public class UserDto
     public string CurrentRoomUrl { get; set; }
 }
 
-public class MapDto
-{
-    [JsonProperty("_id")]
-    public string Id { get; set; }
-
-    [JsonProperty("displayName")]
-    public string DisplayName { get; set; }
-}
-
-//public class DomainDto
-//{
-//    [JsonProperty("_id")]
-//    public string Id { get; set; }
-
-//    [JsonProperty("displayName")]
-//    public string DisplayName { get; set; }
-
-//    [JsonProperty("manifestUrl")]
-//    public string ManifestUrl { get; set; }
-//}
-
-public class RoomDto
-{
-    [JsonProperty("_id")]
-    public string Id { get; set; }
-
-    [JsonProperty("displayName")]
-    public string DisplayName;
-
-    [JsonProperty("domainId")]
-    public string DomainId;
-
-    [JsonProperty("environmentUrl")]
-    public string EnvironmentUrl;
-}
-
 
 public class CollectionContentItemDto
 {
@@ -92,10 +56,36 @@ public class CollectionContentItemDto
 
     [JsonProperty("displayName")]
     public string DisplayName { get; set; }
+
+    public override string ToString()
+    {
+        if (!string.IsNullOrEmpty(DisplayName))
+            return DisplayName + " (" + Id + ")";
+        else
+            return base.ToString();
+    }
 }
 
 public class FileContentItemDto : CollectionContentItemDto
 {
+    [JsonProperty("url")]
+    public string Url { get; set; }
+}
+
+public class RegistryEntryDto
+{
+    [JsonProperty("_id")]
+    public string Id { get; set; }
+
+    [JsonProperty("key")]
+    public string Key { get; set; }
+
+    [JsonProperty("type")]
+    public string CollectionType { get; set; }
+
+    [JsonProperty("displayName")]
+    public string DisplayName { get; set; }
+
     [JsonProperty("url")]
     public string Url { get; set; }
 }
@@ -112,11 +102,27 @@ public class LocalSceneContentItemDto : CollectionContentItemDto
     public string Path { get; set; }
 }
 
+public class PlacementDto
+{
+    [JsonProperty("position")]
+    public Vector3Dto Position { get; set; }
+    
+    [JsonProperty("scale")]
+    public float Scale { get; set; }
+}
+
 [MimeType("image/jpg", "image/jpeg", "image/png")]
 public class ImageContentItemDto : FileContentItemDto
 {
     [JsonProperty("corsFriendly")]
     public bool IsCorsFriendly { get; set; }
+}
+
+[MimeType("link/destination")]
+public class DestinationLinkContentItemDto : FileContentItemDto
+{
+    [JsonProperty("placement")]
+    public PlacementDto Placement { get; set; }
 }
 
 [MimeType("link/room")]
@@ -156,6 +162,20 @@ public class Vector3Dto
     public float y { get; set; }
     public float z { get; set; }
 
+    public override string ToString()
+    {
+        return x.ToString("0.00") + ", " + y.ToString("0.00") + ", " + z.ToString("0.00");
+    }
+
+    public static implicit operator Vector3(Vector3Dto dto)
+    {
+        return new Vector3(dto.x, dto.y, dto.z);
+    }
+
+    public static implicit operator Vector3Dto(Vector3 vector)
+    {
+        return new Vector3Dto() { x = vector.x, y = vector.y, z = vector.z };
+    }
 }
 public class Vector4Dto
 {
@@ -163,4 +183,19 @@ public class Vector4Dto
     public float y { get; set; }
     public float z { get; set; }
     public float w { get; set; }
+
+    public override string ToString()
+    {
+        return x.ToString("0.00") + ", " + y.ToString("0.00") + ", " + z.ToString("0.00") + ", " + w.ToString("0.00");
+    }
+
+    public static implicit operator Quaternion(Vector4Dto dto)
+    {
+        return new Quaternion(dto.x, dto.y, dto.z, dto.w);
+    }
+
+    public static implicit operator Vector4Dto(Quaternion q)
+    {
+        return new Vector4Dto() { x = q.x, y = q.y, z = q.z, w = q.w };
+    }
 }
