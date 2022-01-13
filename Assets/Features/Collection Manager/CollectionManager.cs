@@ -43,14 +43,9 @@ public static class CollectionManager
     private static GraphNode<CollectionNodeDto> _userRootCollection = new GraphNode<CollectionNodeDto>() { Item = new CollectionNodeDto() { DisplayName = "Your Collections", Url = UserRootCollectionUrl } };
     public static GraphNode<CollectionNodeDto> UserRootCollection => _userRootCollection;
 
-    public static string UserRootCollectionUrl
-    {
-        get
-        {
-            if (UserInfo.CurrentUser == null) return null;
-            return WebAPI.HomeServerApiBaseUrl + "auth/collection/user-" + UserInfo.CurrentUser.Id;
-        }
-    }
+    public static string PublicCollectionUrl => "public";
+
+    public static string UserRootCollectionUrl => (UserInfo.IsLoggedIn ? "user-" + UserInfo.CurrentUser.Id : null);
 
     public static async Task FormChildNodes(this GraphNode<CollectionNodeDto> parentNode)
     {
@@ -76,11 +71,22 @@ public static class CollectionManager
 
     public static async Task<CollectionContentItemDto[]> GetCollectionContents(string Url, Func<CollectionContentItemDto, bool> filter = null)
     {
+        if (string.IsNullOrEmpty(Url)) return new CollectionContentItemDto[0];
         var dtos = await WebAPI.GetCollectionContents(Url);
         //TODO: implement local caching layer
         if (filter != null) dtos = dtos.Where(filter).ToArray();
 
         return dtos;
+    }
+
+    public static async Task<CollectionContentItemDto[]> GetPublicCollectionContents(Func<CollectionContentItemDto, bool> filter = null)
+    {
+        return await GetCollectionContents("public", filter);
+    }
+
+    public static async Task<CollectionContentItemDto[]> GetUserCollectionContents(Func<CollectionContentItemDto, bool> filter = null)
+    {
+        return await GetCollectionContents("user-" + UserInfo.CurrentUser.Id, filter);
     }
 
     public static async Task<T[]> GetCollectionContents<T>(string Url) where T: CollectionContentItemDto

@@ -83,6 +83,11 @@ public static class Extensions
         }
     }
 
+    public static void SetActive(this IEnumerable<GameObject> items, bool value)
+    {
+        foreach (var item in items) item.SetActive(value);
+    }
+
     public static Vector3 FlattenX(this Vector3 vector)
     {
         vector.x = 0;

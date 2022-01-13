@@ -57,10 +57,13 @@ public class CollectionContentItemDto
     [JsonProperty("displayName")]
     public string DisplayName { get; set; }
 
+    [JsonProperty("tags")]
+    public string[] Tags { get; set; }
+
     public override string ToString()
     {
         if (!string.IsNullOrEmpty(DisplayName))
-            return DisplayName + " (" + Id + ")";
+            return DisplayName + " (" + MimeType + ": " + Id + ")";
         else
             return base.ToString();
     }
@@ -70,6 +73,18 @@ public class FileContentItemDto : CollectionContentItemDto
 {
     [JsonProperty("url")]
     public string Url { get; set; }
+
+    public override bool Equals(object obj)
+    {
+        var other = obj as FileContentItemDto;
+        if (other == null) return false;
+        return this.Url == other.Url;
+    }
+
+    public override int GetHashCode()
+    {
+        return Url != null ? Url.GetHashCode() : base.GetHashCode();
+    }
 }
 
 public class RegistryEntryDto

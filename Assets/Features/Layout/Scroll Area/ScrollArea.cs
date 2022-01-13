@@ -9,12 +9,16 @@ public class ScrollArea : LayoutContainer
     [SerializeField] private GameObject _contentContainer;
     [SerializeField] private Transform ZoomContainer;
     [SerializeField] private Transform LayoutAreaReference;
+    [SerializeField] private Transform ScrollIndicator;
+    [SerializeField] private Transform ScrollRangeIndicator;
+    [SerializeField] private Transform ScrollPositionIndicator;
     [SerializeField] private float _zoom = 1;
     [SerializeField] private float MinZoom = 0.05f;
     [SerializeField] private float MaxZoom = 10f;
     [SerializeField] private bool PreventOverscroll;
     [SerializeField] private bool CenterUndersizedContent;
     [SerializeField] private float LayoutPadding;
+    [SerializeField] private bool HideOutOfBoundsItems = true;
 
     private const float shrinkWindow = 0.05f;
 
@@ -22,8 +26,9 @@ public class ScrollArea : LayoutContainer
     private Bounds layoutBounds = new Bounds();
     private Bounds contentBounds = new Bounds();
     private Bounds adjustedContentBounds = new Bounds();
+    private LayoutContainer contentLayoutContainer;
 
-    public GameObject ContentContainer => _contentContainer;
+    public override GameObject ContentContainer => _contentContainer;
 
     public float Zoom
     {
@@ -36,13 +41,15 @@ public class ScrollArea : LayoutContainer
 
     private void Awake()
     {
+        contentLayoutContainer = _contentContainer.GetComponent<LayoutContainer>();
         updateLayoutBounds();
+        UpdateLayout();
     }
 
     private void Update()
     {
         ZoomContainer.localScale = Vector3.one * Zoom;
-        scaleOutOfBoundsItems();
+        if(HideOutOfBoundsItems) scaleOutOfBoundsItems();
     }
 
 
@@ -56,6 +63,7 @@ public class ScrollArea : LayoutContainer
     {
         ContentContainer.transform.localPosition = LocalPosition;
         constrainScrollPosition();
+        updateScrollIndicator();
     }
 
     public void OffsetScrollPosition(Vector3 LocalOffset)
@@ -63,6 +71,26 @@ public class ScrollArea : LayoutContainer
         if (LocalOffset.sqrMagnitude < Mathf.Epsilon) return;
         ContentContainer.transform.localPosition += LocalOffset * (1 / Zoom);
         constrainScrollPosition();
+        updateScrollIndicator();
+    }
+
+    private void updateScrollIndicator()
+    {
+        if (ScrollRangeIndicator == null || ScrollPositionIndicator == null) return;
+
+        if (isAdjustContentSmallerThanLayout())
+        {
+            ScrollIndicator.gameObject.SetActive(false);
+        }
+        else
+        {
+            float v = ContentContainer.transform.localPosition.x;
+            float minEdge = (layoutBounds.min.x + adjustedContentBounds.extents.x - contentBounds.center.x) * (1 / Zoom);
+            float maxEdge = (layoutBounds.max.x - adjustedContentBounds.extents.x - contentBounds.center.x) * (1 / Zoom);
+            float p = ((v - minEdge) / (maxEdge - minEdge)).Remap(1, 0, -0.5f, 0.5f, true);
+            ScrollPositionIndicator.position = ScrollRangeIndicator.TransformPoint(Vector3.right * p);
+            ScrollIndicator.gameObject.SetActive(true);
+        }
     }
 
 
@@ -74,24 +102,31 @@ public class ScrollArea : LayoutContainer
 
     private void updateContentBounds()
     {
-        var layoutItems = ContentContainer.transform.GetChildren().SelectNotNull(i => i.GetComponent<ILayoutItem>()).ToArray();
-        bool isFirstItem = true;
-        foreach (Transform childTransform in ContentContainer.transform)
+        if (contentLayoutContainer != null)
         {
-            var layoutItem = childTransform.GetComponent<ILayoutItem>();
-            if (layoutItem != null)
+            contentBounds = contentLayoutContainer.GetBounds();
+        }
+        else
+        {
+            var layoutItems = ContentContainer.transform.GetChildren().SelectNotNull(i => i.GetComponent<ILayoutItem>()).ToArray();
+            bool isFirstItem = true;
+            foreach (Transform childTransform in ContentContainer.transform)
             {
-                var bounds = layoutItem.GetBounds();
-                bounds.center += childTransform.localPosition;
+                var layoutItem = childTransform.GetComponentInChildren<ILayoutItem>();
+                if (layoutItem != null)
+                {
+                    var bounds = layoutItem.GetBounds();
+                    bounds.center += childTransform.localPosition;
 
-                if (isFirstItem)
-                {
-                    contentBounds = bounds;
-                    isFirstItem = false;
-                }
-                else
-                {
-                    contentBounds.Encapsulate(bounds);
+                    if (isFirstItem)
+                    {
+                        contentBounds = bounds;
+                        isFirstItem = false;
+                    }
+                    else
+                    {
+                        contentBounds.Encapsulate(bounds);
+                    }
                 }
             }
         }
@@ -152,12 +187,24 @@ public class ScrollArea : LayoutContainer
 
         if(PreventOverscroll)
         {
-            if (CenterUndersizedContent && adjustedContentBounds.size.x < layoutBounds.size.x)
-                position.x = layoutBounds.center.x - contentBounds.center.x;
-            if (adjustedContentBounds.min.x < layoutBounds.min.x)
-                position.x = (layoutBounds.min.x + adjustedContentBounds.extents.x - contentBounds.center.x) * (1 / Zoom);
-            else if (adjustedContentBounds.max.x > layoutBounds.max.x)
-                position.x = (layoutBounds.max.x - adjustedContentBounds.extents.x - contentBounds.center.x) * (1 / Zoom);
+            if(isAdjustContentSmallerThanLayout())
+            {
+                //Content is smaller than the layout area
+                if(CenterUndersizedContent)
+                    position.x = layoutBounds.center.x - contentBounds.center.x;
+                else if (adjustedContentBounds.min.x < layoutBounds.min.x)
+                    position.x = getAlignToMinEdgePosition();
+                else if (adjustedContentBounds.max.x > layoutBounds.max.x)
+                    position.x = getAlignToMaxEdgePosition();
+            }
+            else
+            {
+                //Content is larger than the layout area
+                if (adjustedContentBounds.min.x > layoutBounds.min.x)
+                    position.x = getAlignToMinEdgePosition();
+                else if (adjustedContentBounds.max.x < layoutBounds.max.x)
+                    position.x = getAlignToMaxEdgePosition();
+            }
         }
 
         ContentContainer.transform.localPosition = position;
@@ -173,5 +220,21 @@ public class ScrollArea : LayoutContainer
     {
         updateContentBounds();
         constrainScrollPosition();
+        updateScrollIndicator();
+    }
+
+    private bool isAdjustContentSmallerThanLayout()
+    {
+        return adjustedContentBounds.size.x < layoutBounds.size.x;
+    }
+
+    private float getAlignToMinEdgePosition()
+    {
+        return (layoutBounds.min.x + adjustedContentBounds.extents.x - contentBounds.center.x) * (1 / Zoom); //align to the min edge
+    }
+
+    private float getAlignToMaxEdgePosition()
+    {
+        return (layoutBounds.max.x - adjustedContentBounds.extents.x - contentBounds.center.x) * (1 / Zoom); //align to the max edge
     }
 }

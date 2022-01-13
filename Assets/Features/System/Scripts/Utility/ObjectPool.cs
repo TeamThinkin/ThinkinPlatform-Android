@@ -8,9 +8,11 @@ public class TypedObjectPool<T> : ObjectPool<T> where T : MonoBehaviour
 {
     private GameObject itemPrefab;
 
-    public TypedObjectPool(GameObject ItemPrefab)
+    public TypedObjectPool(GameObject ItemPrefab, Action<T> OnGetAction = null, Action<T> OnReleaseAction = null)
     {
         this.itemPrefab = ItemPrefab;
+        this.onGetAction = OnGetAction;
+        this.onReleaseAction = OnReleaseAction;
     }
 
     protected override T CreatedNewItem()
@@ -20,11 +22,13 @@ public class TypedObjectPool<T> : ObjectPool<T> where T : MonoBehaviour
 
     protected override void PrepareItemForGet(T Item)
     {
+        base.PrepareItemForGet(Item);
         Item.gameObject.SetActive(true);
     }
 
     protected override void PrepareItemForRelease(T Item)
     {
+        base.PrepareItemForRelease(Item);
         if(Item.gameObject != null) Item.gameObject.SetActive(false);
     }
 }
@@ -59,12 +63,12 @@ public class ObjectPool<T> where T : class
 
     protected virtual void PrepareItemForGet(T Item)
     {
-        onGetAction(Item);
+        onGetAction?.Invoke(Item);
     }
 
     protected virtual void PrepareItemForRelease(T Item)
     {
-        onReleaseAction(Item);
+        onReleaseAction?.Invoke(Item);
     }
 
     public void Clear()

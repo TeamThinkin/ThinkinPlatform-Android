@@ -10,6 +10,8 @@ public class StackPanel : LayoutContainer
 
     private Bounds bounds = new Bounds();
 
+    public override GameObject ContentContainer => this.gameObject;
+
     public override void UpdateLayout()
     {
         Vector3 value = Vector3.zero;
@@ -23,7 +25,7 @@ public class StackPanel : LayoutContainer
         {
             if (!child.gameObject.activeSelf) continue;
 
-            var layoutItem = child.GetComponent<ILayoutItem>();
+            var layoutItem = child.GetComponentInChildren<ILayoutItem>();
             if (layoutItem != null)
             {
                 var itemBounds = layoutItem.GetBounds();
@@ -37,6 +39,7 @@ public class StackPanel : LayoutContainer
 
                 value += length * StackDirection;
             }
+            else Debug.Log(this.gameObject.name + " skipping stack item because no ILayoutItem found on it: " + child.gameObject.name);
         }
 
         ////Center contents
@@ -46,8 +49,11 @@ public class StackPanel : LayoutContainer
         //    child.localPosition += offset;
         //}
 
-        //BoundsVisualizer.transform.localPosition = bounds.center;
-        //BoundsVisualizer.transform.localScale = bounds.size;
+        if (BoundsVisualizer != null)
+        {
+            BoundsVisualizer.transform.localPosition = bounds.center;
+            BoundsVisualizer.transform.localScale = bounds.size;
+        }
     }
 
     public override Bounds GetBounds()

@@ -33,12 +33,13 @@ public class TabList : MonoBehaviour
 
     private void Button_OnActivated(ActivateEventArgs e)
     {
-        ParentTabView.SelectTab(buttons.Single(i => i == e.interactable).transform.GetSiblingIndex());
+        ParentTabView.SelectTabByIndex(buttons.Single(i => i == e.interactable).transform.GetSiblingIndex());
     }
 
     private void ParentTabView_SelectedTabChanged()
     {
         if(activeButton != null) activeButton.IsActive = false;
+        if (ParentTabView.SelectedTabIndex >= buttons.Length) return;
 
         activeButton = buttons[ParentTabView.SelectedTabIndex];
         activeButton.IsActive = true;

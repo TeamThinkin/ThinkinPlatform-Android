@@ -6,35 +6,52 @@ using UnityEngine;
 
 public class TabView : MonoBehaviour
 {
+    [SerializeField] private TabPanel DefaultPanel;
+
     public event Action SelectedTabChanged;
 
-    private TabPanel[] panels;
+    private List<TabPanel> panels;
 
     public int SelectedTabIndex { get; private set; } = -1;
 
+    private TabPanel activePanel;
+
     private void Start()
     {
-        panels = transform.GetChildren().SelectNotNull(i => i.GetComponent<TabPanel>()).ToArray();
+        panels = transform.GetChildren().SelectNotNull(i => i.GetComponent<TabPanel>()).ToList();
         foreach(var panel in panels)
         {
+            panel.ParentTabView = this;
             panel.Hide(true);
         }
 
-        SelectTab(0);
+        if (DefaultPanel != null)
+            ShowTab(DefaultPanel);
+        else
+            SelectTabByIndex(0);
     }
 
-    public void SelectTab(int TabIndex)
+    public void SelectTabByIndex(int TabIndex)
     {
         if (TabIndex == SelectedTabIndex) return;
-        if (TabIndex >= panels.Length) return;
-        
-        if(SelectedTabIndex > -1)
+        if (TabIndex >= panels.Count) return;
+
+        if(activePanel != null)
         {
-            panels[SelectedTabIndex].Hide();
+            activePanel.Hide();
         }
 
         SelectedTabIndex = TabIndex;
-        panels[SelectedTabIndex].Show();
+        activePanel = panels[SelectedTabIndex];
+        activePanel.Show();
         SelectedTabChanged?.Invoke();
+    }
+
+    public void ShowTab(TabPanel Panel)
+    {
+        if (activePanel == Panel) return;
+        if (!panels.Contains(Panel)) return;
+
+        SelectTabByIndex(panels.IndexOf(Panel));
     }
 }

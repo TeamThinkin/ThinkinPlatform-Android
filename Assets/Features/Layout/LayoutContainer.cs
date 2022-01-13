@@ -14,12 +14,18 @@ public abstract class LayoutContainer : MonoBehaviour, ILayoutItem
 
     public abstract void UpdateLayout();
 
+    public abstract GameObject ContentContainer { get; }
+
     protected IEnumerable<ILayoutItem> GetChildLayoutItems()
     {
-        return transform.GetChildren().SelectNotNull(i => i.GetComponent<ILayoutItem>());
+        yield return ContentContainer.GetComponent<ILayoutItem>();
+        foreach(var item in ContentContainer.transform.GetChildren().SelectNotNull(i => i.GetComponent<ILayoutItem>()))
+        {
+            yield return item;
+        }
     }
 
-    protected virtual void UpdateChildrenLayouts()
+    public virtual void UpdateChildrenLayouts()
     {
         foreach(var child in GetChildLayoutItems())
         {

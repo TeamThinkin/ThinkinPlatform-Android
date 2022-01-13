@@ -7,6 +7,7 @@ public class MapPanel : TabPanel
 {
     [SerializeField] private DropDownBox MapsDropDownBox;
     [SerializeField] private MapView MapContents;
+    [SerializeField] private TabPanel SelectEnvironmentPanel;
 
     protected override void OnShow()
     {
@@ -34,6 +35,12 @@ public class MapPanel : TabPanel
         MapsDropDownBox.SelectedItemChanged -= MapsDropDownBox_SelectedItemChanged;
     }
 
+    public void NewDestinationButtonClicked()
+    {
+        Debug.Log("Attempting to switch to: " + SelectEnvironmentPanel.gameObject.name);
+        ParentTabView.ShowTab(SelectEnvironmentPanel);
+    }
+
     private void UserInfo_OnCurrentUserChanged(UserInfo obj)
     {
         loadMapList();
@@ -48,7 +55,7 @@ public class MapPanel : TabPanel
 
     private async void loadMapList()
     {
-        var mapDtos = await WebAPI.Map();
+        var mapDtos = await WebAPI.Maps();
         var list = mapDtos.Select(i => new ListItemDto() { Value = i, Text = i.DisplayName });
         MapsDropDownBox.SetItems(list);
     }

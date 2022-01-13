@@ -8,6 +8,8 @@ public class TabPanel : MonoBehaviour
     [SerializeField] private string _displayName;
     public string DisplayName => _displayName;
 
+    public TabView ParentTabView;
+
     private Coroutine animateScaleCoroutine;
     private Action animateScaleCallback;
 
