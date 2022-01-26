@@ -9,7 +9,6 @@ public class ContentSelectorPanel : TabPanel
 {
     public string[] ContentTypeFilters;
 
-    [SerializeField] private MapPanel MapPanel;
     [SerializeField] private GameObject BusyIndicator;
     [SerializeField] private GameObject ListItemPrefab;
     [SerializeField] private GameObject TagButtonPrefab;
@@ -24,15 +23,30 @@ public class ContentSelectorPanel : TabPanel
     private TypedObjectPool<ToggleButton> tagButtonPool;
     private ToggleButton activeTagButton;
     private string tagFilter;
-    private ContentListItem selectedListItem;
+    private bool isInitialized;
+    
+    public ContentListItem SelectedListItem { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         contentItemVisualPool = new TypedObjectPool<ContentListItem>(ListItemPrefab, contentItemVisualPool_Get, contentItemVisualPool_Released);
         tagButtonPool = new TypedObjectPool<ToggleButton>(TagButtonPrefab, tagButtonPool_Get, tagButtonPool_Released);
         BusyIndicator.SetActive(false);
 
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
+    }
+
+    private void Start()
+    {
+        initialize();
+    }
+
+    private void initialize()
+    {
+        if (isInitialized) return;
+        
+
+        isInitialized = true;
     }
 
     private void tagButtonPool_Get(ToggleButton item)
@@ -54,25 +68,13 @@ public class ContentSelectorPanel : TabPanel
     {
         item.activated.RemoveListener(contentItem_Clicked);
         item.IsItemSelected = false;
-        if (selectedListItem == item) selectedListItem = null;
+        if (SelectedListItem == item) SelectedListItem = null;
     }
 
 
     private void OnDestroy()
     {
         UserInfo.OnCurrentUserChanged -= UserInfo_OnCurrentUserChanged;
-    }
-
-    public void OnBackButton_Pressed()
-    {
-        ParentTabView.ShowTab(MapPanel);
-    }
-
-    public void OnNextButton_Pressed()
-    {
-        if (selectedListItem == null) return;
-
-        Debug.Log("Moving on with: " + selectedListItem.Dto.DisplayName);
     }
 
     private void UserInfo_OnCurrentUserChanged(UserInfo obj)
@@ -82,10 +84,10 @@ public class ContentSelectorPanel : TabPanel
 
     private void contentItem_Clicked(ActivateEventArgs e)
     {
-        if(selectedListItem != null) selectedListItem.IsItemSelected = false;
+        if(SelectedListItem != null) SelectedListItem.IsItemSelected = false;
        
-        selectedListItem = e.interactable as ContentListItem;
-        selectedListItem.IsItemSelected = true;
+        SelectedListItem = e.interactable as ContentListItem;
+        SelectedListItem.IsItemSelected = true;
     }
 
     private void tagButton_Clicked(ActivateEventArgs e)
@@ -107,10 +109,16 @@ public class ContentSelectorPanel : TabPanel
         refreshContentItemVisuals();
     }
 
+    public bool ValidateInput()
+    {
+        if (SelectedListItem == null) return false; //TODO: show a feedback message
+        return true;
+    }
+
     protected override void OnShow()
     {
         base.OnShow();
-
+        initialize();
         fetchContent();
     }
 

@@ -15,7 +15,7 @@ public class MapView : MonoBehaviour
     public IEnumerable<MapItem> Items => itemPool.ActiveItems;
     public string MapUrl { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         itemPool = new TypedObjectPool<MapItem>(MapItemPrefab);
     }

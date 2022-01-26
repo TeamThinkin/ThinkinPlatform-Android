@@ -7,6 +7,7 @@ public class ButtonInteractable : XRSimpleInteractable
 {
     private ActionBasedController controller;
     private XRBaseInteractor interactor;
+    private bool isActive;
 
     protected override void OnHoverEntered(HoverEnterEventArgs args)
     {
@@ -18,6 +19,7 @@ public class ButtonInteractable : XRSimpleInteractable
             controller = hoverController;
             interactor = args.interactor;
             hoverController.activateAction.action.performed += Action_performed;
+            hoverController.activateAction.action.canceled += Action_canceled;
         }
     }
 
@@ -26,6 +28,15 @@ public class ButtonInteractable : XRSimpleInteractable
         var e = new ActivateEventArgs() { interactable = this, interactor = interactor };
         this.OnActivated(e);
         //this.activated.Invoke(e);
+        isActive = true;
+    }
+
+    private void Action_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (!isActive) return;
+        isActive = false;
+        var e = new DeactivateEventArgs() { interactable = this, interactor = interactor };
+        this.OnDeactivated(e);
     }
 
     protected override void OnHoverExited(HoverExitEventArgs args)
@@ -37,6 +48,8 @@ public class ButtonInteractable : XRSimpleInteractable
         if (hoverController == controller)
         {
             hoverController.activateAction.action.performed -= Action_performed;
+            hoverController.activateAction.action.canceled += Action_canceled;
+
             controller = null;
         }
     }

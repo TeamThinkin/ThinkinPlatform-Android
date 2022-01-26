@@ -13,6 +13,15 @@ public class TabPanel : MonoBehaviour
     private Coroutine animateScaleCoroutine;
     private Action animateScaleCallback;
 
+    public void ShowTab()
+    {
+        ParentTabView.ShowTab(this);
+    }
+
+    /// <summary>
+    /// Called from the parent tab view
+    /// </summary>
+    /// <param name="Immediate"></param>
     public void Show(bool Immediate = false)
     {
         gameObject.SetActive(true);

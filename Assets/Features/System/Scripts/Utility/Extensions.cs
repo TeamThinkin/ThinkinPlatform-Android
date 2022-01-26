@@ -83,6 +83,16 @@ public static class Extensions
         }
     }
 
+    public static void ClearChildrenImmediate(this Transform parent)
+    {
+        if (parent == null) return;
+        int count = parent.childCount;
+        for(int i=0;i<count;i++)
+        {
+            GameObject.DestroyImmediate(parent.GetChild(0).gameObject);
+        }
+    }
+
     public static void SetActive(this IEnumerable<GameObject> items, bool value)
     {
         foreach (var item in items) item.SetActive(value);

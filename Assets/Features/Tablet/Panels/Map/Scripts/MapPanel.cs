@@ -46,11 +46,13 @@ public class MapPanel : TabPanel
         loadMapList();
     }
 
+    public RegistryEntryDto SelectedMapDto { get; private set; }
+
     private void MapsDropDownBox_SelectedItemChanged(ListItemDto obj)
     {
         Debug.Log("Maps panel sees that the selected map has changed to: " + obj.Text);
-        var selectedMapDto = obj.Value as RegistryEntryDto;
-        populateMap(selectedMapDto.Url);
+        SelectedMapDto = obj.Value as RegistryEntryDto;
+        populateMap(SelectedMapDto.Url);
     }
 
     private async void loadMapList()

@@ -1,0 +1,226 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3e2cc11114bea4f96ee0bca3afb419, type: 3}
+  m_Name: QWERTY Keyboard Layout
+  m_EditorClassIdentifier: 
+  KeyPrefab: {fileID: 8922779084942921556, guid: 2a62ecd4d1bc08442937cb857d03197a, type: 3}
+  Rows:
+  - Keys:
+    - MainKey: 1
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: 2
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: 3
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: 4
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: 5
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: 6
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: 7
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: 8
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: 9
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: 0
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+  - Keys:
+    - MainKey: q
+      SecondaryKey: '%'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: w
+      SecondaryKey: ^
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: e
+      SecondaryKey: ~
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: r
+      SecondaryKey: '|'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: t
+      SecondaryKey: '['
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: y
+      SecondaryKey: ']'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: u
+      SecondaryKey: <
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: i
+      SecondaryKey: '>'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: o
+      SecondaryKey: '{'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: p
+      SecondaryKey: '}'
+      DisplayText: 
+      Width: 1
+      Special: 0
+  - Keys:
+    - MainKey: a
+      SecondaryKey: '@'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: s
+      SecondaryKey: '#'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: d
+      SecondaryKey: '&'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: f
+      SecondaryKey: '*'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: g
+      SecondaryKey: '-'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: h
+      SecondaryKey: +
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: j
+      SecondaryKey: =
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: k
+      SecondaryKey: (
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: l
+      SecondaryKey: )
+      DisplayText: 
+      Width: 1
+      Special: 0
+  - Keys:
+    - MainKey: "\u2191"
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 3
+    - MainKey: z
+      SecondaryKey: _
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: x
+      SecondaryKey: $
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: c
+      SecondaryKey: '"'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: v
+      SecondaryKey: ''''
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: b
+      SecondaryKey: ':'
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: n
+      SecondaryKey: ;
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: m
+      SecondaryKey: /
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: "\u25C4"
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 1
+  - Keys:
+    - MainKey: ','
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
+    - MainKey: ' '
+      SecondaryKey: 
+      DisplayText: Space
+      Width: 3
+      Special: 0
+    - MainKey: .
+      SecondaryKey: 
+      DisplayText: 
+      Width: 1
+      Special: 0
