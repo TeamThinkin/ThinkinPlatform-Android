@@ -194,12 +194,12 @@ MonoBehaviour:
       Width: 1
       Special: 0
     - MainKey: n
-      SecondaryKey: ;
+      SecondaryKey: '!'
       DisplayText: 
       Width: 1
       Special: 0
     - MainKey: m
-      SecondaryKey: /
+      SecondaryKey: '?'
       DisplayText: 
       Width: 1
       Special: 0

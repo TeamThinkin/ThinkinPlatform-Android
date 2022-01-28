@@ -20,14 +20,12 @@ public class KeyboardButton : ButtonInteractable
     protected override void OnActivated(ActivateEventArgs args)
     {
         base.OnActivated(args);
-        Debug.Log("Key down: " + KeyInfo.MainKey);
         Keyboard.OnKeyDown(KeyInfo);
     }
 
     protected override void OnDeactivated(DeactivateEventArgs args)
     {
         base.OnDeactivated(args);
-        Debug.Log("Key up: " + KeyInfo.MainKey);
         Keyboard.OnKeyUp(KeyInfo);
     }
 }
