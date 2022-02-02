@@ -15,6 +15,12 @@ MonoBehaviour:
   KeyPrefab: {fileID: 8922779084942921556, guid: 2a62ecd4d1bc08442937cb857d03197a, type: 3}
   Rows:
   - Keys:
+    - MainKey: 
+      SecondaryKey: 
+      DisplayText: Close
+      Width: 10
+      Special: 4
+  - Keys:
     - MainKey: 1
       SecondaryKey: 
       DisplayText: 

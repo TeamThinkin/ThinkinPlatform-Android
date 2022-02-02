@@ -6,10 +6,12 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class KeyboardButton : ButtonInteractable
 {
     [SerializeField] private Transform Background;
-    public Keyboard Keyboard;
+    [SerializeField] private AudioSource _audioSource;
+    public AudioSource AudioPlayer => _audioSource;
 
-    public string PrimaryKey;
-    public string SecondaryKey;
+    public Keyboard Keyboard;
+    public Vector3 LayoutLocalPosition;
+    public Vector3 LayoutLocalScale;
     public KeyboardKey KeyInfo;
 
     public void SetWidth(float width)
@@ -20,12 +22,14 @@ public class KeyboardButton : ButtonInteractable
     protected override void OnActivated(ActivateEventArgs args)
     {
         base.OnActivated(args);
-        Keyboard.OnKeyDown(KeyInfo);
+        Keyboard.OnKeyDown(this);
+        transform.localPosition = LayoutLocalPosition + Vector3.forward * LayoutLocalScale.x * 0.5f;
     }
 
     protected override void OnDeactivated(DeactivateEventArgs args)
     {
         base.OnDeactivated(args);
-        Keyboard.OnKeyUp(KeyInfo);
+        Keyboard.OnKeyUp(this);
+        transform.localPosition = LayoutLocalPosition;
     }
 }

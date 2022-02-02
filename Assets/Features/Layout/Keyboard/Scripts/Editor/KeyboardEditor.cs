@@ -24,9 +24,7 @@ public class KeyboardEditor : Editor
 
     private void generateLayout(Keyboard keyboard)
     {
-        Debug.Log("Doing the things");
-        
-
+        var buttons = new List<KeyboardButton>();
         var keysContainer = getKeysContainer(keyboard);
         keysContainer.ClearChildrenImmediate();
 
@@ -51,29 +49,34 @@ public class KeyboardEditor : Editor
                 var key = row.Keys[k];
                 float keySize = buttonSize * key.Width;
                 position.x += keySize;
-                addKey(keyboard, keysContainer, key, position - Vector3.right * (keySize / 2), buttonSize * 0.9f);
+                buttons.Add(addKey(keyboard, keysContainer, key, position - Vector3.right * (keySize / 2), buttonSize * 0.9f));
             }
         }
+
+        keyboard.ButtonContainer = keysContainer;
+        keyboard.Buttons = buttons.ToArray();
+        EditorUtility.SetDirty(keyboard);
     }
 
-    private void addKey(Keyboard keyboard, Transform container, KeyboardKey key, Vector3 position, float size)
+    private KeyboardButton addKey(Keyboard keyboard, Transform container, KeyboardKey key, Vector3 position, float size)
     {
         var keyPrefab = PrefabUtility.InstantiatePrefab(keyboard.Layout.KeyPrefab) as GameObject;
         var keyButton = keyPrefab.GetComponent<KeyboardButton>();
-        //var keyButton = Instantiate(keyboard.Layout.KeyPrefab).GetComponent<KeyboardButton>();
         string keyText = string.IsNullOrEmpty(key.DisplayText) ? key.MainKey : key.DisplayText;
         keyButton.Keyboard = keyboard;
         keyButton.gameObject.name = "Key " + keyText.ToUpper();
         keyButton.transform.SetParent(container, false);
-        keyButton.transform.localPosition = position;
-        keyButton.transform.localScale = Vector3.one * size;
+        keyButton.transform.localPosition = keyButton.LayoutLocalPosition = position;
+        keyButton.transform.localScale = keyButton.LayoutLocalScale = Vector3.one * size;
         keyButton.SetWidth(key.Width);
 
         keyButton.transform.Find("Primary Label").GetComponent<TMPro.TMP_Text>().text = keyText;
         keyButton.transform.Find("Secondary Label").GetComponent<TMPro.TMP_Text>().text = key.SecondaryKey;
         keyButton.KeyInfo = key;
-
+        Debug.Log("Setting keyinfo: " + key.MainKey + " " + key.SecondaryKey);
         EditorUtility.SetDirty(keyButton);
+
+        return keyButton;
     }
 
     private Transform getKeysContainer(Keyboard keyboard)

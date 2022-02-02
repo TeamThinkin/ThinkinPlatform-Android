@@ -21,12 +21,7 @@ public class EditableText
     public int CaretPosition 
     { 
         get { return _caretPosition; }
-        set
-        {
-            Debug.Log("Setting caret position: " + value);
-            _caretPosition = Mathf.Clamp(value, 0, _textValue.Length);
-            Debug.Log("Caret new position: " + _caretPosition);
-        }
+        set { _caretPosition = Mathf.Clamp(value, 0, _textValue.Length); }
     }
 
     public void Set(string Text)
@@ -44,7 +39,6 @@ public class EditableText
 
     public void Backspace()
     {
-        //Value = Value.Substring(0, Value.Length - 1);
         Value = Value.Substring(0, CaretPosition - 1) + Value.Substring(CaretPosition);
         CaretPosition--;
     }

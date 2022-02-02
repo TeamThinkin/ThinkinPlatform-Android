@@ -29,13 +29,11 @@ public class Textbox : ButtonInteractable, IFocusItem
     {
         base.OnActivated(args);
         Debug.Log("Textbox activated: " + gameObject.name);
-        FocusManager.SetFocus(this);
+        Keyboard.Instance.ShowForInput(this);
     }
 
     private void Text_ValueChanged(EditableText keyboardText)
     {
-        Debug.Log("Textbox sees new text: " + keyboardText);
-        Debug.Log("Caret index: " + keyboardText.CaretPosition);
         Text = keyboardText.Value;
         updateCaretPosition();
     }
@@ -55,6 +53,7 @@ public class Textbox : ButtonInteractable, IFocusItem
 
     public void OnFocusStart()
     {
+        Debug.Log("Focus start: " + gameObject.name);
         Keyboard.Instance.Text.Set(Text);
         Keyboard.Instance.Text.ValueChanged += Text_ValueChanged;
         updateCaretPosition();
@@ -63,6 +62,7 @@ public class Textbox : ButtonInteractable, IFocusItem
 
     public void OnFocusEnd()
     {
+        Debug.Log("Focus end: " + gameObject.name);
         Keyboard.Instance.Text.ValueChanged -= Text_ValueChanged;
         CaretIndicator.SetActive(false);
     }
@@ -70,7 +70,6 @@ public class Textbox : ButtonInteractable, IFocusItem
     private void updateCaretPosition()
     {
         var textInfo = Label.GetTextInfo(Label.text);
-        Debug.Log("UpdateCaretPosition() Text Length: " + Text.Length + ", Caret index: " + Keyboard.Instance.Text.CaretPosition);
         Vector3 position;
         if(Keyboard.Instance.Text.CaretPosition >= Label.text.Length)
         {
