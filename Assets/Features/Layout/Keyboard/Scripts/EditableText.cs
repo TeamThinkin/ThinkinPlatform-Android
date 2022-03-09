@@ -39,7 +39,10 @@ public class EditableText
 
     public void Backspace()
     {
-        Value = Value.Substring(0, CaretPosition - 1) + Value.Substring(CaretPosition);
-        CaretPosition--;
+        if (Value.Length > 0)
+        {
+            Value = Value.Substring(0, CaretPosition - 1) + Value.Substring(CaretPosition);
+            CaretPosition--;
+        }
     }
 }

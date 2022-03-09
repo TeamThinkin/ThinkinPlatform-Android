@@ -41,7 +41,6 @@ public class MapEditor : MonoBehaviour
         {
             existingItem.Dto.Placement.Position = existingItem.transform.localPosition;
             existingItem.Dto.Placement.Scale = existingItem.transform.localScale.x;
-            Debug.Log("json: " + existingItem.Dto.ToJSON());
             WebAPI.UpdateCollectionItem(View.MapUrl, existingItem.Dto);
         }
     }

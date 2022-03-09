@@ -31,6 +31,7 @@ public class Keyboard : MonoBehaviour
 
     public Transform ButtonContainer;
     public KeyboardButton[] Buttons;
+    public bool IsCapitals { get; private set; }
 
     public EditableText Text = new EditableText();
 
@@ -82,9 +83,21 @@ public class Keyboard : MonoBehaviour
             case SpecialKeyboardKey.Backspace:
                 Text.Backspace();
                 break;
-            case SpecialKeyboardKey.None:
-                Text.AddText(Button.KeyInfo.MainKey);
+            case SpecialKeyboardKey.Shift:
+                IsCapitals = !IsCapitals;
+                updateButtonText();
                 break;
+            case SpecialKeyboardKey.None:
+                Text.AddText(IsCapitals ? Button.KeyInfo.MainKey.ToUpper() : Button.KeyInfo.MainKey);
+                break;
+        }
+    }
+
+    private void updateButtonText()
+    {
+        foreach(var button in Buttons)
+        {
+            button.UpdateText();
         }
     }
 

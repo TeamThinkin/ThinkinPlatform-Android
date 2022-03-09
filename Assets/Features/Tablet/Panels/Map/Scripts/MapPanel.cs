@@ -9,6 +9,8 @@ public class MapPanel : TabPanel
     [SerializeField] private MapView MapContents;
     [SerializeField] private TabPanel SelectEnvironmentPanel;
 
+    public RegistryEntryDto SelectedMapDto { get; private set; }
+
     protected override void OnShow()
     {
         base.OnShow();
@@ -35,6 +37,12 @@ public class MapPanel : TabPanel
         MapsDropDownBox.SelectedItemChanged -= MapsDropDownBox_SelectedItemChanged;
     }
 
+    public void NavigateHome()
+    {
+        Debug.Log("Navigating home");
+        RoomManager.Instance.LoadUrl(UserInfo.CurrentUser.HomeRoomUrl);
+    }
+
     public void NewDestinationButtonClicked()
     {
         Debug.Log("Attempting to switch to: " + SelectEnvironmentPanel.gameObject.name);
@@ -46,10 +54,13 @@ public class MapPanel : TabPanel
         loadMapList();
     }
 
-    public RegistryEntryDto SelectedMapDto { get; private set; }
-
     private void MapsDropDownBox_SelectedItemChanged(ListItemDto obj)
     {
+        if(SelectedMapDto == obj.Value)
+        {
+            Debug.Log("Skipping MapsDropdown SelectedItemChanged because its the same shit that was already selected");
+            return;
+        }
         Debug.Log("Maps panel sees that the selected map has changed to: " + obj.Text);
         SelectedMapDto = obj.Value as RegistryEntryDto;
         populateMap(SelectedMapDto.Url);

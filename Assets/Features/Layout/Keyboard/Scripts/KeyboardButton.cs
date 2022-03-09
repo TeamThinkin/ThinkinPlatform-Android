@@ -7,6 +7,7 @@ public class KeyboardButton : ButtonInteractable
 {
     [SerializeField] private Transform Background;
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private TMPro.TMP_Text PrimaryLabel;
     public AudioSource AudioPlayer => _audioSource;
 
     public Keyboard Keyboard;
@@ -31,5 +32,13 @@ public class KeyboardButton : ButtonInteractable
         base.OnDeactivated(args);
         Keyboard.OnKeyUp(this);
         transform.localPosition = LayoutLocalPosition;
+    }
+
+    public void UpdateText()
+    {
+        if (!string.IsNullOrEmpty(KeyInfo.DisplayText))
+            PrimaryLabel.text = KeyInfo.DisplayText;
+        else
+            PrimaryLabel.text = Keyboard.IsCapitals ? KeyInfo.MainKey.ToUpper() : KeyInfo.MainKey;
     }
 }

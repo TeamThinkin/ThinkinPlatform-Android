@@ -426,6 +426,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefaultVisual: {fileID: 2155760852534250452}
   Label: {fileID: 661758418884096788}
+  HighlightMaterial: {fileID: 2100000, guid: 9ad1be6aa27047b4383a3cfa2889d121, type: 2}
+  SymbolRenderer: {fileID: 1072400835584541893}
+  _layoutItem: {fileID: 5931414708000352759}
 --- !u!114 &5931414708000352759
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,11 +5,12 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class MapItem : MonoBehaviour // ButtonInteractable
 {
-    [SerializeField] private ContentSymbol Symbol;
+    [SerializeField] private ContentSymbol _symbol;
     [SerializeField] private ButtonBehavoir Button;
     [SerializeField] private ConstrainedGrabbleBehavior Grabbable;
 
     public DestinationLinkContentItemDto Dto { get; private set; }
+    public ContentSymbol Symbol => _symbol;
 
     private void Start()
     {

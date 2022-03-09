@@ -542,11 +542,10 @@ MonoBehaviour:
       m_Calls: []
   Background: {fileID: 8736011560314968829}
   _audioSource: {fileID: 1566422531226213518}
+  PrimaryLabel: {fileID: 8686173768594435557}
   Keyboard: {fileID: 0}
   LayoutLocalPosition: {x: 0, y: 0, z: 0}
   LayoutLocalScale: {x: 0, y: 0, z: 0}
-  PrimaryKey: A
-  SecondaryKey: '@'
   KeyInfo:
     MainKey: 
     SecondaryKey: 

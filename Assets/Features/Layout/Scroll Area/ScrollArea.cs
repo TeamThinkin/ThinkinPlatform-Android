@@ -56,7 +56,16 @@ public class ScrollArea : LayoutContainer
     public void CenterContent()
     {
         if (!hasContentBounds()) return;
-        SetScrollPosition(-contentBounds.center);
+        var center = -contentBounds.center;
+        center.z = contentBounds.min.z;
+        SetScrollPosition(center);
+    }
+
+    public void CenterViewOnItem(Transform Item)
+    {
+        var center = -Item.localPosition;
+        center.z = contentBounds.min.z;
+        SetScrollPosition(center);
     }
 
     public void SetScrollPosition(Vector3 LocalPosition)

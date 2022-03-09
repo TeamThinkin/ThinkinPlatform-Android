@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.normalvr.normcore": "2.1.10",
+    "com.normalvr.normcore": "2.1.11",
     "com.unity.addressables": "1.16.19",
     "com.unity.collab-proxy": "1.7.1",
     "com.unity.ide.rider": "2.0.7",

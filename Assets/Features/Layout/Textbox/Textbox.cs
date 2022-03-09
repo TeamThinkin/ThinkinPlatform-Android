@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,17 @@ public class Textbox : ButtonInteractable, IFocusItem
     [SerializeField] private TMPro.TMP_Text Label;
     [SerializeField] private GameObject CaretIndicator;
 
+    public event Action<Textbox> Changed;
+
     public string Text
     {
         get { return Label.text; }
-        set { Label.text = value; }
+        set 
+        {
+            if (value == Label.text) return;
+            Label.text = value;
+            Changed?.Invoke(this);
+        }
     }
 
     private void Start()
@@ -73,8 +81,15 @@ public class Textbox : ButtonInteractable, IFocusItem
         Vector3 position;
         if(Keyboard.Instance.Text.CaretPosition >= Label.text.Length)
         {
-            var charInfo = textInfo.characterInfo[Label.text.Length-1];
-            position = Label.transform.TransformPoint(charInfo.bottomRight);
+            if (Label.text.Length > 0)
+            {
+                var charInfo = textInfo.characterInfo[Label.text.Length - 1];
+                position = Label.transform.TransformPoint(charInfo.bottomRight);
+            }
+            else
+            {
+                position = Label.transform.position;
+            }
         }
         else
         {

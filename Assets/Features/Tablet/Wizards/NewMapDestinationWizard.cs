@@ -10,13 +10,14 @@ public class NewMapDestinationWizard : MonoBehaviour
 
     public RegistryEntryDto TargetMap { get; set; }
     public EnvironmentContentItemDto Environment { get; set; }
-    public string DestinationName { get; set; }
-    public Vector3 Location { get; set; }
+
+    public DestinationLinkContentItemDto ItemDto { get; private set; }
 
     private int stepIndex;
 
     public void StartWizard()
     {
+        ItemDto = new DestinationLinkContentItemDto();
         TargetMap = MapPanel.SelectedMapDto;
         DetailsPanel.MapUrl = TargetMap.Url;
         stepIndex = 0;
@@ -25,16 +26,17 @@ public class NewMapDestinationWizard : MonoBehaviour
 
     public void Next()
     {
-        Debug.Log("Next wizard step. Current index: " + stepIndex);
         switch(stepIndex)
         {
             case 0: //Moving from Environment Select to Details
                 if (!EnvironmentSelectorPanel.ValidateInput()) return;
                 Environment = EnvironmentSelectorPanel.SelectedListItem.Dto  as EnvironmentContentItemDto;
+                ItemDto.DisplayName = Environment.DisplayName;
                 break;
             case 1: //Moving from Details back to MapView
-                DestinationName = DetailsPanel.DestinationName;
-                Location = DetailsPanel.Location;
+                ItemDto.DisplayName = DetailsPanel.DestinationName;
+                //ItemDto.Placement.Position = DetailsPanel.Location; //Details panel updates this
+                Debug.Log("Creating item in db: " + ItemDto.DisplayName + " (" + ItemDto.Placement.Position + ") " + Environment.DisplayName + " (" + Environment.Id + ")");
                 //TODO: actually create the entry in the DB
                 break;
         }
@@ -44,14 +46,12 @@ public class NewMapDestinationWizard : MonoBehaviour
 
     public void Back()
     {
-        Debug.Log("Prev wizard step. Current index: " + stepIndex);
         stepIndex--;
         showPanel();
     }
 
     private void showPanel()
     {
-        Debug.Log("Wizard show panel: " + stepIndex);
         switch(stepIndex)
         {
             case -1:

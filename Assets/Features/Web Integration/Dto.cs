@@ -184,7 +184,7 @@ public class Vector3Dto
 
     public static implicit operator Vector3(Vector3Dto dto)
     {
-        return new Vector3(dto.x, dto.y, dto.z);
+        return dto != null ? new Vector3(dto.x, dto.y, dto.z) : new Vector3();
     }
 
     public static implicit operator Vector3Dto(Vector3 vector)

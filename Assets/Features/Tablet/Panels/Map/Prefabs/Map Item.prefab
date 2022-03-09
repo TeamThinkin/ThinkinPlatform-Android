@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4641f1d3a2ac2074997d96bf21916854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Symbol: {fileID: 5397956009867571083}
+  _symbol: {fileID: 5397956009867571083}
   Button: {fileID: 1701059353372890757}
   Grabbable: {fileID: 2100908749969195477}
 --- !u!114 &2832861232558820484
@@ -151,6 +151,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1183023436793461248}
     m_Modifications:
+    - target: {fileID: 3660118310672344339, guid: 29967bb040001b64c9a124279f7a76ec, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7775446767219417543, guid: 29967bb040001b64c9a124279f7a76ec, type: 3}
       propertyPath: m_RootOrder
       value: 0
