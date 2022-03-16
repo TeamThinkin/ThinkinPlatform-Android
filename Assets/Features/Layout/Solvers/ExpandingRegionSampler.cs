@@ -21,19 +21,12 @@ public class ExpandingRegionSampler
         radiusMax = Params.LayoutArea.extents.magnitude;
         radiusIncrement = 0.01f; // radiusMax / 1000;
         searchOrigin = Params.NewItemBounds.center;
-
-        foreach(var item in Params.ExistingItems)
-        {
-            item.center.Print("Center");
-            item.size.Print("Size");
-        }
     }
 
     public bool Iterate(int Count)
     {
         for (int i = 0; i < Count; i++)
         {
-            Debug.Log("Iterate: " + i);
             radius += radiusIncrement;
             Params.NewItemBounds.center = searchOrigin + ((Vector3)Random.insideUnitCircle * radius);
             IsIntersecting = Params.ExistingItems.Any(i => i.Intersects(Params.NewItemBounds));

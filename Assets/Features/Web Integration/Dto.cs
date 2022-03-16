@@ -3,6 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class AddMapDestinationDto
+{
+    [JsonProperty("displayName")]
+    public string DisplayName { get; set; }
+
+    [JsonProperty("environment")]
+    public EnvironmentContentItemDto Environment { get; set; }
+
+    [JsonProperty("placement")]
+    public PlacementDto Placement { get; set; }
+}
+
 public class RegisterDeviceRequestDto
 {
     [JsonProperty("uid")]

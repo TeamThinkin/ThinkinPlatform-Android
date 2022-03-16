@@ -24,7 +24,7 @@ public class NewMapDestinationWizard : MonoBehaviour
         showPanel();
     }
 
-    public void Next()
+    public async void Next()
     {
         switch(stepIndex)
         {
@@ -33,11 +33,11 @@ public class NewMapDestinationWizard : MonoBehaviour
                 Environment = EnvironmentSelectorPanel.SelectedListItem.Dto  as EnvironmentContentItemDto;
                 ItemDto.DisplayName = Environment.DisplayName;
                 break;
-            case 1: //Moving from Details back to MapView
+            case 1: //Completed Wizard. Moving from Details back to MapView
                 ItemDto.DisplayName = DetailsPanel.DestinationName;
-                //ItemDto.Placement.Position = DetailsPanel.Location; //Details panel updates this
                 Debug.Log("Creating item in db: " + ItemDto.DisplayName + " (" + ItemDto.Placement.Position + ") " + Environment.DisplayName + " (" + Environment.Id + ")");
-                //TODO: actually create the entry in the DB
+                await WebAPI.AddMapDestination(TargetMap.Url, TargetMap.Key, new AddMapDestinationDto() { DisplayName = ItemDto.DisplayName, Environment = Environment, Placement = ItemDto.Placement });
+                
                 break;
         }
         stepIndex++;

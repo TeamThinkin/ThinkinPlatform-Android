@@ -14,9 +14,17 @@ using UnityEngine.Networking;
 
 public static class WebAPI
 {
+    public const string ApiVersion = "v1";
+
     public static string HomeServerApiBaseUrl
     {
-        get { return "https://" + Config.HomeServerAuthorityAddress + "/v1/"; }
+        get { return "https://" + Config.HomeServerAuthorityAddress + "/" + ApiVersion + "/"; }
+    }
+
+    public static string GetServerApiBaseUrlFromUrl(string Url)
+    {
+        Uri uri = new Uri(Url);
+        return uri.Scheme + "://" + uri.Authority + "/" + ApiVersion + "/";
     }
 
     public static async Task<RegisterDeviceResultDto> RegisterDevice(string Uid)
@@ -38,6 +46,12 @@ public static class WebAPI
     {
         var result = await getRequest<CollectionContentItemDto[]>(NormalizeCollectionUrl(CollectionUrl), new ContentItemDtoConverter());
         return result;
+    }
+
+    public static async Task<string> AddMapDestination(string MapUrl, string MapKey, AddMapDestinationDto Dto)
+    {
+        string apiBase = GetServerApiBaseUrlFromUrl(MapUrl);
+        return await postRequest<string>(apiBase + "auth/map/" + MapKey + "/destination", Dto);
     }
 
     public static string NormalizeCollectionUrl(string Url)
