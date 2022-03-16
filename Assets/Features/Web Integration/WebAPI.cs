@@ -27,6 +27,11 @@ public static class WebAPI
         return uri.Scheme + "://" + uri.Authority + "/" + ApiVersion + "/";
     }
 
+    public static string GetCollectionUrl(string ServerApiBaseUrl, string CollectionKey)
+    {
+        return ServerApiBaseUrl + "auth/collection/" + CollectionKey;
+    }
+
     public static async Task<RegisterDeviceResultDto> RegisterDevice(string Uid)
     {
         return await postRequest<RegisterDeviceResultDto>(HomeServerApiBaseUrl + "device/register", new RegisterDeviceRequestDto() { Uid = Uid });

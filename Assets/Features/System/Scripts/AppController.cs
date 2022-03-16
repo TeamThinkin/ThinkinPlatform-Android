@@ -16,8 +16,6 @@ public class AppController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Test: " + WebAPI.GetServerApiBaseUrlFromUrl("https://thinkin-api.glitch.me/v1/auth/collection/public-map"));
-
         Instance = this;
 
         ContentSymbolPrefab = _contentSymbolPrefab;

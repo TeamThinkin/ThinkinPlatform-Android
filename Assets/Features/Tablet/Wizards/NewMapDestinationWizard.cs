@@ -35,9 +35,9 @@ public class NewMapDestinationWizard : MonoBehaviour
                 break;
             case 1: //Completed Wizard. Moving from Details back to MapView
                 ItemDto.DisplayName = DetailsPanel.DestinationName;
-                Debug.Log("Creating item in db: " + ItemDto.DisplayName + " (" + ItemDto.Placement.Position + ") " + Environment.DisplayName + " (" + Environment.Id + ")");
-                await WebAPI.AddMapDestination(TargetMap.Url, TargetMap.Key, new AddMapDestinationDto() { DisplayName = ItemDto.DisplayName, Environment = Environment, Placement = ItemDto.Placement });
-                
+                string apiBase = WebAPI.GetServerApiBaseUrlFromUrl(TargetMap.Url);
+                string destinationKey = await WebAPI.AddMapDestination(TargetMap.Url, TargetMap.Key, new AddMapDestinationDto() { DisplayName = ItemDto.DisplayName, Environment = Environment, Placement = ItemDto.Placement });
+                RoomManager.Instance.LoadUrl(WebAPI.GetCollectionUrl(apiBase, destinationKey));
                 break;
         }
         stepIndex++;
