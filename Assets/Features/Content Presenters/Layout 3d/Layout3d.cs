@@ -15,7 +15,9 @@ public class Layout3d : MonoBehaviour, IContentItemPresenter
     private Layout3dContentItemDto dto;
 
     public string Id => dto?.Id;
-    
+
+    public CollectionContentItemDto ContentDto => dto;
+
     public async Task LoadFromDto(CollectionContentItemDto Dto)
     {
         dto = Dto as Layout3dContentItemDto;

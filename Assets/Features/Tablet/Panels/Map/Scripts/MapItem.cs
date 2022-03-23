@@ -33,6 +33,6 @@ public class MapItem : MonoBehaviour // ButtonInteractable
     private void Button_Clicked(ActivateEventArgs obj)
     {
         Debug.Log("Map item clicked: " + Dto.DisplayName);
-        RoomManager.Instance.LoadUrl(Dto.Url);
+        RoomManager.Instance.LoadRoomUrl(Dto.Url);
     }
 }

@@ -42,7 +42,7 @@ public static class DeviceRegistrationController
                 WebSocketListener.OnSocketConnected += WebSocketListener_OnSocketConnected;
             }
             registerDeviceWithWebSocket();
-            RoomManager.Instance.LoadUrl(!string.IsNullOrEmpty(UserInfo.CurrentUser.CurrentRoomUrl) ? UserInfo.CurrentUser.CurrentRoomUrl : UserInfo.CurrentUser.HomeRoomUrl);
+            RoomManager.Instance.LoadRoomUrl(!string.IsNullOrEmpty(UserInfo.CurrentUser.CurrentRoomUrl) ? UserInfo.CurrentUser.CurrentRoomUrl : UserInfo.CurrentUser.HomeRoomUrl);
         }
         else await AppSceneManager.Instance.LoadLocalScene("Login");
     }

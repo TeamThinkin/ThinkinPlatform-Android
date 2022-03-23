@@ -72,6 +72,10 @@ public class CollectionContentItemDto
     [JsonProperty("tags")]
     public string[] Tags { get; set; }
 
+    // -- Additional Properties not present in JSON --
+    public string CollectionUrl { get; set; }
+    /// ///////////////////////
+
     public override string ToString()
     {
         if (!string.IsNullOrEmpty(DisplayName))
@@ -160,6 +164,19 @@ public class RoomLinkContentItemDto : FileContentItemDto
 [MimeType("layout/3d")]
 public class Layout3dContentItemDto : FileContentItemDto
 {
+}
+
+[MimeType("layout-data/absolute")]
+public class AbsoluteLayoutDataContentItemDto : CollectionContentItemDto
+{
+    [JsonProperty("parentKey")]
+    public string ParentKey { get; set; }
+
+    [JsonProperty("itemKey")]
+    public string ItemKey { get; set; }
+
+    [JsonProperty("placement")]
+    public PlacementDto Placement { get; set; }
 }
 
 [MimeType("link/collection")]

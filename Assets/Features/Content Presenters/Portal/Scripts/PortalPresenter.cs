@@ -17,6 +17,8 @@ public class PortalPresenter : MonoBehaviour, IContentItemPresenter
 
     public string Id => dto?.Id;
 
+    public CollectionContentItemDto ContentDto => dto;
+
     public void OnHoverStart()
     {
         StateAnimator.SetBool("Is Partially Open", true);
@@ -29,7 +31,7 @@ public class PortalPresenter : MonoBehaviour, IContentItemPresenter
 
     public void OnActivated()
     {
-        RoomManager.Instance.LoadUrl(dto.Url);
+        RoomManager.Instance.LoadRoomUrl(dto.Url);
     }
 
     public async Task LoadFromDto(CollectionContentItemDto Dto)

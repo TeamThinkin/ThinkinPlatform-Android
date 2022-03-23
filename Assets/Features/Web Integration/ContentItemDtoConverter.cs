@@ -42,7 +42,11 @@ public class ContentItemDtoConverter : JsonConverter<CollectionContentItemDto>
             var result = item.ToObject(type) as CollectionContentItemDto;
             return result;
         }
-        return null;
+        else
+        {
+            Debug.LogError("Unrecognized mimeType when reading json: " + mimeType);
+            return null;
+        }
     }
 
     public override void WriteJson(JsonWriter writer, CollectionContentItemDto value, JsonSerializer serializer)

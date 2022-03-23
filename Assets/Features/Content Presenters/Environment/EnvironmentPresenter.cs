@@ -15,6 +15,8 @@ public class EnvironmentPresenter : MonoBehaviour, IContentItemPresenter
 
     public string Id => dto?.Id;
 
+    public CollectionContentItemDto ContentDto => dto;
+
     public async Task LoadFromDto(CollectionContentItemDto Dto)
     {
         dto = Dto as EnvironmentContentItemDto;

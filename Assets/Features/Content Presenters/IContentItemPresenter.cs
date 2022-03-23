@@ -12,5 +12,7 @@ public interface IContentItemPresenter
 
     string Id { get; }
 
+    CollectionContentItemDto ContentDto { get; }
+
     Task LoadFromDto(CollectionContentItemDto Dto);
 }

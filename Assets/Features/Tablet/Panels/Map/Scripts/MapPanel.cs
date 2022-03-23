@@ -40,7 +40,7 @@ public class MapPanel : TabPanel
     public void NavigateHome()
     {
         Debug.Log("Navigating home");
-        RoomManager.Instance.LoadUrl(UserInfo.CurrentUser.HomeRoomUrl);
+        RoomManager.Instance.LoadRoomUrl(UserInfo.CurrentUser.HomeRoomUrl);
     }
 
     public void NewDestinationButtonClicked()

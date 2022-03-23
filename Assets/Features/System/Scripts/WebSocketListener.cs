@@ -45,7 +45,7 @@ public class WebSocketListener : MonoBehaviour
     private void onUserLocationChange(string e)
     {
         var roomUrl = e;
-        RoomManager.Instance.LoadUrl(roomUrl);
+        RoomManager.Instance.LoadRoomUrl(roomUrl);
     }
 
     private void onAvatarUrlUpdatedReceived(string e)

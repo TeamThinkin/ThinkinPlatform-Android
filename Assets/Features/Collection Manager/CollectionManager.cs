@@ -76,6 +76,11 @@ public static class CollectionManager
         //TODO: implement local caching layer
         if (filter != null) dtos = dtos.Where(filter).ToArray();
 
+        foreach(var dto in dtos)
+        {
+            dto.CollectionUrl = Url;
+        }
+
         return dtos;
     }
 
@@ -104,6 +109,7 @@ public static class CollectionManager
     public static async Task<IContentItemPresenter[]> LoadDtosIntoContainer(Transform ContentContainer, IEnumerable<CollectionContentItemDto> Dtos)
     {
         var items = await Task.WhenAll(Dtos.Select(dto => PresenterFactory.Instance.Instantiate(dto)));
+                
         items = items.Where(i => i != null).ToArray();
 
         foreach(var item in items)

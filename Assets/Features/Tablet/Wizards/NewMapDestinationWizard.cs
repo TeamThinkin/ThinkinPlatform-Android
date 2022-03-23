@@ -37,7 +37,7 @@ public class NewMapDestinationWizard : MonoBehaviour
                 ItemDto.DisplayName = DetailsPanel.DestinationName;
                 string apiBase = WebAPI.GetServerApiBaseUrlFromUrl(TargetMap.Url);
                 string destinationKey = await WebAPI.AddMapDestination(TargetMap.Url, TargetMap.Key, new AddMapDestinationDto() { DisplayName = ItemDto.DisplayName, Environment = Environment, Placement = ItemDto.Placement });
-                RoomManager.Instance.LoadUrl(WebAPI.GetCollectionUrl(apiBase, destinationKey));
+                RoomManager.Instance.LoadRoomUrl(WebAPI.GetCollectionUrl(apiBase, destinationKey));
                 break;
         }
         stepIndex++;

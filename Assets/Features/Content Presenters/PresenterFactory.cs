@@ -34,18 +34,31 @@ public class PresenterFactory : MonoBehaviour
 
     public async Task<IContentItemPresenter> Instantiate(CollectionContentItemDto Dto)
     {
-        var dtoType = Dto.GetType();
-        if (dtoToPresenterPrefab.ContainsKey(dtoType))
+        IContentItemPresenter presenter = null;
+        try
         {
-            var presenterPrefab = dtoToPresenterPrefab[dtoType];
-            var item = GameObject.Instantiate(presenterPrefab);
-            var presenter = item.GetComponent<IContentItemPresenter>();
-            if (presenter == null) Debug.Log("Couldnt get presenter for item: " + dtoType.Name);
-            await presenter.LoadFromDto(Dto);
-            presenter.GameObject.name = Dto.Id;
-            return presenter;
+            var dtoType = Dto.GetType();
+            if (dtoToPresenterPrefab.ContainsKey(dtoType))
+            {
+                var presenterPrefab = dtoToPresenterPrefab[dtoType];
+                var item = GameObject.Instantiate(presenterPrefab);
+                presenter = item.GetComponent<IContentItemPresenter>();
+                if (presenter == null)
+                {
+                    Debug.Log("Couldnt get presenter for item: " + dtoType.Name);
+                }
+                else
+                {
+                    await presenter.LoadFromDto(Dto);
+                    presenter.GameObject.name = Dto.DisplayName + " (" + Dto.Id + ")";
+                }
+            }
+            else Debug.Log("Unrecognized presenter type: " + Dto.MimeType);
         }
-        Debug.Log("Unrecognized presenter type: " + Dto.MimeType);
-        return null;
+        catch(Exception ex)
+        {
+            Debug.LogError("Error factory instanting " + Dto.Id + " : " + Dto.DisplayName + ". " + ex.Message);
+        }
+        return presenter;
     }
 }

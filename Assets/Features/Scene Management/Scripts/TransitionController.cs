@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class TransitionController : MonoBehaviour
@@ -11,10 +13,27 @@ public class TransitionController : MonoBehaviour
     public static TransitionController Instance { get; private set; }
 
     private System.Action onSceneHiddenCallback;
+    private bool isHidePending;
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private Task hideSceneTask;
+    public async Task HideScene()
+    {
+        isHidePending = true;
+        gameObject.SetActive(true);
+        TransitionAnimator.SetBool("IsSolid", true);
+
+        await Task.Run(() =>
+        {
+            while(isHidePending)
+            {
+                Thread.Sleep(1);
+            }
+        });
     }
 
     public void HideScene(System.Action OnSceneHiddenCallback = null)
@@ -32,6 +51,7 @@ public class TransitionController : MonoBehaviour
 
     public void OnSolidfiedEvent() //Called from Animation Event
     {
+        isHidePending = false;
         onSceneHiddenCallback?.Invoke();
         OnSceneHidden?.Invoke();
     }
