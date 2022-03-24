@@ -4724,7 +4724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0486bb0f8e3bacc4ca53fa0e1f379824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoomItemContainer: {fileID: 429070074}
+  _roomItemContainer: {fileID: 429070074}
 --- !u!1001 &1239379110
 PrefabInstance:
   m_ObjectHideFlags: 0

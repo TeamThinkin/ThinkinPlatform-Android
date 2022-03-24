@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] private Transform RoomItemContainer;
+    [SerializeField] private Transform _roomItemContainer;
+    public Transform RoomItemContainer => _roomItemContainer;
 
     public static event Action OnRoomLoaded;
     public static event Action OnRoomUnloaded;
@@ -56,26 +58,35 @@ public class RoomManager : MonoBehaviour
 
     public async Task<IContentItemPresenter[]> LoadRoomUrl(string Url)
     {
+        Debug.Log("Loading room url: " + Url);
+        var task = loadRoomUrl(Url);
+        pendingRequests[Url] = task;
+        var result = await task;
+        pendingRequests.Remove(Url);
+        Debug.Log("Loading room complete");
+        return result;
+    }
+
+    private async Task<IContentItemPresenter[]> loadRoomUrl(string Url)
+    {
         var newRoomId = Url.GetHashCode();
         if (newRoomId == CurrentRoomId) return ContentItems.Where(i => i.ContentDto.CollectionUrl == Url).ToArray();
-
-        Debug.Log("Loading new room url: " + Url);
 
         WebSocketListener.Socket.Emit("userLocationChanged", Url);
 
         CurrentRoomId = newRoomId;
-
-        var dtoTask = WebAPI.GetCollectionContents(Url);
+        
+        var dtoTask = CollectionManager.GetCollectionContents(Url);
         await TransitionController.Instance.HideScene();
         
         ContentItems.Clear();
         OnRoomUnloaded?.Invoke();
-        RoomItemContainer.ClearChildren();
+        _roomItemContainer.ClearChildren();
 
         var dtos = await dtoTask;
         dtos = dtos.WhereNotNull().ToArray();
 
-        var items = await CollectionManager.LoadDtosIntoContainer(RoomItemContainer, dtos);
+        var items = await CollectionManager.LoadDtosIntoContainer(_roomItemContainer, dtos);
         ContentItems.AddRange(items);
 
         OnRoomLoaded?.Invoke();
@@ -88,13 +99,27 @@ public class RoomManager : MonoBehaviour
     {
         if(pendingRequests.ContainsKey(Url))
         {
-            return await pendingRequests[Url];
+            Debug.Log("Loading collection already in progress: " + Url);
+            var result = await pendingRequests[Url];
+            return result;
         }
         else
         {
-            var requestTask = CollectionManager.LoadUrlIntoContainer(RoomItemContainer, Url);
-            pendingRequests.Add(Url, requestTask);
-            return await requestTask;
+            var existingCollectionItems = ContentItems.Where(i => i.ContentDto.CollectionUrl == Url);
+            if (existingCollectionItems.Any())
+            {
+                Debug.Log("Loading collection (returning existing items)");
+                return existingCollectionItems.ToArray();
+            }
+            else
+            {
+                Debug.Log("Loading collection (fresh call)" + Url);
+                var requestTask = CollectionManager.LoadUrlIntoContainer(_roomItemContainer, Url);
+                pendingRequests.Add(Url, requestTask);
+                var result = await requestTask;
+                pendingRequests.Remove(Url);
+                return result;
+            }
         }
     }
 

@@ -50,7 +50,7 @@ public class PresenterFactory : MonoBehaviour
                 else
                 {
                     await presenter.LoadFromDto(Dto);
-                    presenter.GameObject.name = Dto.DisplayName + " (" + Dto.Id + ")";
+                    presenter.GameObject.name = Dto.Id;
                 }
             }
             else Debug.Log("Unrecognized presenter type: " + Dto.MimeType);

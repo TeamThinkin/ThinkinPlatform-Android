@@ -140,6 +140,9 @@ public class PlacementDto
     
     [JsonProperty("scale")]
     public float Scale { get; set; }
+
+    [JsonProperty("rotation")]
+    public Vector4Dto Rotation { get; set; }
 }
 
 [MimeType("image/jpg", "image/jpeg", "image/png")]
@@ -213,7 +216,7 @@ public class Vector3Dto
 
     public static implicit operator Vector3(Vector3Dto dto)
     {
-        return dto != null ? new Vector3(dto.x, dto.y, dto.z) : new Vector3();
+        return dto != null ? new Vector3(dto.x, dto.y, dto.z) : Vector3.zero;
     }
 
     public static implicit operator Vector3Dto(Vector3 vector)
@@ -235,7 +238,7 @@ public class Vector4Dto
 
     public static implicit operator Quaternion(Vector4Dto dto)
     {
-        return new Quaternion(dto.x, dto.y, dto.z, dto.w);
+        return dto != null ? new Quaternion(dto.x, dto.y, dto.z, dto.w) : Quaternion.identity;
     }
 
     public static implicit operator Vector4Dto(Quaternion q)
