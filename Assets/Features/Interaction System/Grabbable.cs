@@ -11,6 +11,14 @@ public class Grabbable : XRGrabInteractable
     [SerializeField] private Transform LeftAttachTransform;
     [SerializeField] private Transform RightAttachTransform;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    
+        if (LeftAttachTransform == null) LeftAttachTransform = this.transform;
+        if (RightAttachTransform == null) RightAttachTransform = this.transform;
+    }
+
     protected override void OnSelectEntering(SelectEnterEventArgs args)
     {
         if (args.interactor.gameObject == LocalAvatarHandController.Left.gameObject)

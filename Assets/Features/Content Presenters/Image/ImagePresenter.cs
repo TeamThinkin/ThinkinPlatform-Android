@@ -36,7 +36,7 @@ public class ImagePresenter : MonoBehaviour, IContentItemPresenter
         {
             var size = getScaledSize(material.mainTexture.width, material.mainTexture.height, 0.4f);
             ImageRenderer.sharedMaterial = material;
-            Visual.localScale = new Vector3(size.x, size.y, 0.01f);
+            Visual.localScale = new Vector3(size.x, size.y, 0.05f);
         }
     }
 
