@@ -1,24 +1,24 @@
+using Autohand;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class TabList : MonoBehaviour
 {
     [SerializeField] private TabView ParentTabView;
 
-    private TabViewButton[] buttons;
-    private TabViewButton activeButton;
+    private ButtonInteractable[] buttons;
+    private ButtonInteractable activeButton;
 
     private void Start()
     {
         ParentTabView.SelectedTabChanged += ParentTabView_SelectedTabChanged;
-        buttons = transform.GetChildren().SelectNotNull(i => i.GetComponent<TabViewButton>()).ToArray();
+        buttons = transform.GetChildren().SelectNotNull(i => i.GetComponent<ButtonInteractable>()).ToArray();
         foreach (var button in buttons)
         {
-            button.IsActive = false;
-            button.activated.AddListener(Button_OnActivated);
+            button.IsPressed = false;
+            button.OnPressedEvent += Button_OnPressedEvent;
         }
     }
 
@@ -27,21 +27,21 @@ public class TabList : MonoBehaviour
         ParentTabView.SelectedTabChanged -= ParentTabView_SelectedTabChanged;
         foreach (var button in buttons)
         {
-            button?.activated.RemoveListener(Button_OnActivated);
+            button.OnPressedEvent -= Button_OnPressedEvent;
         }
     }
 
-    private void Button_OnActivated(ActivateEventArgs e)
+    private void Button_OnPressedEvent(ButtonInteractable sender)
     {
-        ParentTabView.SelectTabByIndex(buttons.Single(i => i == e.interactable).transform.GetSiblingIndex());
+        ParentTabView.SelectTabByIndex(buttons.Single(i => i == sender).transform.GetSiblingIndex());
     }
 
     private void ParentTabView_SelectedTabChanged()
     {
-        if(activeButton != null) activeButton.IsActive = false;
+        if(activeButton != null) activeButton.IsPressed = false;
         if (ParentTabView.SelectedTabIndex >= buttons.Length) return;
 
         activeButton = buttons[ParentTabView.SelectedTabIndex];
-        activeButton.IsActive = true;
+        activeButton.IsPressed = true;
     }
 }

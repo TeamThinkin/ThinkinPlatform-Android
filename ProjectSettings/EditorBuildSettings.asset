@@ -7,15 +7,13 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Main.unity
-    guid: d509acdaf886a1441a6690cc03b99e77
-  - enabled: 1
-    path: Assets/Features/Login Room/Scene/Login.unity
-    guid: a21488b8ed13ecf44ad33d3a7bb133b2
+    guid: cacdfa64b6f35c844bd0ab023b7c9fe2
   - enabled: 1
     path: Assets/Features/Home Room/Home Room.unity
     guid: b9686f1dc9a101f4f9a7de3961d4677b
+  - enabled: 1
+    path: Assets/Features/Home Room/Test Scene.unity
+    guid: 0a23762b83caa3e4583b1aa433b1094c
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 6e5d76bb02d42dd4ba7db45f6ad3a40c, type: 2}
-    com.unity.addressableassets: {fileID: 11400000, guid: 88c5e2ed8fe93334aacbbb488ff97149, type: 2}
-    com.unity.input.settings: {fileID: 11400000, guid: bafe9f1bcc13bca4cabdd0822dad6cf1, type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c07f586a721177c44b161ee76b60585c, type: 2}
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9ebf296fc63b3b243b8e35324b8eacc0, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 685a3897194fcbc459aa259ab4c20e9b, type: 2}

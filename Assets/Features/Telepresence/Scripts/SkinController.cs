@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Animations;
-using Wolf3D.ReadyPlayerMe.AvatarSDK;
+using ReadyPlayerMe;
 
 public interface IProvideHandData
 {
@@ -82,10 +82,11 @@ public class SkinController : MonoBehaviour
 
     private static async Task<GameObject> loadAvatarFromUrl(string avatarUrl)
     {
+        Debug.Log("Loading skin: " + avatarUrl);
         bool isLoaded = false;
         GameObject loadedSkin = null;
 
-        loader.LoadAvatar(avatarUrl, (avatar, metadata) =>
+        loader.LoadAvatar(avatarUrl, avatar =>
         {
             isLoaded = true;
             loadedSkin = avatar;
@@ -93,7 +94,7 @@ public class SkinController : MonoBehaviour
 
         await Task.Run(() =>
         {
-            while(!isLoaded) { }
+            while (!isLoaded) { }
         });
 
         loadedSkin.name = "Skin";

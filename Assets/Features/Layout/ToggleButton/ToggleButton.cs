@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ToggleState))]
-public class ToggleButton : ButtonInteractable
+public class ToggleButton : MonoBehaviour // : ButtonInteractable
 {
     [SerializeField] private TMPro.TMP_Text Label;
 

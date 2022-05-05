@@ -1,20 +1,21 @@
+using Autohand;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
-public class MapItem : MonoBehaviour // ButtonInteractable
+public class MapItem : HandTouchEvent
 {
     [SerializeField] private ContentSymbol _symbol;
-    [SerializeField] private ButtonBehavoir Button;
-    [SerializeField] private ConstrainedGrabbleBehavior Grabbable;
+    //[SerializeField] private ButtonBehavoir Button;
+    //[SerializeField] private ConstrainedGrabbleBehavior Grabbable;
 
     public DestinationLinkContentItemDto Dto { get; private set; }
     public ContentSymbol Symbol => _symbol;
 
     private void Start()
     {
-        Button.Clicked += Button_Clicked;
+        //Button.Clicked += Button_Clicked;
     }
 
     public void SetDto(DestinationLinkContentItemDto Dto)
@@ -25,14 +26,16 @@ public class MapItem : MonoBehaviour // ButtonInteractable
 
     public void ToggleEditable(bool IsEditable)
     {
-        Button.enabled = !IsEditable;
-        Grabbable.enabled = IsEditable;
+        //Button.enabled = !IsEditable;
+        //Grabbable.enabled = IsEditable;
     }
 
-
-    private void Button_Clicked(ActivateEventArgs obj)
+    protected async override void OnTouch(Hand hand, Collision collision)
     {
-        Debug.Log("Map item clicked: " + Dto.DisplayName);
-        RoomManager.Instance.LoadRoomUrl(Dto.Url);
+        base.OnTouch(hand, collision);
+
+        if (!collision.InvolvesPrimaryFingerTip()) return; //Only accept input from pointer finger tips to hopefully filter out accidental touches
+        
+        await RoomManager.Instance.LoadRoomUrl(Dto.Url);
     }
 }

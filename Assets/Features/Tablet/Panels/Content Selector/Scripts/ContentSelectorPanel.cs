@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class ContentSelectorPanel : TabPanel
 {
@@ -51,22 +50,22 @@ public class ContentSelectorPanel : TabPanel
 
     private void tagButtonPool_Get(ToggleButton item)
     {
-        item.activated.AddListener(tagButton_Clicked);
+        //item.activated.AddListener(tagButton_Clicked);
     }
 
     private void tagButtonPool_Released(ToggleButton item)
     {
-        item.activated.RemoveListener(tagButton_Clicked);
+        //item.activated.RemoveListener(tagButton_Clicked);
     }
 
     private void contentItemVisualPool_Get(ContentListItem item)
     {
-        item.activated.AddListener(contentItem_Clicked);
+        //item.activated.AddListener(contentItem_Clicked);
     }
 
     private void contentItemVisualPool_Released(ContentListItem item)
     {
-        item.activated.RemoveListener(contentItem_Clicked);
+        //item.activated.RemoveListener(contentItem_Clicked);
         item.IsItemSelected = false;
         if (SelectedListItem == item) SelectedListItem = null;
     }
@@ -82,32 +81,32 @@ public class ContentSelectorPanel : TabPanel
         fetchContent();
     }
 
-    private void contentItem_Clicked(ActivateEventArgs e)
-    {
-        if(SelectedListItem != null) SelectedListItem.IsItemSelected = false;
+    //private void contentItem_Clicked(ActivateEventArgs e)
+    //{
+    //    if(SelectedListItem != null) SelectedListItem.IsItemSelected = false;
        
-        SelectedListItem = e.interactable as ContentListItem;
-        SelectedListItem.IsItemSelected = true;
-    }
+    //    SelectedListItem = e.interactable as ContentListItem;
+    //    SelectedListItem.IsItemSelected = true;
+    //}
 
-    private void tagButton_Clicked(ActivateEventArgs e)
-    {
-        var button = e.interactable as ToggleButton;
-        var tag = button.Key as string;
-        if (activeTagButton != null) activeTagButton.IsToggleActive = false;
-        if (tag != tagFilter)
-        {
-            activeTagButton = button;
-            activeTagButton.IsToggleActive = true;
-            tagFilter = tag;
-        }
-        else
-        {
-            activeTagButton = null;
-            tagFilter = null;
-        }
-        refreshContentItemVisuals();
-    }
+    //private void tagButton_Clicked(ActivateEventArgs e)
+    //{
+    //    var button = e.interactable as ToggleButton;
+    //    var tag = button.Key as string;
+    //    if (activeTagButton != null) activeTagButton.IsToggleActive = false;
+    //    if (tag != tagFilter)
+    //    {
+    //        activeTagButton = button;
+    //        activeTagButton.IsToggleActive = true;
+    //        tagFilter = tag;
+    //    }
+    //    else
+    //    {
+    //        activeTagButton = null;
+    //        tagFilter = null;
+    //    }
+    //    refreshContentItemVisuals();
+    //}
 
     public bool ValidateInput()
     {

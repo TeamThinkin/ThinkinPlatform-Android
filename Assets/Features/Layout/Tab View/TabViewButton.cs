@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TabViewButton : ButtonInteractable
+public class TabViewButton : MonoBehaviour // : ButtonInteractable
 {
     [SerializeField] private ToggleState Toggle;
 

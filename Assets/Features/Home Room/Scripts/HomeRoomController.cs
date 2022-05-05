@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class HomeRoomController : MonoBehaviour
 {
-    [SerializeField] RoomListPresenter RoomsPresenter;
     [SerializeField] UserInfoPresenter UserPresenter;
     
     private void Start()
@@ -28,7 +27,6 @@ public class HomeRoomController : MonoBehaviour
     {
         if (UserInfo.CurrentUser == null) return;
 
-        //RoomsPresenter.SetModel(UserInfo.CurrentUser.Domains.SelectMany(i => i.Rooms));
         UserPresenter.SetModel(UserInfo.CurrentUser);
     }
 }

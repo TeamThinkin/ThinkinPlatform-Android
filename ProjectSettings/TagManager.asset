@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - SelectOnActivate
+  - PointerFingerTip
   layers:
   - Default
   - TransparentFX
@@ -11,8 +13,6 @@ TagManager:
   - 
   - Water
   - UI
-  - Interactors
-  - Grabbables
   - 
   - 
   - 
@@ -35,8 +35,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - HandPlayer
+  - Hand
+  - Grabbable
+  - Grabbing
   m_SortingLayers:
   - name: Default
     uniqueID: 0

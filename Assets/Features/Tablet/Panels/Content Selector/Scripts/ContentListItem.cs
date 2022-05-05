@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
-public class ContentListItem : ButtonInteractable
+public class ContentListItem : MonoBehaviour // : ButtonInteractable
 {
     [SerializeField] private GameObject SelectedIndicator;
     [SerializeField] private ContentSymbol Symbol;

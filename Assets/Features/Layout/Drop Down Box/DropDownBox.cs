@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class DropDownBox : MonoBehaviour
 {
-    [SerializeField] private ButtonInteractable ToggleButton;
+    //[SerializeField] private ButtonInteractable ToggleButton;
     [SerializeField] private GameObject List;
     [SerializeField] private AnimationCurve ToggleAnimationCurve;
     [SerializeField] private float ToggleAnimationDuration = 1f;
@@ -42,8 +41,6 @@ public class DropDownBox : MonoBehaviour
 
         List.transform.localScale = new Vector3(1, 0, 1);
         List.SetActive(false);
-
-        ToggleButton.activated.AddListener(ToggleButton_OnClick);
         ListItemsContainer.UpdateLayout();
 
         //loadMockOptions();
@@ -59,11 +56,6 @@ public class DropDownBox : MonoBehaviour
         };
 
         SetItems(items);
-    }
-
-    private void OnDestroy()
-    {
-        ToggleButton.activated.RemoveListener(ToggleButton_OnClick);
     }
 
     public void SetItems(IEnumerable<ListItemDto> Items)
@@ -84,7 +76,7 @@ public class DropDownBox : MonoBehaviour
         SelectedItem = listItems.ActiveItems.First().Dto;
     }
 
-    private void ToggleButton_OnClick(ActivateEventArgs e)
+    public void ToggleAreaTouched()
     {
         if (isListVisible) hideList(); else showList();
     }

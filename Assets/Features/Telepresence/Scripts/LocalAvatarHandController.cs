@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public enum HandSideEnum
 {
@@ -12,15 +10,15 @@ public enum HandSideEnum
 
 public class LocalAvatarHandController : MonoBehaviour, IProvideHandData
 {
-    [SerializeField] private XRRayInteractor RayInteractor;
-    [SerializeField] private XRInteractorLineVisual RayVisualizer;
+    //[SerializeField] private XRRayInteractor RayInteractor;
+    //[SerializeField] private XRInteractorLineVisual RayVisualizer;
     [SerializeField] private HandSideEnum HandSide;
 
     private AvatarHandData handData;
 
     public AvatarHandData HandData => handData;
-    private InputAction isFingerOnTriggerInputAction;
-    private InputAction gripStrengthInputAction;
+    //private InputAction isFingerOnTriggerInputAction;
+    //private InputAction gripStrengthInputAction;
 
     public static LocalAvatarHandController Left { get; private set; }
     public static LocalAvatarHandController Right { get; private set; }
@@ -38,37 +36,37 @@ public class LocalAvatarHandController : MonoBehaviour, IProvideHandData
         }
     }
 
-    public void SetInputActions(InputAction isFingerOnTriggerInputAction, InputAction gripStrengthInputAction)
-    {
-        this.isFingerOnTriggerInputAction = isFingerOnTriggerInputAction;
-        this.gripStrengthInputAction = gripStrengthInputAction;
-    }
+    //public void SetInputActions(InputAction isFingerOnTriggerInputAction, InputAction gripStrengthInputAction)
+    //{
+    //    this.isFingerOnTriggerInputAction = isFingerOnTriggerInputAction;
+    //    this.gripStrengthInputAction = gripStrengthInputAction;
+    //}
 
-    private void Update()
-    {
-        updateHandData();
-        //RayVisualizer.enabled = handData.IsPointing;
-    }
+    //private void Update()
+    //{
+    //    updateHandData();
+    //    RayVisualizer.enabled = handData.IsPointing;
+    //}
 
-    private void updateHandData()
-    {
-        bool isFingerOnTrigger = isFingerOnTriggerInputAction.ReadValue<float>() > 0;
-        handData.GripStrength = gripStrengthInputAction.ReadValue<float>();
-        handData.IsPointing = !isFingerOnTrigger && handData.GripStrength < 0.1f;
-        handData.RayLength = getRayLength();       
-    }
+    //private void updateHandData()
+    //{
+    //    bool isFingerOnTrigger = isFingerOnTriggerInputAction.ReadValue<float>() > 0;
+    //    handData.GripStrength = gripStrengthInputAction.ReadValue<float>();
+    //    handData.IsPointing = !isFingerOnTrigger && handData.GripStrength < 0.1f;
+    //    handData.RayLength = getRayLength();       
+    //}
 
-    private float getRayLength()
-    {
-        Vector3 rayHitPosition, normal;
-        int positionInLine;
-        bool isValidTarget;
+    //private float getRayLength()
+    //{
+    //    Vector3 rayHitPosition, normal;
+    //    int positionInLine;
+    //    bool isValidTarget;
 
-        if (RayInteractor.TryGetHitInfo(out rayHitPosition, out normal, out positionInLine, out isValidTarget))
-            return Vector3.Distance(RayInteractor.transform.position, rayHitPosition);
-        else
-            return 10;
-    }
+    //    if (RayInteractor.TryGetHitInfo(out rayHitPosition, out normal, out positionInLine, out isValidTarget))
+    //        return Vector3.Distance(RayInteractor.transform.position, rayHitPosition);
+    //    else
+    //        return 10;
+    //}
 
     public AvatarHandData GetHandData()
     {

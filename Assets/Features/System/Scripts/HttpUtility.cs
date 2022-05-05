@@ -44,7 +44,7 @@ namespace Thinkin.Web
 
 #if !MOBILE
 	// CAS - no InheritanceDemand here as the class is sealed
-	[AspNetHostingPermission(SecurityAction.LinkDemand, Level = AspNetHostingPermissionLevel.Minimal)]
+	//[AspNetHostingPermission(SecurityAction.LinkDemand, Level = AspNetHostingPermissionLevel.Minimal)]
 #endif
 	public sealed class HttpUtility
 	{

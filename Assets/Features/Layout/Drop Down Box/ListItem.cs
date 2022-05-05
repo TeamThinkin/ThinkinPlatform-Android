@@ -1,7 +1,7 @@
+using Autohand;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class ListItemDto
 {
@@ -11,8 +11,6 @@ public class ListItemDto
 
 public class ListItem : ButtonInteractable
 {
-    [SerializeField] TMPro.TMP_Text Label;
-
     public DropDownBox ParentListControl;
     public ListItemDto Dto { get; private set; }
 
@@ -22,9 +20,9 @@ public class ListItem : ButtonInteractable
         Label.text = Dto.Text;
     }
 
-    protected override void OnActivated(ActivateEventArgs args)
+    protected override void Pressed(Hand hand)
     {
-        base.OnActivated(args);
+        base.Pressed(hand);
         ParentListControl.ListItem_Selected(this);
     }
 }

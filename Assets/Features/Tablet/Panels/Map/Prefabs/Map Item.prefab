@@ -10,9 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1183023436793461248}
   - component: {fileID: 1586601689097235732}
-  - component: {fileID: 2832861232558820484}
-  - component: {fileID: 2100908749969195477}
-  - component: {fileID: 1701059353372890757}
+  - component: {fileID: 1243154200746993712}
   m_Layer: 0
   m_Name: Map Item
   m_TagString: Untagged
@@ -47,103 +45,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4641f1d3a2ac2074997d96bf21916854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oneHanded: 1
+  handType: 0
+  HandStartTouch:
+    m_PersistentCalls:
+      m_Calls: []
+  HandStopTouch:
+    m_PersistentCalls:
+      m_Calls: []
   _symbol: {fileID: 5397956009867571083}
-  Button: {fileID: 1701059353372890757}
-  Grabbable: {fileID: 2100908749969195477}
---- !u!114 &2832861232558820484
-MonoBehaviour:
+--- !u!135 &1243154200746993712
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2900367164677816978}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0278b3b534e41f4db56fb09fdecadb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_InteractionManager: {fileID: 0}
-  m_Colliders: []
-  m_InteractionLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CustomReticle: {fileID: 0}
-  m_FirstHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_LastHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Activated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Deactivated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnFirstHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnLastHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectCanceled:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnActivate:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnDeactivate:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &2100908749969195477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2900367164677816978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc61dea3cf31f4a40b7a27c00342a72a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Volume: {fileID: 0}
---- !u!114 &1701059353372890757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2900367164677816978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be0b45cd2c7401a4088f794bcdd57f9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 2
+  m_Radius: 0.01
+  m_Center: {x: 0, y: 0, z: 0.013}
 --- !u!1001 &5621280169573786884
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -151,10 +74,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1183023436793461248}
     m_Modifications:
-    - target: {fileID: 3660118310672344339, guid: 29967bb040001b64c9a124279f7a76ec, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7775446767219417543, guid: 29967bb040001b64c9a124279f7a76ec, type: 3}
       propertyPath: m_RootOrder
       value: 0

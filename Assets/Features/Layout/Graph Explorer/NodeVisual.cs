@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
-public class NodeVisual : ButtonInteractable
+public class NodeVisual : MonoBehaviour// : ButtonInteractable
 {
     [SerializeField] private TMPro.TMP_Text Label;
     [SerializeField] private Animator NodeAnimator;
@@ -34,9 +33,9 @@ public class NodeVisual : ButtonInteractable
         onCloseAnimationCompleteCallback = OnComplete;
     }
 
-    protected override void OnActivated(ActivateEventArgs args)
-    {
-        base.OnActivated(args);
-        NodeViewModel.ParentController.SelectNode(NodeViewModel.Node);
-    }
+    //protected override void OnActivated(ActivateEventArgs args)
+    //{
+    //    base.OnActivated(args);
+    //    NodeViewModel.ParentController.SelectNode(NodeViewModel.Node);
+    //}
 }

@@ -1,55 +1,56 @@
+using Autohand;
 using Normal.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
-public class TabletSpawnArea : XRBaseInteractable
+public class TabletSpawnArea : HandTriggerAreaEvents// : XRBaseInteractable
 {
     [SerializeField] private GameObject TabletPrefab;
 
-    public XRGrabInteractable tabletGrabber;
+    private Tablet hoverTablet;
 
-    [SerializeField] private XRInteractionManager InteractionManager;
-
-    protected override void OnSelectEntered(SelectEnterEventArgs args)
+    public override void Enter(Hand hand)
     {
-        base.OnSelectEntered(args);
-        var options = new Realtime.InstantiateOptions();
-        options.ownedByClient = true;
-        var tablet = Realtime.Instantiate("Tablet", options);
-        tablet.GetComponent<RealtimeTransform>()?.RequestOwnership();
-        tabletGrabber = tablet.GetComponent<XRGrabInteractable>();
-        moveTabletToInteractor(args.interactor);
-        InteractionManager.SelectEnter(args.interactor, tabletGrabber);
+        base.Enter(hand);
+
+        var heldItem = hand.GetHeld();
+        if(heldItem != null) hoverTablet = heldItem.GetComponent<Tablet>();
     }
 
-    private void moveTabletToInteractor(XRBaseInteractor interactor)
+    public override void Exit(Hand hand)
     {
-        var positionDelta = tabletGrabber.transform.position - tabletGrabber.attachTransform.position;
-        var a = tabletGrabber.attachTransform.rotation;
-        var b = tabletGrabber.transform.rotation;
-        var rotDelta = Quaternion.Inverse(a) * b;
-
-        tabletGrabber.transform.rotation = interactor.attachTransform.rotation * rotDelta;
-        tabletGrabber.transform.position = interactor.attachTransform.position + positionDelta;
+        base.Exit(hand);
+        hoverTablet = null;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public override void Release(Hand hand)
     {
-        var tablet = other.gameObject.GetComponent<Tablet>();
-        if(tablet != null)
+        base.Release(hand);
+        if (hoverTablet != null)
         {
-            tablet.IsInDespawnZone = true;
+            Destroy(hoverTablet.gameObject);
         }
+        hoverTablet = null;
     }
 
-    private void OnTriggerExit(Collider other)
+    public override void Grab(Hand hand)
     {
-        var tablet = other.gameObject.GetComponent<Tablet>();
-        if (tablet != null)
-        {
-            tablet.IsInDespawnZone = false;
-        }
+        base.Grab(hand);
+
+        var tablet = Instantiate(TabletPrefab);
+        tablet.transform.position = hand.transform.position;
+        tablet.transform.rotation = hand.transform.rotation;
+
+        StartCoroutine(attachToHand(hand, tablet));
+    }
+
+    private IEnumerator attachToHand(Hand hand, GameObject tablet)
+    {
+        yield return new WaitForEndOfFrame(); //The grabbable seems 
+
+        var tabletGrabbable = tablet.GetComponent<Grabbable>();
+        hand.TryGrab(tabletGrabbable);
+        hoverTablet = tablet.GetComponent<Tablet>();
     }
 }

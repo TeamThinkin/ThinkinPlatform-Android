@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -26,6 +27,9 @@ public class AppSceneManager : MonoBehaviour
     private static bool currentSceneIsRemote;
     private static string currentScene;
     private static string currentCatalogUrl;
+    private static bool isLoadingLocalScene;
+    private static bool isLoading;
+
 
     private void Awake()
     {
@@ -35,17 +39,22 @@ public class AppSceneManager : MonoBehaviour
 
     public async Task LoadRemoteScene(string SceneUrl)
     {
+        if (isLoading) return;
         if (currentScene == SceneUrl) return;
 
+        isLoading = true;
         await UnloadScene();
         currentScene = SceneUrl;
         await loadRemoteScene(SceneUrl);
+        isLoading = false;
     }
 
     public async Task LoadLocalScene(string SceneName)
     {
+        if (isLoading) return;
         if (currentScene == SceneName) return;
 
+        isLoading = true;
         for (int i=0;i<SceneManager.sceneCount;i++)
         {
             if (SceneManager.GetSceneAt(i).name == SceneName) return;
@@ -53,11 +62,35 @@ public class AppSceneManager : MonoBehaviour
 
         await UnloadScene();
 
-        SceneManager.LoadScene(SceneName, LoadSceneMode.Additive);
+        isLoadingLocalScene = true;
+        StartCoroutine(loadLocalSceneRoutine(SceneName));
+
+        await Task.Run(() =>
+        {
+            while (isLoadingLocalScene)
+            {
+                Thread.Sleep(10);
+            }
+        });
 
         currentScene = SceneName;
         currentSceneIsRemote = false;
         OnEnvironmentLoaded?.Invoke();
+
+        isLoading = false;
+    }
+
+    private IEnumerator loadLocalSceneRoutine(string SceneName)
+    {
+        yield return null;
+
+        var task = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+        while (!task.isDone)
+        {
+            //Debug.Log("Load Local Scene Progress: " + task.progress);
+            yield return null;
+        }
+        isLoadingLocalScene = false;
     }
 
     private async Task loadRemoteScene(string SceneUrl)

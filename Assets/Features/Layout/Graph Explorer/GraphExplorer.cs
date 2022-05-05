@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class GraphExplorer : MonoBehaviour
 {
@@ -265,29 +264,29 @@ public class GraphExplorer : MonoBehaviour
 
     private void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame) onMouseClick();
+        //if (Mouse.current.leftButton.wasPressedThisFrame) onMouseClick();
     }
 
-    private void onMouseClick()
-    {
-        var mouseRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit hitInfo;
-        if (Physics.Raycast(mouseRay, out hitInfo))
-        {
-            var nodeVisual = hitInfo.collider.gameObject.GetComponentInParent<NodeVisual>();
-            if (nodeVisual != null)
-            {
-                SelectNode(nodeVisual.NodeViewModel.Node);
-            }
-        }
-    }
+    //private void onMouseClick()
+    //{
+    //    var mouseRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+    //    RaycastHit hitInfo;
+    //    if (Physics.Raycast(mouseRay, out hitInfo))
+    //    {
+    //        var nodeVisual = hitInfo.collider.gameObject.GetComponentInParent<NodeVisual>();
+    //        if (nodeVisual != null)
+    //        {
+    //            SelectNode(nodeVisual.NodeViewModel.Node);
+    //        }
+    //    }
+    //}
 
     //TODO: temp implementation for testing with a mouse
-    private void Action_performed(InputAction.CallbackContext obj)
-    {
-        Debug.Log("Mouse down");
-        onMouseClick();
-    }
+    //private void Action_performed(InputAction.CallbackContext obj)
+    //{
+    //    Debug.Log("Mouse down");
+    //    onMouseClick();
+    //}
 }
 
 public class NodeViewModel

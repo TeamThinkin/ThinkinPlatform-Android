@@ -1,10 +1,10 @@
+using Autohand;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
-public class Textbox : ButtonInteractable, IFocusItem
+public class Textbox : HandTouchEvent, IFocusItem // : ButtonInteractable, IFocusItem
 {
     [SerializeField] private TMPro.TMP_Text Label;
     [SerializeField] private GameObject CaretIndicator;
@@ -27,16 +27,14 @@ public class Textbox : ButtonInteractable, IFocusItem
         CaretIndicator.SetActive(false);
     }
 
-    protected override void OnDestroy()
+    protected void OnDestroy()
     {
-        base.OnDestroy();
         Keyboard.Instance.Text.ValueChanged -= Text_ValueChanged;
     }
 
-    protected override void OnActivated(ActivateEventArgs args)
+    protected override void OnTouch(Hand hand, Collision collision)
     {
-        base.OnActivated(args);
-        Debug.Log("Textbox activated: " + gameObject.name);
+        base.OnTouch(hand, collision);
         Keyboard.Instance.ShowForInput(this);
     }
 

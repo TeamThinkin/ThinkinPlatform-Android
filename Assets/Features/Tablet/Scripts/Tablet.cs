@@ -2,7 +2,6 @@ using Normal.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class Tablet : MonoBehaviour
 {
@@ -11,24 +10,29 @@ public class Tablet : MonoBehaviour
     [SerializeField] private LayoutContainer MenuContentContainer;
     [SerializeField] private LayoutContainer MenuScrollArea;
 
-    private XRGrabInteractable grabInteractable;
+    //private XRGrabInteractable grabInteractable;
 
     private void Start()
     {
-        grabInteractable = GetComponent<XRGrabInteractable>();
-        grabInteractable.selectExited.AddListener(grabInteractable_SelectExited);
+        //grabInteractable = GetComponent<XRGrabInteractable>();
+        //grabInteractable.selectExited.AddListener(grabInteractable_SelectExited);
 
         MenuScrollArea.UpdateLayout();
     }
 
     private void OnDestroy()
     {
-        grabInteractable?.selectExited.RemoveListener(grabInteractable_SelectExited);
+        //grabInteractable?.selectExited.RemoveListener(grabInteractable_SelectExited);
     }
 
-    private void grabInteractable_SelectExited(SelectExitEventArgs e)
+    public void Test()
     {
-        if (e.isCanceled) return;
-        if(IsInDespawnZone) Realtime.Destroy(this.gameObject);
+        Debug.Log("Testing!!!!");
     }
+
+    //private void grabInteractable_SelectExited(SelectExitEventArgs e)
+    //{
+    //    if (e.isCanceled) return;
+    //    if(IsInDespawnZone) Realtime.Destroy(this.gameObject);
+    //}
 }

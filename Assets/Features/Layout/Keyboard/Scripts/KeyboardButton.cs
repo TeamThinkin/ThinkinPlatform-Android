@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+//using UnityEngine.XR.Interaction.Toolkit;
 
-public class KeyboardButton : ButtonInteractable
+public class KeyboardButton : MonoBehaviour // : ButtonInteractable
 {
     [SerializeField] private Transform Background;
     [SerializeField] private AudioSource _audioSource;
@@ -20,19 +20,19 @@ public class KeyboardButton : ButtonInteractable
         Background.localScale = new Vector3(width, Background.localScale.y, Background.localScale.z);
     }
 
-    protected override void OnActivated(ActivateEventArgs args)
-    {
-        base.OnActivated(args);
-        Keyboard.OnKeyDown(this);
-        transform.localPosition = LayoutLocalPosition + Vector3.forward * LayoutLocalScale.x * 0.5f;
-    }
+    //protected override void OnActivated(ActivateEventArgs args)
+    //{
+    //    base.OnActivated(args);
+    //    Keyboard.OnKeyDown(this);
+    //    transform.localPosition = LayoutLocalPosition + Vector3.forward * LayoutLocalScale.x * 0.5f;
+    //}
 
-    protected override void OnDeactivated(DeactivateEventArgs args)
-    {
-        base.OnDeactivated(args);
-        Keyboard.OnKeyUp(this);
-        transform.localPosition = LayoutLocalPosition;
-    }
+    //protected override void OnDeactivated(DeactivateEventArgs args)
+    //{
+    //    base.OnDeactivated(args);
+    //    Keyboard.OnKeyUp(this);
+    //    transform.localPosition = LayoutLocalPosition;
+    //}
 
     public void UpdateText()
     {
