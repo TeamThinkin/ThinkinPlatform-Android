@@ -157,7 +157,7 @@ namespace Autohand {
 
 
         void ShowProjection(bool show) {
-            for(int i = 0; i < handProjectionVisuals.Length; i++)
+            for (int i = 0; i < handProjectionVisuals.Length; i++)
                 handProjectionVisuals[i].gameObject.SetActive(show);
 
             if(hideHand) {
@@ -257,6 +257,9 @@ namespace Autohand {
         }
 
         void SetTarget(Grabbable newTarget) {
+            if (!hand.AllowGrabbing) //NOTE: AllowGrabbing checked added by mbell 5/6/22
+                newTarget = null;
+
             if(newTarget != null && !hand.CanGrab(newTarget))
                 newTarget = null;
 

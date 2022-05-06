@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7943075443114471148}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Content Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3575509209880045608}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Zoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 4844632505851314512}
   - component: {fileID: 1387704927580824880}
   - component: {fileID: 3712799817958843829}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 2781718876746384555}
   - component: {fileID: 3934891430874804730}
   - component: {fileID: 4155330999687121624}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Scroll Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,10 +202,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c50780c3e5e324bb03e86b98a6d2ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _contentContainer: {fileID: 0}
   ZoomContainer: {fileID: 3575509209880045608}
-  ContentContainer: {fileID: 1076007390186729695}
   LayoutAreaReference: {fileID: 6011581885499541741}
+  ScrollIndicator: {fileID: 0}
+  ScrollRangeIndicator: {fileID: 0}
+  ScrollPositionIndicator: {fileID: 0}
   _zoom: 1
+  MinZoom: 0.05
+  MaxZoom: 10
+  PreventOverscroll: 0
+  CenterUndersizedContent: 0
+  LayoutPadding: 0
+  HideOutOfBoundsItems: 1
 --- !u!114 &4155330999687121624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,63 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 143e0006a3fe8c542b27a288c4594bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_InteractionManager: {fileID: 0}
-  m_Colliders:
-  - {fileID: 3712799817958843829}
-  m_InteractionLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CustomReticle: {fileID: 0}
-  m_FirstHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_LastHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Activated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Deactivated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnFirstHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnLastHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectCanceled:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnActivate:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnDeactivate:
-    m_PersistentCalls:
-      m_Calls: []
   AllowXMovement: 1
   AllowYMovement: 0
+  AllowZooming: 0
+  ZoomSpeed: 10

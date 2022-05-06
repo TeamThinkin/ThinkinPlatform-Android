@@ -92,7 +92,6 @@ namespace Autohand{
         /// </summary>
         /// <param name="isProjection">for pose projections, so they wont fill condition for single handed before grab</param>
         public virtual void SetHandPose(Hand hand, bool isProjection = false) {
-
             if(!isProjection) {
                 if(!posingHands.Contains(hand))
                     posingHands.Add(hand);

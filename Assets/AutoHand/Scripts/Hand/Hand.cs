@@ -51,6 +51,8 @@ namespace Autohand {
         [Tooltip("This is used in conjunction with custom poses. For a custom pose to work it must has the same PoseIndex as the hand. Used for when your game has multiple hands")]
         public int poseIndex = 0;
 
+        public bool AllowGrabbing = true; //NOTE: Added by mbell 5/6/22
+
         [AutoLine]
         public bool ignoreMe1;
 
@@ -246,6 +248,8 @@ namespace Autohand {
 
         /// <summary>Function for controller trigger fully pressed -> Grabs whatever is directly in front of and closest to the hands palm</summary>
         public virtual void Grab(GrabType grabType) {
+            if (!AllowGrabbing) return; //NOTE: added by mbell 5/6/22
+
             OnTriggerGrab?.Invoke(this, null);
             foreach(var triggerArea in triggerEventAreas) {
                 triggerArea.Grab(this);
@@ -291,7 +295,9 @@ namespace Autohand {
                 var grabLayer = grab.gameObject.layer;
                 var grabbingLayer = LayerMask.NameToLayer(grabbingLayerName);
                 var grabPoint = grab.body.worldCenterOfMass;
-                SetLayerRecursive(grab.transform, grabbingLayer);
+                //SetLayerRecursive(grab.transform, grabbingLayer); //NOTE: mbell commented this out 5/5/22
+                grab.gameObject.layer = grabbingLayer;//mbell
+
                 RaycastHit lastHit = new RaycastHit();
                 bool didHit = false;
 
@@ -307,7 +313,9 @@ namespace Autohand {
                             didHit = true;
 
                             if(HandClosestHit(out RaycastHit closestHit, out Grabbable grabbable, reachDistance * 2, 1 << grabbingLayer) != Vector3.zero && grabbable != null) {
-                                SetLayerRecursive(grab.transform, grabLayer);
+                                //SetLayerRecursive(grab.transform, grabLayer); //NOTE: mbell commented this out 5/5/22
+                                grab.gameObject.layer = grabLayer; //mbell
+
                                 grabbable.body.velocity = Vector3.zero;
                                 grabbable.body.angularVelocity = Vector3.zero;
                                 grabRoutine = StartCoroutine(GrabObject(closestHit, grabbable, GrabType.InstantGrab));
@@ -843,6 +851,9 @@ namespace Autohand {
         Vector3 startHandGrabPosition;
         /// <summary>Takes a hit from a grabbable object and moves the hand towards that point, then calculates ideal hand shape</summary>
         protected IEnumerator GrabObject(RaycastHit hit, Grabbable grab, GrabType grabType) {
+            if (!AllowGrabbing) //NOTE: added by mbell 5/6/22
+                yield break;
+
             //Checks if the grabbable script is enabled
             if(!CanGrab(grab))
                 yield break;

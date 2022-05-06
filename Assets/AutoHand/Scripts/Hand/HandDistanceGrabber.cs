@@ -216,6 +216,7 @@ namespace Autohand {
 
 
         public virtual void StartPointing() {
+            if (!primaryHand.AllowGrabbing) return; //NOTE: added by mbell 5/6/22
             pointing = true;
             StartPoint?.Invoke(primaryHand);
         }
