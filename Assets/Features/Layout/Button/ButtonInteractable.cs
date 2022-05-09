@@ -6,17 +6,18 @@ using System.Linq;
 using UnityEngine;
 
 
-public class ButtonInteractable : HandTouchEvent
+public class ButtonInteractable : HandTouchEvent, IHandlePointerEvent
 {
+    public object Key;
+    public bool IsToggle;
+
     [SerializeField] protected Transform Visuals;
     [SerializeField] protected bool StartPressed = false;
     [SerializeField] protected Vector3 PressOffset = new Vector3(0, 0, 0.05f);
-    [SerializeField] protected bool IsToggle = true;
     [SerializeField] protected TMPro.TMP_Text Label;
     [SerializeField] protected AudioClip PressedAudio;
     [SerializeField] protected AudioClip UnpressedAudio;
-    [SerializeField] protected AudioSource AudioPlayer;
-    [SerializeField] protected Material InactiveMaterial;
+    [SerializeField] protected AudioSource _audioPlayer;
     [SerializeField] protected Material ActiveMaterial;
     [SerializeField] protected Renderer BackgroundRenderer;
 
@@ -24,8 +25,13 @@ public class ButtonInteractable : HandTouchEvent
     [SerializeField] protected UnityHandEvent OnPressed;
     [SerializeField] protected UnityHandEvent OnUnpressed;
 
+    public event Action<ButtonInteractable> OnInteractionEvent;
     public event Action<ButtonInteractable> OnPressedEvent;
     public event Action<ButtonInteractable> OnUnpressedEvent;
+
+    protected Material InactiveMaterial;
+
+    public AudioSource AudioPlayer => _audioPlayer;
 
     private bool _isPressed = false;
     public bool IsPressed
@@ -38,17 +44,23 @@ public class ButtonInteractable : HandTouchEvent
         }
     }
 
-    private void Awake()
+    public string Text
     {
-        if (BackgroundRenderer != null) BackgroundRenderer.sharedMaterial = InactiveMaterial;
+        get { return Label?.text; }
+        set { if(Label != null) Label.text = value; }
     }
 
-    protected override void OnTouch(Hand hand, Collision collision)
+    protected virtual void Awake()
     {
-        base.OnTouch(hand, collision);
+        if (BackgroundRenderer != null)
+        {
+            InactiveMaterial = BackgroundRenderer.sharedMaterial;
+            updateState();
+        }
+    }
 
-        if (!collision.InvolvesPrimaryFingerTip()) return; //Only accept input from pointer finger tips to hopefully filter out accidental touches
-
+    protected virtual void  onInteractionStart(Hand hand)
+    {
         if (IsToggle)
         {
             if (!_isPressed)
@@ -56,21 +68,20 @@ public class ButtonInteractable : HandTouchEvent
             else if (_isPressed)
                 Released(hand);
         }
-        else if (!_isPressed)
-            Pressed(hand);
+        else if (!_isPressed) Pressed(hand);
+
+        OnInteractionEvent?.Invoke(this);
     }
 
-    protected override void OnUntouch(Hand hand, Collision collision)
+    protected virtual void onInteractionEnd(Hand hand)
     {
-        base.OnUntouch(hand, collision);
-    
         if (_isPressed && !IsToggle) Released(hand);
     }
 
     protected virtual void Pressed(Hand hand)
     {
-        if (!_isPressed) Visuals.localPosition = PressOffset;
-        
+        if (!_isPressed && Visuals != null) Visuals.localPosition = PressOffset;
+
         IsPressed = true;
         AudioPlayer?.PlayOneShot(PressedAudio);
         OnPressed?.Invoke(hand);
@@ -79,7 +90,7 @@ public class ButtonInteractable : HandTouchEvent
 
     protected virtual void Released(Hand hand)
     {
-        if (_isPressed) Visuals.localPosition = Vector3.zero;
+        if (_isPressed && Visuals != null) Visuals.localPosition = Vector3.zero;
 
         IsPressed = false;
         AudioPlayer?.PlayOneShot(UnpressedAudio);
@@ -92,4 +103,50 @@ public class ButtonInteractable : HandTouchEvent
         Visuals.localPosition = IsPressed ? PressOffset : Vector3.zero;
         if (BackgroundRenderer != null) BackgroundRenderer.sharedMaterial = _isPressed ? ActiveMaterial : InactiveMaterial;
     }
+
+    #region -- Touch Events --
+    protected override void OnTouch(Hand hand, Collision collision)
+    {
+        base.OnTouch(hand, collision);
+
+        if (!collision.InvolvesPrimaryFingerTip()) return; //Only accept input from pointer finger tips to hopefully filter out accidental touches
+
+        onInteractionStart(hand);
+    }
+
+    protected override void OnUntouch(Hand hand, Collision collision)
+    {
+        base.OnUntouch(hand, collision);
+
+        onInteractionEnd(hand);
+    }
+    #endregion
+
+    #region -- Pointer Events --
+    public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+        onInteractionStart(null);
+    }
+
+    public void OnTriggerEnd(UIPointer Sender)
+    {
+        onInteractionEnd(null);
+    }
+
+    public void OnHoverStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnHoverEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnGripEnd(UIPointer Sender)
+    {
+    }
+    #endregion
 }

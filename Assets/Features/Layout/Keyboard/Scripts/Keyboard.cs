@@ -68,6 +68,8 @@ public class Keyboard : MonoBehaviour
 
     public void OnKeyUp(KeyboardButton Button)
     {
+        if (!keyDownTime.ContainsKey(Button)) return;
+
         var keyInfo = keyDownTime[Button];
         keyDownTime.Remove(Button);
 
@@ -115,7 +117,7 @@ public class Keyboard : MonoBehaviour
         FocusManager.SetFocus(item);
 
         var head = Camera.main.transform;
-        var targetPosition = head.position + head.forward * 0.5f + head.up * -0.2f;
+        var targetPosition = head.position + head.forward * 0.3f + head.up * -0.2f;
         var targetRot = Quaternion.LookRotation(head.position - targetPosition);
         
         if (isOpen)

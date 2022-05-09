@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContentListItem : MonoBehaviour // : ButtonInteractable
+public class ContentListItem : ButtonInteractable
 {
     [SerializeField] private GameObject SelectedIndicator;
     [SerializeField] private ContentSymbol Symbol;

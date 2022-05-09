@@ -229,7 +229,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9ad1be6aa27047b4383a3cfa2889d121, type: 2}
+  - {fileID: 2100000, guid: b3df5987aeb070248842cabcdb9769da, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 4468017875379564954}
   - component: {fileID: 6480844210704405349}
   - component: {fileID: 4468017875379564952}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,8 +424,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.025, y: 0.025, z: 0.006}
-  m_Center: {x: 0, y: 0, z: 0.003}
+  m_Size: {x: 0.025, y: 0.025, z: 0.0065}
+  m_Center: {x: 0, y: 0, z: 0.0035}
 --- !u!114 &6480844210704405349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,14 +446,16 @@ MonoBehaviour:
   HandStopTouch:
     m_PersistentCalls:
       m_Calls: []
+  IsToggle: 0
   Visuals: {fileID: 6163385456036183715}
   StartPressed: 0
   PressOffset: {x: 0, y: 0, z: -0.006}
-  IsToggle: 0
   Label: {fileID: 8686173768594435557}
   PressedAudio: {fileID: 8300000, guid: af7465c79e9598c4b93bd8fc8d7e473a, type: 3}
   UnpressedAudio: {fileID: 8300000, guid: b9107f6596fdfe242ac2ec6ff3e6d843, type: 3}
-  AudioPlayer: {fileID: 4468017875379564952}
+  _audioPlayer: {fileID: 4468017875379564952}
+  ActiveMaterial: {fileID: 2100000, guid: 9ad1be6aa27047b4383a3cfa2889d121, type: 2}
+  BackgroundRenderer: {fileID: 6759887149034444989}
   OnPressed:
     m_PersistentCalls:
       m_Calls:

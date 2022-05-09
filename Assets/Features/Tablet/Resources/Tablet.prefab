@@ -1319,6 +1319,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4999922884992494821, guid: 07f88f88c94dc5a4fbc866a33ab3e7e1, type: 3}
+      propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 974082180}
+    - target: {fileID: 4999922884992494821, guid: 07f88f88c94dc5a4fbc866a33ab3e7e1, type: 3}
+      propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Back
+      objectReference: {fileID: 0}
+    - target: {fileID: 4999922884992494821, guid: 07f88f88c94dc5a4fbc866a33ab3e7e1, type: 3}
+      propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NewMapDestinationWizard, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5790637462207670490, guid: 07f88f88c94dc5a4fbc866a33ab3e7e1, type: 3}
       propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1340,6 +1352,18 @@ PrefabInstance:
       value: Back
       objectReference: {fileID: 0}
     - target: {fileID: 6265234140826914332, guid: 07f88f88c94dc5a4fbc866a33ab3e7e1, type: 3}
+      propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: NewMapDestinationWizard, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928504320930743797, guid: 07f88f88c94dc5a4fbc866a33ab3e7e1, type: 3}
+      propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 974082180}
+    - target: {fileID: 7928504320930743797, guid: 07f88f88c94dc5a4fbc866a33ab3e7e1, type: 3}
+      propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Next
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928504320930743797, guid: 07f88f88c94dc5a4fbc866a33ab3e7e1, type: 3}
       propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: NewMapDestinationWizard, Assembly-CSharp
       objectReference: {fileID: 0}

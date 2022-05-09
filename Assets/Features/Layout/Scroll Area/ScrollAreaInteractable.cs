@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollAreaInteractable : MonoBehaviour // : XRBaseInteractable
+public class ScrollAreaInteractable : MonoBehaviour, IHandlePointerEvent
 {
     [SerializeField] private bool AllowXMovement = true;
     [SerializeField] private bool AllowYMovement;
@@ -17,66 +17,102 @@ public class ScrollAreaInteractable : MonoBehaviour // : XRBaseInteractable
     private MomentumVector3 dragDirection = new MomentumVector3(0.05f);
     private Plane referencePlane = new Plane();
     private Ray ray = new Ray();
-    //private XRBaseInteractor interactor;
+    private UIPointer interactor;
     private bool isDragging;
     private Vector3 lastDragLocalPosition;
+
+    
 
     protected void Awake()
     {
         scrollArea = GetComponent<ScrollArea>();
+        PointerHandlerChild.Inject(this);
     }
 
-    //private void Update()
-    //{
-    //    if (isDragging)
-    //    {
-    //        worldReferencePoint = getReferencePoint();
-    //        var localDirection = transform.InverseTransformDirection(worldReferencePoint - lastWorldReferencePoint);
-    //        var localDragPosition = transform.InverseTransformPoint(interactor.transform.position);
-    //        var localDragDelta = localDragPosition - lastDragLocalPosition;
+    private void Update()
+    {
+        if (isDragging)
+        {
+            worldReferencePoint = getReferencePoint();
+            var localDirection = transform.InverseTransformDirection(worldReferencePoint - lastWorldReferencePoint);
+            var localDragPosition = transform.InverseTransformPoint(interactor.transform.position);
+            var localDragDelta = localDragPosition - lastDragLocalPosition;
 
-    //        if (!AllowXMovement) localDirection.x = 0;
-    //        if (!AllowYMovement) localDirection.y = 0;
-    //        if(AllowZooming) scrollArea.Zoom += localDragDelta.z * ZoomSpeed;
+            if (!AllowXMovement) localDirection.x = 0;
+            if (!AllowYMovement) localDirection.y = 0;
+            if (AllowZooming) scrollArea.Zoom += localDragDelta.z * ZoomSpeed;
 
-    //        localDirection.z = 0;
+            localDirection.z = 0;
 
-    //        dragDirection.Set(localDirection);
-            
-    //        lastWorldReferencePoint = worldReferencePoint;
-    //        lastDragLocalPosition = localDragPosition;
-    //    }
-    //    else
-    //    {
-    //        dragDirection.Update();
-    //    }
+            dragDirection.Set(localDirection);
 
-    //    scrollArea.OffsetScrollPosition(dragDirection.Value);
-    //}
+            lastWorldReferencePoint = worldReferencePoint;
+            lastDragLocalPosition = localDragPosition;
+        }
+        else
+        {
+            dragDirection.Update();
+        }
 
-    //protected override void OnSelectEntered(SelectEnterEventArgs args)
-    //{
-    //    base.OnSelectEntered(args);
-    //    if (args.interactable != this) return;
+        scrollArea.OffsetScrollPosition(dragDirection.Value);
+    }
 
-    //    interactor = args.interactor;
-    //    lastDragLocalPosition = transform.InverseTransformPoint(interactor.transform.position);
-    //    lastWorldReferencePoint = getReferencePoint();
-    //    dragDirection.Value = Vector3.zero;
-    //    isDragging = true;
-    //}
+    private Vector3 getReferencePoint()
+    {
+        referencePlane.SetNormalAndPosition(transform.forward, transform.position);
+        ray.origin = interactor.transform.position;
+        ray.direction = interactor.transform.forward;
+        return referencePlane.GetRaycastPoint(ray);
+    }
 
-    //private Vector3 getReferencePoint()
-    //{
-    //    referencePlane.SetNormalAndPosition(transform.forward, transform.position);
-    //    ray.origin = interactor.transform.position;
-    //    ray.direction = interactor.transform.forward;
-    //    return referencePlane.GetRaycastPoint(ray);
-    //}
+    
 
-    //protected override void OnSelectExited(SelectExitEventArgs args)
-    //{
-    //    base.OnSelectExited(args);
-    //    isDragging = false;
-    //}
+    private void onPointerDragStart(UIPointer Sender)
+    {
+        Debug.Log("Scroll start");
+        interactor = Sender;
+        lastDragLocalPosition = transform.InverseTransformPoint(interactor.transform.position);
+        lastWorldReferencePoint = getReferencePoint();
+        dragDirection.Value = Vector3.zero;
+        isDragging = true;
+    }
+
+    private void onPointerDragEnd(UIPointer Sender)
+    {
+        isDragging = false;
+
+    }
+
+    public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+        onPointerDragStart(Sender);
+    }
+
+    public void OnTriggerEnd(UIPointer Sender)
+    {
+        onPointerDragEnd(Sender);
+    }
+
+    public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+        Debug.Log("Scroll Grip start");
+        onPointerDragStart(Sender);
+    }
+
+    public void OnGripEnd(UIPointer Sender)
+    {
+        onPointerDragEnd(Sender);
+    }
+
+    #region -- Unused Pointer Events --
+
+
+    public void OnHoverEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnHoverStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+    #endregion
 }

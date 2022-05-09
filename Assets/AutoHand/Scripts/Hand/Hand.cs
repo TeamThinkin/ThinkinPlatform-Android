@@ -248,13 +248,14 @@ namespace Autohand {
 
         /// <summary>Function for controller trigger fully pressed -> Grabs whatever is directly in front of and closest to the hands palm</summary>
         public virtual void Grab(GrabType grabType) {
-            if (!AllowGrabbing) return; //NOTE: added by mbell 5/6/22
-
             OnTriggerGrab?.Invoke(this, null);
             foreach(var triggerArea in triggerEventAreas) {
                 triggerArea.Grab(this);
             }
-            if(usingHighlight && !grabbing && holdingObj == null && lookingAtObj != null) {
+
+            if (!AllowGrabbing) return; //NOTE: added by mbell 5/6/22
+
+            if (usingHighlight && !grabbing && holdingObj == null && lookingAtObj != null) {
                 var newGrabType = this.grabType;
                 if(lookingAtObj.grabType != HandGrabType.Default)
                     newGrabType = lookingAtObj.grabType == HandGrabType.GrabbableToHand ? GrabType.GrabbableToHand : GrabType.HandToGrabbable;

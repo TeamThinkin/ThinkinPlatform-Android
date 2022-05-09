@@ -4,19 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MapItem : HandTouchEvent
+public class MapItem : HandTouchEvent, IHandlePointerEvent
 {
     [SerializeField] private ContentSymbol _symbol;
-    //[SerializeField] private ButtonBehavoir Button;
     //[SerializeField] private ConstrainedGrabbleBehavior Grabbable;
 
     public DestinationLinkContentItemDto Dto { get; private set; }
     public ContentSymbol Symbol => _symbol;
 
-    private void Start()
-    {
-        //Button.Clicked += Button_Clicked;
-    }
+    private bool isEditable;
 
     public void SetDto(DestinationLinkContentItemDto Dto)
     {
@@ -26,16 +22,51 @@ public class MapItem : HandTouchEvent
 
     public void ToggleEditable(bool IsEditable)
     {
-        //Button.enabled = !IsEditable;
+        IsEditable = IsEditable;
         //Grabbable.enabled = IsEditable;
     }
 
-    protected async override void OnTouch(Hand hand, Collision collision)
+    private async void onInteraction()
+    {
+        if (isEditable) return;
+
+        await RoomManager.Instance.LoadRoomUrl(Dto.Url);
+    }
+
+    protected override void OnTouch(Hand hand, Collision collision)
     {
         base.OnTouch(hand, collision);
 
         if (!collision.InvolvesPrimaryFingerTip()) return; //Only accept input from pointer finger tips to hopefully filter out accidental touches
-        
-        await RoomManager.Instance.LoadRoomUrl(Dto.Url);
+
+        onInteraction();
     }
+
+    public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+        onInteraction();
+    }
+
+
+    #region -- Unused Pointer Events --
+    public void OnTriggerEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnHoverStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnHoverEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnGripEnd(UIPointer Sender)
+    {
+    }
+    #endregion
 }

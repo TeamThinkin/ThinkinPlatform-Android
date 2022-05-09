@@ -293,7 +293,7 @@ MonoBehaviour:
   - environment
   BusyIndicator: {fileID: 3146167825796938596}
   ListItemPrefab: {fileID: 2900367164677816978, guid: bd20fae3559e5a348b0487ca08b4c230, type: 3}
-  TagButtonPrefab: {fileID: 7299931637986517334, guid: fb8d747ca73005b47bf8d0d5688ea634, type: 3}
+  TagButtonPrefab: {fileID: 8922779084942921556, guid: 937da84bdc73ccd4b90143407d4602e2, type: 3}
   ContentItemsContainer: {fileID: 2103994799667505073}
   TagsContainer: {fileID: 2103994797742763934}
 --- !u!1 &3146167825002443845

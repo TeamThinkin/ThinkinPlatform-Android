@@ -19,8 +19,8 @@ public class ContentSelectorPanel : TabPanel
     private List<string> tags = new List<string>();
     private List<CollectionContentItemDto> contentItemDtos = new List<CollectionContentItemDto>();
     private TypedObjectPool<ContentListItem> contentItemVisualPool;
-    private TypedObjectPool<ToggleButton> tagButtonPool;
-    private ToggleButton activeTagButton;
+    private TypedObjectPool<ButtonInteractable> tagButtonPool;
+    private ButtonInteractable activeTagButton;
     private string tagFilter;
     private bool isInitialized;
     
@@ -29,7 +29,7 @@ public class ContentSelectorPanel : TabPanel
     private void Awake()
     {
         contentItemVisualPool = new TypedObjectPool<ContentListItem>(ListItemPrefab, contentItemVisualPool_Get, contentItemVisualPool_Released);
-        tagButtonPool = new TypedObjectPool<ToggleButton>(TagButtonPrefab, tagButtonPool_Get, tagButtonPool_Released);
+        tagButtonPool = new TypedObjectPool<ButtonInteractable>(TagButtonPrefab, tagButtonPool_Get, tagButtonPool_Released);
         BusyIndicator.SetActive(false);
 
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
@@ -48,24 +48,24 @@ public class ContentSelectorPanel : TabPanel
         isInitialized = true;
     }
 
-    private void tagButtonPool_Get(ToggleButton item)
+    private void tagButtonPool_Get(ButtonInteractable item)
     {
-        //item.activated.AddListener(tagButton_Clicked);
+        item.OnInteractionEvent += TagButton_OnInteractionEvent;
     }
 
-    private void tagButtonPool_Released(ToggleButton item)
+    private void tagButtonPool_Released(ButtonInteractable item)
     {
-        //item.activated.RemoveListener(tagButton_Clicked);
+        item.OnInteractionEvent += TagButton_OnInteractionEvent;
     }
 
     private void contentItemVisualPool_Get(ContentListItem item)
     {
-        //item.activated.AddListener(contentItem_Clicked);
+        item.OnPressedEvent += ContentItem_OnPressedEvent;
     }
 
     private void contentItemVisualPool_Released(ContentListItem item)
     {
-        //item.activated.RemoveListener(contentItem_Clicked);
+        item.OnPressedEvent -= ContentItem_OnPressedEvent;
         item.IsItemSelected = false;
         if (SelectedListItem == item) SelectedListItem = null;
     }
@@ -81,32 +81,33 @@ public class ContentSelectorPanel : TabPanel
         fetchContent();
     }
 
-    //private void contentItem_Clicked(ActivateEventArgs e)
-    //{
-    //    if(SelectedListItem != null) SelectedListItem.IsItemSelected = false;
-       
-    //    SelectedListItem = e.interactable as ContentListItem;
-    //    SelectedListItem.IsItemSelected = true;
-    //}
 
-    //private void tagButton_Clicked(ActivateEventArgs e)
-    //{
-    //    var button = e.interactable as ToggleButton;
-    //    var tag = button.Key as string;
-    //    if (activeTagButton != null) activeTagButton.IsToggleActive = false;
-    //    if (tag != tagFilter)
-    //    {
-    //        activeTagButton = button;
-    //        activeTagButton.IsToggleActive = true;
-    //        tagFilter = tag;
-    //    }
-    //    else
-    //    {
-    //        activeTagButton = null;
-    //        tagFilter = null;
-    //    }
-    //    refreshContentItemVisuals();
-    //}
+    private void ContentItem_OnPressedEvent(ButtonInteractable Sender)
+    {
+        Debug.Log("Content Selector Panel Item selected");
+        if (SelectedListItem != null) SelectedListItem.IsItemSelected = false;
+
+        SelectedListItem = Sender as ContentListItem;
+        SelectedListItem.IsItemSelected = true;
+    }
+
+    private void TagButton_OnInteractionEvent(ButtonInteractable Sender)
+    {
+        var tag = Sender.Key as string;
+        if (activeTagButton != null) activeTagButton.IsPressed = false;
+        if (tag != tagFilter)
+        {
+            activeTagButton = Sender;
+            activeTagButton.IsPressed = true;
+            tagFilter = tag;
+        }
+        else
+        {
+            activeTagButton = null;
+            tagFilter = null;
+        }
+        refreshContentItemVisuals();
+    }
 
     public bool ValidateInput()
     {
@@ -225,8 +226,10 @@ public class ContentSelectorPanel : TabPanel
         tags.Add(tag);
 
         var button = tagButtonPool.Get();
+        button.IsToggle = true;
         button.Key = tag;
         button.Text = tag;
+        button.IsPressed = false;
         button.transform.SetParent(TagsContainer.ContentContainer.transform, false);
     }
 }

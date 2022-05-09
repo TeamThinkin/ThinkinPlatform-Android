@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Textbox : HandTouchEvent, IFocusItem // : ButtonInteractable, IFocusItem
+public class Textbox : HandTouchEvent, IFocusItem, IHandlePointerEvent
 {
     [SerializeField] private TMPro.TMP_Text Label;
     [SerializeField] private GameObject CaretIndicator;
@@ -32,10 +32,20 @@ public class Textbox : HandTouchEvent, IFocusItem // : ButtonInteractable, IFocu
         Keyboard.Instance.Text.ValueChanged -= Text_ValueChanged;
     }
 
+    private void OnInteractionStart()
+    {
+        Keyboard.Instance.ShowForInput(this);
+    }
+
     protected override void OnTouch(Hand hand, Collision collision)
     {
         base.OnTouch(hand, collision);
-        Keyboard.Instance.ShowForInput(this);
+        OnInteractionStart();
+    }
+
+    public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+        OnInteractionStart();
     }
 
     private void Text_ValueChanged(EditableText keyboardText)
@@ -97,4 +107,26 @@ public class Textbox : HandTouchEvent, IFocusItem // : ButtonInteractable, IFocu
 
         CaretIndicator.transform.position = position;
     }
+
+    #region -- Unused Pointer Events --
+    public void OnHoverStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnHoverEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnGripEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnTriggerEnd(UIPointer Sender)
+    {
+    }
+    #endregion
 }

@@ -29,7 +29,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0.094}
   m_LocalScale: {x: 0.07481678, y: 0.07481678, z: 0.07481678}
   m_Children: []
-  m_Father: {fileID: 3613653127935018055}
+  m_Father: {fileID: 8187728088731883084}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -199,7 +199,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0.094}
   m_LocalScale: {x: 0.17601463, y: 0.17601463, z: 0.17601463}
   m_Children: []
-  m_Father: {fileID: 3613653127935018055}
+  m_Father: {fileID: 8187728088731883084}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -351,7 +351,6 @@ GameObject:
   - component: {fileID: 8736011560314968829}
   - component: {fileID: 9206777830494435580}
   - component: {fileID: 6759887149034444989}
-  - component: {fileID: 4045031413170671939}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -370,7 +369,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.1}
   m_Children: []
-  m_Father: {fileID: 3613653127935018055}
+  m_Father: {fileID: 8187728088731883084}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9206777830494435580
@@ -422,19 +421,39 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4045031413170671939
-BoxCollider:
+--- !u!1 &5378639429556877173
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3848470393723330853}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8187728088731883084}
+  m_Layer: 0
+  m_Name: Visuals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8187728088731883084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378639429556877173}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8736011560314968829}
+  - {fileID: 357020082984198480}
+  - {fileID: 7876707371832819355}
+  m_Father: {fileID: 3613653127935018055}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8922779084942921556
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +465,8 @@ GameObject:
   - component: {fileID: 3613653127935018055}
   - component: {fileID: 2353571277827512155}
   - component: {fileID: 1566422531226213518}
-  m_Layer: 0
+  - component: {fileID: 7636040237452264058}
+  m_Layer: 5
   m_Name: Keyboard Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,9 +484,7 @@ Transform:
   m_LocalPosition: {x: -0.0904, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8736011560314968829}
-  - {fileID: 357020082984198480}
-  - {fileID: 7876707371832819355}
+  - {fileID: 8187728088731883084}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -482,66 +500,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77fec33d78544ce44a41a369f83edd88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_InteractionManager: {fileID: 0}
-  m_Colliders:
-  - {fileID: 4045031413170671939}
-  m_InteractionLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CustomReticle: {fileID: 0}
-  m_FirstHoverEntered:
+  oneHanded: 1
+  handType: 0
+  HandStartTouch:
     m_PersistentCalls:
       m_Calls: []
-  m_LastHoverExited:
+  HandStopTouch:
     m_PersistentCalls:
       m_Calls: []
-  m_HoverEntered:
+  IsToggle: 0
+  Visuals: {fileID: 8187728088731883084}
+  StartPressed: 0
+  PressOffset: {x: 0, y: 0, z: -0.2}
+  Label: {fileID: 8686173768594435557}
+  PressedAudio: {fileID: 8300000, guid: e9df93b9173aaa943b56b7c636711b69, type: 3}
+  UnpressedAudio: {fileID: 8300000, guid: 234f0557701c23d4a9dbba9d0046b92c, type: 3}
+  _audioPlayer: {fileID: 1566422531226213518}
+  ActiveMaterial: {fileID: 0}
+  BackgroundRenderer: {fileID: 0}
+  OnPressed:
     m_PersistentCalls:
       m_Calls: []
-  m_HoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Activated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Deactivated:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnFirstHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnLastHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectCanceled:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnActivate:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnDeactivate:
+  OnUnpressed:
     m_PersistentCalls:
       m_Calls: []
   Background: {fileID: 8736011560314968829}
-  _audioSource: {fileID: 1566422531226213518}
   PrimaryLabel: {fileID: 8686173768594435557}
   Keyboard: {fileID: 0}
   LayoutLocalPosition: {x: 0, y: 0, z: 0}
@@ -648,3 +631,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &7636040237452264058
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8922779084942921556}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0}
