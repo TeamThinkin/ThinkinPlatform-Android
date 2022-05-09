@@ -7,7 +7,7 @@ using UnityEngine;
 public class MapItem : HandTouchEvent, IHandlePointerEvent
 {
     [SerializeField] private ContentSymbol _symbol;
-    //[SerializeField] private ConstrainedGrabbleBehavior Grabbable;
+    [SerializeField] private VoumeConstraintedPointerGrabbable Grabbable;
 
     public DestinationLinkContentItemDto Dto { get; private set; }
     public ContentSymbol Symbol => _symbol;
@@ -22,8 +22,8 @@ public class MapItem : HandTouchEvent, IHandlePointerEvent
 
     public void ToggleEditable(bool IsEditable)
     {
-        IsEditable = IsEditable;
-        //Grabbable.enabled = IsEditable;
+        isEditable = IsEditable;
+        Grabbable.enabled = IsEditable;
     }
 
     private async void onInteraction()
@@ -48,6 +48,21 @@ public class MapItem : HandTouchEvent, IHandlePointerEvent
     }
 
 
+    public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+        if (!isEditable) return;
+
+        Grabbable.OnGripStart(Sender, RayInfo);
+    }
+
+    public void OnGripEnd(UIPointer Sender)
+    {
+        if (!isEditable) return;
+
+        Grabbable.OnGripEnd(Sender);
+    }
+
+
     #region -- Unused Pointer Events --
     public void OnTriggerEnd(UIPointer Sender)
     {
@@ -61,12 +76,5 @@ public class MapItem : HandTouchEvent, IHandlePointerEvent
     {
     }
 
-    public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
-    {
-    }
-
-    public void OnGripEnd(UIPointer Sender)
-    {
-    }
     #endregion
 }

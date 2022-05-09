@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 6569510234590029946}
   - component: {fileID: 9186724164317908166}
   - component: {fileID: 4495333374385931005}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: List Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,14 +367,17 @@ MonoBehaviour:
   HandStopTouch:
     m_PersistentCalls:
       m_Calls: []
+  IsToggle: 0
+  IsPhysicalHandInteractionsDisabled: 0
   Visuals: {fileID: 5216127843314176469}
   StartPressed: 0
   PressOffset: {x: 0, y: 0, z: -0.006}
-  IsToggle: 1
   Label: {fileID: 6569510234313064812}
   PressedAudio: {fileID: 8300000, guid: af7465c79e9598c4b93bd8fc8d7e473a, type: 3}
   UnpressedAudio: {fileID: 8300000, guid: b9107f6596fdfe242ac2ec6ff3e6d843, type: 3}
-  AudioPlayer: {fileID: 4495333374385931005}
+  _audioPlayer: {fileID: 4495333374385931005}
+  ActiveMaterial: {fileID: 0}
+  BackgroundRenderer: {fileID: 0}
   OnPressed:
     m_PersistentCalls:
       m_Calls: []

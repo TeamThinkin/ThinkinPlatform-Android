@@ -370,7 +370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 28560416574751997}
   - component: {fileID: 28560416574751996}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Drop Down Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -657,7 +657,7 @@ GameObject:
   - component: {fileID: 8361967891585510811}
   - component: {fileID: 5559118986634799987}
   - component: {fileID: 7437149014106547991}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Toggle Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}

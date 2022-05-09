@@ -32,6 +32,14 @@ public class Textbox : HandTouchEvent, IFocusItem, IHandlePointerEvent
         Keyboard.Instance.Text.ValueChanged -= Text_ValueChanged;
     }
 
+    protected void OnDisable()
+    {
+        #pragma warning disable CS0253 // Possible unintended reference comparison; right hand side needs cast
+        if (this == Keyboard.Instance.CurrentFocusItem)
+            Keyboard.Instance.Close();
+        #pragma warning restore CS0253 // Possible unintended reference comparison; right hand side needs cast
+    }
+
     private void OnInteractionStart()
     {
         Keyboard.Instance.ShowForInput(this);

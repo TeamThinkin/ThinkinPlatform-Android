@@ -86,7 +86,6 @@ public class DestinationDetailsPanel : TabPanel
         for(int i=0;i<otherItems.Length;i++)
         {
             var item = otherItems[i];
-            Debug.Log("Item: " + item.gameObject.name);
             var bounds = item.GetComponentInChildren<BlockLayoutItem>().GetBounds();
             bounds.center += item.transform.localPosition;
             existingItemBounds[i] = bounds;

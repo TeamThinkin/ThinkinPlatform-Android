@@ -56,14 +56,23 @@ public class ScrollArea : LayoutContainer
     {
         if (!hasContentBounds()) return;
         var center = -contentBounds.center;
-        center.z = contentBounds.min.z;
+        //center.z = contentBounds.max.z;
+        center.z = 0;
+        ZoomToFitContents();
         SetScrollPosition(center);
+    }
+
+    public void ZoomToFitContents()
+    {
+        //TODO: implement this
+        Zoom = 0.5f;
     }
 
     public void CenterViewOnItem(Transform Item)
     {
         var center = -Item.localPosition;
-        center.z = contentBounds.min.z;
+        //center.z = contentBounds.min.z;
+        center.z = 0;
         SetScrollPosition(center);
     }
 

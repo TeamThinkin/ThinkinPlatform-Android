@@ -17082,7 +17082,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XRPlayer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3299886598131135649, guid: a5226a72c9553294abfe172a458b5805, type: 3}
+    - {fileID: 6751493399667073351, guid: a5226a72c9553294abfe172a458b5805, type: 3}
+    - {fileID: 8632762422037491272, guid: a5226a72c9553294abfe172a458b5805, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a5226a72c9553294abfe172a458b5805, type: 3}
 --- !u!1 &1169310649 stripped
 GameObject:
@@ -31807,6 +31810,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1369923577541509108, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
+      propertyPath: m_Size.z
+      value: 1.5442032
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369923577541509108, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
+      propertyPath: m_Center.z
+      value: 0.27210113
+      objectReference: {fileID: 0}
     - target: {fileID: 3930971818179446970, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
       propertyPath: m_Name
       value: Keyboard
@@ -31817,15 +31828,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3930971818179446971, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3930971818179446971, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3930971818179446971, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3930971818179446971, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -31866,6 +31877,14 @@ PrefabInstance:
     - target: {fileID: 3930971818179446971, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878461359227176656, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878461359944766348, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
+      propertyPath: m_Size.x
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c038940d548dc943ba18c820f6d32c4, type: 3}
@@ -33398,6 +33417,10 @@ PrefabInstance:
       propertyPath: PrimaryHand
       value: 
       objectReference: {fileID: 1169310652}
+    - target: {fileID: 4812689167667348204, guid: e5947ca764483c94b82c024a8c09c7bb, type: 3}
+      propertyPath: Layers.m_Bits
+      value: 96
+      objectReference: {fileID: 0}
     - target: {fileID: 4812689167667348206, guid: e5947ca764483c94b82c024a8c09c7bb, type: 3}
       propertyPath: m_Name
       value: UI Pointer

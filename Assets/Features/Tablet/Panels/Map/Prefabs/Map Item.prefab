@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1183023436793461248}
   - component: {fileID: 1586601689097235732}
   - component: {fileID: 1243154200746993712}
+  - component: {fileID: 2450436451861174719}
   m_Layer: 5
   m_Name: Map Item
   m_TagString: Untagged
@@ -54,6 +55,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _symbol: {fileID: 5397956009867571083}
+  Grabbable: {fileID: 2450436451861174719}
 --- !u!135 &1243154200746993712
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -67,6 +69,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.02
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2450436451861174719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2900367164677816978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 136ce6ed731a28b4ca021e448ee8ea5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Volume: {fileID: 0}
 --- !u!1001 &5621280169573786884
 PrefabInstance:
   m_ObjectHideFlags: 0

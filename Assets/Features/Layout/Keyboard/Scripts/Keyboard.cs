@@ -40,6 +40,8 @@ public class Keyboard : MonoBehaviour
 
     public static Keyboard Instance { get; private set; }
 
+    public IFocusItem CurrentFocusItem => FocusManager.CurrentFocusItem;
+
     private void Awake()
     {
         Instance = this;

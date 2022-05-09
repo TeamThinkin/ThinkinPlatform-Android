@@ -10,6 +10,7 @@ public class ButtonInteractable : HandTouchEvent, IHandlePointerEvent
 {
     public object Key;
     public bool IsToggle;
+    public bool IsPhysicalHandInteractionsDisabled;
 
     [SerializeField] protected Transform Visuals;
     [SerializeField] protected bool StartPressed = false;
@@ -109,6 +110,7 @@ public class ButtonInteractable : HandTouchEvent, IHandlePointerEvent
     {
         base.OnTouch(hand, collision);
 
+        if (IsPhysicalHandInteractionsDisabled) return;
         if (!collision.InvolvesPrimaryFingerTip()) return; //Only accept input from pointer finger tips to hopefully filter out accidental touches
 
         onInteractionStart(hand);
@@ -118,6 +120,7 @@ public class ButtonInteractable : HandTouchEvent, IHandlePointerEvent
     {
         base.OnUntouch(hand, collision);
 
+        if (IsPhysicalHandInteractionsDisabled) return;
         onInteractionEnd(hand);
     }
     #endregion

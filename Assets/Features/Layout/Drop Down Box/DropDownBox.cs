@@ -5,9 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class DropDownBox : MonoBehaviour
+public class DropDownBox : MonoBehaviour, IHandlePointerEvent
 {
-    //[SerializeField] private ButtonInteractable ToggleButton;
     [SerializeField] private GameObject List;
     [SerializeField] private AnimationCurve ToggleAnimationCurve;
     [SerializeField] private float ToggleAnimationDuration = 1f;
@@ -37,6 +36,8 @@ public class DropDownBox : MonoBehaviour
 
     private void Start()
     {
+        PointerHandlerChild.Inject(this);
+
         listItems = new TypedObjectPool<ListItem>(ListItemPrefab);
 
         List.transform.localScale = new Vector3(1, 0, 1);
@@ -78,7 +79,10 @@ public class DropDownBox : MonoBehaviour
 
     public void ToggleAreaTouched()
     {
-        if (isListVisible) hideList(); else showList();
+        if (isListVisible) 
+            hideList(); 
+        else 
+            showList();
     }
 
     public void ListItem_Selected(ListItem Item)
@@ -104,4 +108,31 @@ public class DropDownBox : MonoBehaviour
     {
         AnimationHelper.StartAnimation(this, ref animateListCoroutine, ToggleAnimationDuration, List.transform.localScale.y, targetScale, i => List.transform.localScale = Vector3.one.Scale(1, i, 1), onCompleteCallback, ToggleAnimationCurve);
     }
+
+    public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+        ToggleAreaTouched();
+    }
+
+    #region -- Unused Pointer Events --
+    public void OnTriggerEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnHoverStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnHoverEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnGripEnd(UIPointer Sender)
+    {
+    }
+    #endregion
 }
