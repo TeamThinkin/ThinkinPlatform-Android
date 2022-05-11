@@ -34,6 +34,7 @@ public class SkinController : MonoBehaviour
     {
         var avatar = await loadAvatarFromUrl(AvatarUrl);
         var skinController = avatar.AddComponent<SkinController>();
+        Debug.Log("CreateSkin setting source data");
         skinController.SetSourceData(IsLocal, HeadTransform, LeftHandTransform, RightHandTransform, LeftHandDataProvider, RightHandDataProvider);
         return skinController;
     }
@@ -45,10 +46,19 @@ public class SkinController : MonoBehaviour
             leftHandData = leftHandDataProvider.GetHandData();
             rightHandData = rightHandDataProvider.GetHandData();
 
-            rightHandAnimator.SetFloat("Grip", rightHandData.GripStrength);
-            rightHandAnimator.SetBool("Is Pointing", rightHandData.IsPointing);
-            leftHandAnimator.SetFloat("Grip", leftHandData.GripStrength);
-            leftHandAnimator.SetBool("Is Pointing", leftHandData.IsPointing);
+            if (rightHandAnimator != null)
+            {
+                rightHandAnimator.SetFloat("Grip", rightHandData.GripStrength);
+                rightHandAnimator.SetBool("Is Pointing", rightHandData.IsPointing);
+            }
+            else Debug.LogError("SkinController rightHandAnimator not set");
+
+            if (leftHandAnimator != null)
+            {
+                leftHandAnimator.SetFloat("Grip", leftHandData.GripStrength);
+                leftHandAnimator.SetBool("Is Pointing", leftHandData.IsPointing);
+            }
+            else Debug.LogError("SkinController leftHandAnimator not set");
         }
     }
 
@@ -70,23 +80,23 @@ public class SkinController : MonoBehaviour
         this.rightHandDataProvider = RightHandDataProvider;
 
         if (IsLocal) patchRendererBounds(gameObject);
+
         addBoneConstraints(gameObject);
         addAnimationController(gameObject);
     }
 
     public SkinnedMeshRenderer GetMouthRenderer()
     {
-        return gameObject.transform.Find("Wolf3D.Avatar_Renderer_Head").gameObject.GetComponent<SkinnedMeshRenderer>();
+        return gameObject.transform.Find("Avatar_Renderer_Head").gameObject.GetComponent<SkinnedMeshRenderer>();
     }
 
 
     private static async Task<GameObject> loadAvatarFromUrl(string avatarUrl)
     {
-        Debug.Log("Loading skin: " + avatarUrl);
         bool isLoaded = false;
         GameObject loadedSkin = null;
 
-        loader.LoadAvatar(avatarUrl, avatar =>
+        loader.LoadAvatar(avatarUrl, null, (avatar, metadata) =>
         {
             isLoaded = true;
             loadedSkin = avatar;
