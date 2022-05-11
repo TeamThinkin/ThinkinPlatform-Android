@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class RemoteAvatarController : RealtimeComponent<UserInfoModel>
+public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
 {
     [SerializeField] private Transform HeadTransform;
     [SerializeField] private Transform RightHandTransform;
     [SerializeField] private Transform LeftHandTransform;
     [SerializeField] private TMP_Text DisplayNameLabel;
     [SerializeField] private MouthMoveBlendShape MouthMover;
-    [SerializeField] private RemoteAvatarHandController LeftHand;
-    [SerializeField] private RemoteAvatarHandController RightHand;
+    [SerializeField] private NetworkAvatarHandController LeftHand;
+    [SerializeField] private NetworkAvatarHandController RightHand;
 
     private SkinController currentSkin;
 

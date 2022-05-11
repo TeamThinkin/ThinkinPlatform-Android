@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 6908463946386601671}
   - component: {fileID: 997965080583408720}
   m_Layer: 0
-  m_Name: Wolf3D.Avatar_Renderer_Shirt
+  m_Name: Avatar_Renderer_Shirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 3051640862923866754}
   - component: {fileID: 8361530593081553533}
   m_Layer: 0
-  m_Name: Wolf3D.Avatar_Renderer_Head
+  m_Name: Avatar_Renderer_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 1537997729756791072}
   - component: {fileID: 8939958518683229367}
   m_Layer: 0
-  m_Name: Wolf3D.Avatar_Renderer_EyeLeft
+  m_Name: Avatar_Renderer_EyeLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,7 +561,7 @@ GameObject:
   - component: {fileID: 5130568897490905386}
   - component: {fileID: 1336251893378671425}
   m_Layer: 0
-  m_Name: Wolf3D.Avatar_Renderer_Hair
+  m_Name: Avatar_Renderer_Hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -839,7 +839,7 @@ GameObject:
   - component: {fileID: 1855016189166735758}
   - component: {fileID: 2063768568758776604}
   m_Layer: 0
-  m_Name: Wolf3D.Avatar_Renderer_Teeth
+  m_Name: Avatar_Renderer_Teeth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -991,7 +991,7 @@ GameObject:
   - component: {fileID: 3384026757093611923}
   - component: {fileID: 4813133159629511456}
   m_Layer: 0
-  m_Name: Wolf3D.Avatar_Renderer_Hands
+  m_Name: Avatar_Renderer_Hands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1812,7 +1812,7 @@ GameObject:
   - component: {fileID: 5230991789669021713}
   - component: {fileID: 4686810516158095016}
   m_Layer: 0
-  m_Name: Wolf3D.Avatar_Renderer_EyeRight
+  m_Name: Avatar_Renderer_EyeRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

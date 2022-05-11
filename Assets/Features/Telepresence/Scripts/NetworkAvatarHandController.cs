@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RemoteAvatarHandController: RealtimeComponent<HandInfoModel>, IProvideHandData
+public class NetworkAvatarHandController : RealtimeComponent<HandInfoModel>, IProvideHandData
 {
     [SerializeField] private LineRenderer RayVisualizer;
-    [SerializeField] private RemoteAvatarController ParentRemoteAvatarController;
+    [SerializeField] private NetworkAvatarController ParentRemoteAvatarController;
     [SerializeField] private HandSideEnum HandSide;
 
     private LocalAvatarHandController localHand;

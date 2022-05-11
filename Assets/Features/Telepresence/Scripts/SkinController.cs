@@ -34,7 +34,6 @@ public class SkinController : MonoBehaviour
     {
         var avatar = await loadAvatarFromUrl(AvatarUrl);
         var skinController = avatar.AddComponent<SkinController>();
-        Debug.Log("CreateSkin setting source data");
         skinController.SetSourceData(IsLocal, HeadTransform, LeftHandTransform, RightHandTransform, LeftHandDataProvider, RightHandDataProvider);
         return skinController;
     }

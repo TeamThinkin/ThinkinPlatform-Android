@@ -21,6 +21,7 @@ public static class AnimationHelper
 
     public static void StartAnimation(MonoBehaviour Source, ref Coroutine AnimationCoroutine, float Duration, float FromValue, float ToValue, Action<float> UseValue, Action OnCompleteCallback = null, AnimationCurve curve = null)
     {
+        if (Source == null || !Source.isActiveAndEnabled) return;
         if (AnimationCoroutine != null) Source.StopCoroutine(AnimationCoroutine);
 
         AnimationCoroutine = Source.StartCoroutine(Animate(Duration, FromValue, ToValue, UseValue, OnCompleteCallback, curve));

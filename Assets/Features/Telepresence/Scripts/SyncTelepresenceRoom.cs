@@ -20,6 +20,7 @@ public class SyncTelepresenceRoom : MonoBehaviour
 
     private void RoomManager_OnRoomLoaded()
     {
+        if (!enabled) return;
         if (RoomManager.CurrentRoomId == null) return;
 
         Normcore.Connect(RoomManager.CurrentRoomId.ToString());
@@ -27,6 +28,7 @@ public class SyncTelepresenceRoom : MonoBehaviour
 
     private void RoomManager_OnRoomUnloaded()
     {
+        if (!enabled) return;
         Normcore.Disconnect();
     }
 }
