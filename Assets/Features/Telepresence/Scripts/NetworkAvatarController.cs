@@ -17,6 +17,34 @@ public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
 
     private SkinController currentSkin;
 
+    private void Awake()
+    {
+        LocalAvatarManager.Instance.OnCurrentSkinLoaded += LocalAvatarManager_OnCurrentSkinLoaded;
+    }
+
+    private void LocalAvatarManager_OnCurrentSkinLoaded()
+    {
+        if(isOwnedLocallyInHierarchy)
+        {
+            linkMouthMover();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        LocalAvatarManager.Instance.OnCurrentSkinLoaded -= LocalAvatarManager_OnCurrentSkinLoaded;
+
+        if (model != null)
+        {
+            model.displayNameDidChange -= CurrentModel_displayNameDidChange;
+
+            if (model.isOwnedLocallyInHierarchy)
+            {
+                UserInfo.OnCurrentUserChanged -= UserInfo_OnCurrentUserChanged;
+            }
+        }
+    }
+
     protected override void OnRealtimeModelReplaced(UserInfoModel previousModel, UserInfoModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
@@ -60,19 +88,6 @@ public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
         updateModelFromUserInfo();
     }
 
-    private void OnDestroy()
-    {
-        if(model != null)
-        {
-            model.displayNameDidChange -= CurrentModel_displayNameDidChange;
-
-            if (model.isOwnedLocallyInHierarchy)
-            {
-                UserInfo.OnCurrentUserChanged -= UserInfo_OnCurrentUserChanged;
-            }
-        }
-    }
-
     private void CurrentModel_avatarUrlDidChange(UserInfoModel model, string value)
     {
         if (isOwnedLocallyInHierarchy) return; //Local skins are handled by the LocalAvatarManager
@@ -91,10 +106,27 @@ public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
 
     private void linkMouthMover() //Note: this assumes the skin model has been loaded, and as that is an async process there may be problems if this called before it completes
     {
-        if(isOwnedLocallyInHierarchy)
-            MouthMover.Mesh = LocalAvatarManager.Instance.CurrentSkin.GetMouthRenderer();
+        if (isOwnedLocallyInHierarchy)
+        {
+            if (MouthMover == null) Debug.LogError("MouthMover Null");
+            if (LocalAvatarManager.Instance == null) Debug.LogError("Local AvatarManager Null");
+
+            Debug.Log("Checking local avatar manager for skin");
+            if (LocalAvatarManager.Instance.CurrentSkin != null)
+            {
+                MouthMover.Mesh = LocalAvatarManager.Instance.CurrentSkin.GetMouthRenderer();
+                Debug.Log("Mouth Mover linked");
+            }
+            else
+            {
+                //Looks like the avatar has not loaded yet. Once it has loaded the LocalAvatarManager_OnCurrentSkinLoaded should call this function again for another attempt
+                Debug.Log("Network Avatar Controller unable to link mouth mover because skin is not available. Waiting for signal from LocalAvatarManager for OnCurrentSkinLoaded");
+            }
+        }
         else
+        {
             MouthMover.Mesh = currentSkin.GetMouthRenderer();
+        }
     }
 
     private async void updateSkin(string avatarUrl)

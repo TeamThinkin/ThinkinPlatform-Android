@@ -11,9 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Features/Home Room/Home Room.unity
     guid: b9686f1dc9a101f4f9a7de3961d4677b
-  - enabled: 1
-    path: Assets/Features/Home Room/Test Scene.unity
-    guid: 0a23762b83caa3e4583b1aa433b1094c
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9ebf296fc63b3b243b8e35324b8eacc0, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 685a3897194fcbc459aa259ab4c20e9b, type: 2}

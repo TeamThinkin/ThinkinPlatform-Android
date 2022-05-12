@@ -50,6 +50,7 @@ public class SkinController : MonoBehaviour
     private AvatarHandData rightHandData;
     private Fingers leftFingers;
     private Fingers rightFingers;
+    private bool isLocal;
     
     public static async Task<SkinController> CreateSkin(bool IsLocal, string AvatarUrl, Transform HeadTransform, Transform LeftHandTransform, Transform RightHandTransform, IProvideHandData LeftHandDataProvider, IProvideHandData RightHandDataProvider)
     {
@@ -105,6 +106,7 @@ public class SkinController : MonoBehaviour
 
     public void SetSourceData(bool IsLocal, Transform HeadTransform, Transform LeftHandTransform, Transform RightHandTransform, IProvideHandData LeftHandDataProvider, IProvideHandData RightHandDataProvider)
     {
+        this.isLocal = IsLocal;
         this.headTransform = HeadTransform;
         this.leftHandTransform = LeftHandTransform;
         this.rightHandTransform = RightHandTransform;

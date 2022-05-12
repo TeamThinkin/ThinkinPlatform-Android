@@ -20,6 +20,8 @@ public class LocalAvatarManager : MonoBehaviour, IProvideHandData
     private bool isCurrentSkinDefault;
     private string currentAvatarUrl;
 
+    public event Action OnCurrentSkinLoaded;
+
     public SkinController CurrentSkin => currentSkin;
 
     private void Awake()
@@ -56,6 +58,8 @@ public class LocalAvatarManager : MonoBehaviour, IProvideHandData
             isCurrentSkinDefault = false;
             currentAvatarUrl = UserInfo.CurrentUser.AvatarUrl;
             currentSkin = await SkinController.CreateSkin(true, UserInfo.CurrentUser.AvatarUrl, HeadAnchor, LeftHandAnchor, RightHandAnchor, LeftAvatarHand, RightAvatarHand);
+            Debug.Log("Local skin loaded");
+            OnCurrentSkinLoaded?.Invoke();
         }
         else
         {
@@ -66,6 +70,8 @@ public class LocalAvatarManager : MonoBehaviour, IProvideHandData
             currentAvatarUrl = null;
             currentSkin = Instantiate(DefaultAvatar).GetComponent<SkinController>();
             currentSkin.SetSourceData(true, HeadAnchor, LeftHandAnchor, RightHandAnchor, LeftAvatarHand, RightAvatarHand);
+            OnCurrentSkinLoaded?.Invoke();
+            //TODO: The default avatar skin needs to be checked since it looks like some of the object names may have changed since it was downloaded
             Debug.Log("Instantiated default skin");
         }
     }
