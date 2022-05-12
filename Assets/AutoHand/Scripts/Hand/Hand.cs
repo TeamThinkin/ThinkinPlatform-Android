@@ -222,6 +222,7 @@ namespace Autohand {
                     }
                 }
 
+                if (follow == null) Debug.Log("null follo on: " + gameObject.name);
                 lastFrameFollowPos = follow.position;
                 lastFrameFollowRot = follow.rotation;
             }

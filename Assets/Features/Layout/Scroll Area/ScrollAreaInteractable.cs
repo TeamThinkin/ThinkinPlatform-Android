@@ -69,7 +69,6 @@ public class ScrollAreaInteractable : MonoBehaviour, IHandlePointerEvent
 
     private void onPointerDragStart(UIPointer Sender)
     {
-        Debug.Log("Scroll start");
         interactor = Sender;
         lastDragLocalPosition = transform.InverseTransformPoint(interactor.transform.position);
         lastWorldReferencePoint = getReferencePoint();
@@ -95,7 +94,6 @@ public class ScrollAreaInteractable : MonoBehaviour, IHandlePointerEvent
 
     public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
     {
-        Debug.Log("Scroll Grip start");
         onPointerDragStart(Sender);
     }
 

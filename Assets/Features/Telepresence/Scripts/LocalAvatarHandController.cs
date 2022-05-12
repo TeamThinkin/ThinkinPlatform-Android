@@ -10,15 +10,32 @@ public enum HandSideEnum
 
 public class LocalAvatarHandController : MonoBehaviour, IProvideHandData
 {
-    //[SerializeField] private XRRayInteractor RayInteractor;
-    //[SerializeField] private XRInteractorLineVisual RayVisualizer;
     [SerializeField] private HandSideEnum HandSide;
+
+    public Transform FingerIndex1;
+    public Transform FingerIndex2;
+    public Transform FingerIndex3;
+
+    public Transform FingerMiddle1;
+    public Transform FingerMiddle2;
+    public Transform FingerMiddle3;
+
+    public Transform FingerRing1;
+    public Transform FingerRing2;
+    public Transform FingerRing3;
+
+    public Transform FingerPinky1;
+    public Transform FingerPinky2;
+    public Transform FingerPinky3;
+
+    public Transform FingerThumb1;
+    public Transform FingerThumb2;
+    public Transform FingerThumb3;
+
 
     private AvatarHandData handData;
 
     public AvatarHandData HandData => handData;
-    //private InputAction isFingerOnTriggerInputAction;
-    //private InputAction gripStrengthInputAction;
 
     public static LocalAvatarHandController Left { get; private set; }
     public static LocalAvatarHandController Right { get; private set; }
@@ -36,37 +53,33 @@ public class LocalAvatarHandController : MonoBehaviour, IProvideHandData
         }
     }
 
-    //public void SetInputActions(InputAction isFingerOnTriggerInputAction, InputAction gripStrengthInputAction)
-    //{
-    //    this.isFingerOnTriggerInputAction = isFingerOnTriggerInputAction;
-    //    this.gripStrengthInputAction = gripStrengthInputAction;
-    //}
+    private void Update()
+    {
+        updateHandData();
+    }
 
-    //private void Update()
-    //{
-    //    updateHandData();
-    //    RayVisualizer.enabled = handData.IsPointing;
-    //}
+    private void updateHandData()
+    {
+        handData.FingerIndex1 = FingerIndex1.localRotation;
+        handData.FingerIndex2 = FingerIndex2.localRotation;
+        handData.FingerIndex3 = FingerIndex3.localRotation;
 
-    //private void updateHandData()
-    //{
-    //    bool isFingerOnTrigger = isFingerOnTriggerInputAction.ReadValue<float>() > 0;
-    //    handData.GripStrength = gripStrengthInputAction.ReadValue<float>();
-    //    handData.IsPointing = !isFingerOnTrigger && handData.GripStrength < 0.1f;
-    //    handData.RayLength = getRayLength();       
-    //}
+        handData.FingerMiddle1 = FingerMiddle1.localRotation;
+        handData.FingerMiddle2 = FingerMiddle2.localRotation;
+        handData.FingerMiddle3 = FingerMiddle3.localRotation;
 
-    //private float getRayLength()
-    //{
-    //    Vector3 rayHitPosition, normal;
-    //    int positionInLine;
-    //    bool isValidTarget;
+        handData.FingerRing1 = FingerRing1.localRotation;
+        handData.FingerRing2 = FingerRing2.localRotation;
+        handData.FingerRing3 = FingerRing3.localRotation;
 
-    //    if (RayInteractor.TryGetHitInfo(out rayHitPosition, out normal, out positionInLine, out isValidTarget))
-    //        return Vector3.Distance(RayInteractor.transform.position, rayHitPosition);
-    //    else
-    //        return 10;
-    //}
+        handData.FingerPinky1 = FingerPinky1.localRotation;
+        handData.FingerPinky2 = FingerPinky2.localRotation;
+        handData.FingerPinky3 = FingerPinky3.localRotation;
+
+        handData.FingerThumb1 = FingerThumb1.localRotation;
+        handData.FingerThumb2 = FingerThumb2.localRotation;
+        handData.FingerThumb3 = FingerThumb3.localRotation;
+    }
 
     public AvatarHandData GetHandData()
     {

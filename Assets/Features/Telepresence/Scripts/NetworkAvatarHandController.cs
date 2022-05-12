@@ -21,17 +21,17 @@ public class NetworkAvatarHandController : RealtimeComponent<HandInfoModel>, IPr
         else
         {
             handData.CopyFromHandInfoModel(model);
-            updateRayVisualizer();
+            //updateRayVisualizer();
         }
     }
 
-    private void updateRayVisualizer()
-    {
-        if (RayVisualizer == null) return;
+    //private void updateRayVisualizer()
+    //{
+    //    if (RayVisualizer == null) return;
 
-        RayVisualizer.SetPosition(1, Vector3.forward * model.rayLength);
-        RayVisualizer.gameObject.SetActive(handData.IsPointing);
-    }
+    //    RayVisualizer.SetPosition(1, Vector3.forward * model.rayLength);
+    //    RayVisualizer.gameObject.SetActive(handData.IsPointing);
+    //}
 
     protected override void OnRealtimeModelReplaced(HandInfoModel previousModel, HandInfoModel currentModel)
     {

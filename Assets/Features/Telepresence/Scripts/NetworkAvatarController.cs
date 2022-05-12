@@ -30,7 +30,7 @@ public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
             if (currentModel.isOwnedLocallyInHierarchy)
             {
                 //Local avatar
-                gameObject.name = "Remote Avatar (Local)";
+                gameObject.name = "Network Avatar (Local)";
                 UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
                 updateModelFromUserInfo();
                 linkMouthMover();
@@ -38,7 +38,7 @@ public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
             else
             {
                 //Remote avatar
-                gameObject.name = "Remote Avatar (Remote)";
+                gameObject.name = "Network Avatar (Remote)";
                 currentModel.avatarUrlDidChange += CurrentModel_avatarUrlDidChange;
                 updateSkin(currentModel.avatarUrl);
             }          

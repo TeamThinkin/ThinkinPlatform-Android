@@ -25,15 +25,6 @@ public class LocalAvatarManager : MonoBehaviour, IProvideHandData
     private void Awake()
     {
         Instance = this;
-        //inputActions = new XRIDefaultInputActions();
-        //inputActions.XRIRightHand.GripStrength.Enable();
-        //inputActions.XRIRightHand.IsFingerOnTrigger.Enable();
-        //inputActions.XRILeftHand.GripStrength.Enable();
-        //inputActions.XRILeftHand.IsFingerOnTrigger.Enable();
-
-        //LeftAvatarHand.SetInputActions(inputActions.XRILeftHand.IsFingerOnTrigger, inputActions.XRILeftHand.GripStrength);
-        //RightAvatarHand.SetInputActions(inputActions.XRIRightHand.IsFingerOnTrigger, inputActions.XRIRightHand.GripStrength);
-
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
     }
 
