@@ -46,7 +46,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5789895119167054025}
   - {fileID: 5789895119169322243}
   m_Father: {fileID: 4498671623236609817}
   m_RootOrder: 1
@@ -161,7 +160,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5789895118255790285}
   - {fileID: 5789895118988118588}
   m_Father: {fileID: 4498671623236609817}
   m_RootOrder: 0
@@ -506,36 +504,6 @@ Transform:
   m_Father: {fileID: 4498671623670590409}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5789895118255790274
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5789895118255790285}
-  m_Layer: 0
-  m_Name: Avatar Right Hand Anchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5789895118255790285
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5789895118255790274}
-  m_LocalRotation: {x: 0.6270963, y: -0.35659775, z: -0.4928817, w: 0.48647308}
-  m_LocalPosition: {x: 0.0223, y: -0.016, z: -0.0961}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4498671623578290890}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 14.988, y: -92.422, z: -106.377}
 --- !u!1 &5789895118988118589
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +532,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4498671623578290890}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 25.916, y: 3.814, z: 17.313}
 --- !u!1 &5789895119112244101
 GameObject:
@@ -697,36 +665,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   TabletPrefab: {fileID: 1102861556007952251, guid: c56ffb2600951cb40a0b4c95ee804aa4, type: 3}
---- !u!1 &5789895119167054030
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5789895119167054025}
-  m_Layer: 0
-  m_Name: Avatar Left Hand Anchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5789895119167054025
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5789895119167054030}
-  m_LocalRotation: {x: 0.55906755, y: 0.43294746, z: 0.55906755, w: 0.43294746}
-  m_LocalPosition: {x: -0.0323, y: -0.0173, z: -0.1079}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4498671623180909349}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 180, y: -90, z: -75.509}
 --- !u!1 &5789895119169322240
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,7 +693,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4498671623180909349}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 165.877, y: -179.521, z: -178.829}
 --- !u!1001 &3284812636575382958
 PrefabInstance:
