@@ -193,4 +193,35 @@ public static class Extensions
     {
         return collision.contacts.Any(i => i.otherCollider.gameObject.tag == "PointerFingerTip" || i.thisCollider.gameObject.tag == "PointerFingerTip");
     }
+
+    //public static string GetPath(this GameObject item)
+    //{
+    //    return string.Join("/", item.GetComponentsInParent<Transform>().Select(t => t.name).Reverse().ToArray());
+    //}
+
+    //public static string GetPath(this GameObject item)
+    //{
+    //    string path = "/" + item.name;
+    //    while (item.transform.parent != null)
+    //    {
+    //        item = item.transform.parent.gameObject;
+    //        path = "/" + item.name + path;
+    //    }
+    //    return path;  
+    //}
+
+    public static string GetPath(this GameObject Item)
+    {
+        return string.Join("/", Item.Ancestors().Select(i => i.name).Reverse().ToArray());
+    }
+
+    public static IEnumerable<GameObject> Ancestors(this GameObject Item)
+    {
+        yield return Item;
+        while(Item.transform.parent != null)
+        {
+            Item = Item.transform.parent.gameObject;
+            yield return Item;
+        }
+    }
 }

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TabletSpawnArea : HandTriggerAreaEvents// : XRBaseInteractable
+public class TabletSpawnArea : HandTriggerAreaEvents
 {
     [SerializeField] private GameObject TabletPrefab;
 
@@ -47,7 +47,7 @@ public class TabletSpawnArea : HandTriggerAreaEvents// : XRBaseInteractable
 
     private IEnumerator attachToHand(Hand hand, GameObject tablet)
     {
-        yield return new WaitForEndOfFrame(); //The grabbable seems 
+        yield return new WaitForEndOfFrame(); //The grabbable seems to need some things to be setup in the first frame before the TryGrab can succede
 
         var tabletGrabbable = tablet.GetComponent<Grabbable>();
         hand.TryGrab(tabletGrabbable);

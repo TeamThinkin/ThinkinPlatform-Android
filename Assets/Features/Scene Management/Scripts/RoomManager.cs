@@ -1,3 +1,4 @@
+using Normal.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,10 @@ public class RoomManager : MonoBehaviour
 {
     [SerializeField] private Transform _roomItemContainer;
     public Transform RoomItemContainer => _roomItemContainer;
+
+    [SerializeField] private Realtime _realtimeNetwork;
+    public Realtime RealtimeNetwork => _realtimeNetwork;
+
 
     public static event Action OnRoomLoaded;
     public static event Action OnRoomUnloaded;
@@ -25,8 +30,17 @@ public class RoomManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        RealtimeNetwork.didConnectToRoom += RealtimeNetwork_didConnectToRoom;
+    }
+    private void OnDestroy()
+    {
+        RealtimeNetwork.didConnectToRoom -= RealtimeNetwork_didConnectToRoom;
     }
 
+    private void RealtimeNetwork_didConnectToRoom(Realtime realtime)
+    {
+    }
 
     //public void LoadUrl(string Url)
     //{

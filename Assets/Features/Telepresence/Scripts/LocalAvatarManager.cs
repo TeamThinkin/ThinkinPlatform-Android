@@ -58,7 +58,6 @@ public class LocalAvatarManager : MonoBehaviour, IProvideHandData
             isCurrentSkinDefault = false;
             currentAvatarUrl = UserInfo.CurrentUser.AvatarUrl;
             currentSkin = await SkinController.CreateSkin(true, UserInfo.CurrentUser.AvatarUrl, HeadAnchor, LeftHandAnchor, RightHandAnchor, LeftAvatarHand, RightAvatarHand);
-            Debug.Log("Local skin loaded");
             OnCurrentSkinLoaded?.Invoke();
         }
         else

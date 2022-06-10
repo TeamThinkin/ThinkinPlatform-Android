@@ -111,11 +111,9 @@ public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
             if (MouthMover == null) Debug.LogError("MouthMover Null");
             if (LocalAvatarManager.Instance == null) Debug.LogError("Local AvatarManager Null");
 
-            Debug.Log("Checking local avatar manager for skin");
             if (LocalAvatarManager.Instance.CurrentSkin != null)
             {
                 MouthMover.Mesh = LocalAvatarManager.Instance.CurrentSkin.GetMouthRenderer();
-                Debug.Log("Mouth Mover linked");
             }
             else
             {
