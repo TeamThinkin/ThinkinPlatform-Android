@@ -8,16 +8,15 @@ public class GrabSyncMonitor : MonoBehaviour
     private Grabbable grabbable;
     private Rigidbody body;
     private NetworkItemSync sync;
-    private bool isWaitingForRest;
 
     private void Awake()
     {
         grabbable = GetComponent<Grabbable>();
         if(grabbable != null)
         {
-            grabbable.OnBeforeGrabEvent = onBeforeGrab;
             grabbable.onGrab.AddListener(onGrab);
             grabbable.onRelease.AddListener(onRelease);
+            grabbable.OnBeginRest += Grabbable_OnBeginRest;
 
             body = GetComponent<Rigidbody>();
         }
@@ -29,43 +28,23 @@ public class GrabSyncMonitor : MonoBehaviour
         {
             grabbable.onGrab.RemoveListener(onGrab);
             grabbable.onRelease.RemoveListener(onRelease);
-        }
-    }
-
-    private void onBeforeGrab(Hand Hand, Grabbable Grabbable)
-    {
-        if (body != null)
-        {
-            Debug.Log("isKinematic set to false", this);
-            body.isKinematic = false;
+            grabbable.OnBeginRest -= Grabbable_OnBeginRest;
         }
     }
 
     private void onGrab(Hand Hand, Grabbable Grabbable)
     {
         sync = NetworkItemSync.Create(this.gameObject);
-        isWaitingForRest = false;
     }
 
     private void onRelease(Hand Hand, Grabbable Grabbable)
     {
-        if(body == null)
-        {
-            sync?.Destroy();
-            sync = null;
-            body.isKinematic = true;
-        }
-        else isWaitingForRest = true;
     }
 
-    private void Update()
+    private void Grabbable_OnBeginRest(Grabbable obj)
     {
-        if(isWaitingForRest && body != null && body.IsSleeping())
-        {
-            sync?.Destroy();
-            sync = null;
-            isWaitingForRest = false;
-            if (body != null) body.isKinematic = true;
-        }
+        Debug.Log("Grab synce monitor sees the grabbable has come to rest");
+        sync?.Destroy();
+        sync = null;
     }
 }

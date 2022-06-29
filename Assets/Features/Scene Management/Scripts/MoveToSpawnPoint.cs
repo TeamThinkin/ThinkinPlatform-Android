@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MoveToSpawnPoint : MonoBehaviour
 {
+    [SerializeField] private Transform TrackerOffsets;
+    [SerializeField] private Autohand.AutoHandPlayer Player;
     private void Start()
     {
         AppSceneManager.OnEnvironmentLoaded += AppSceneManager_OnEnvironmentLoaded;
@@ -41,6 +43,10 @@ public class MoveToSpawnPoint : MonoBehaviour
 
         var playerOffset = (transform.position - Camera.main.transform.position).FlattenY();
         transform.position = targetPoint + playerOffset;
-        
+
+        TrackerOffsets.localPosition = Vector3.zero;
+        TrackerOffsets.localRotation = Quaternion.identity;
+        //Autohand.AutoHandPlayer player;
+        Player.SetPosition(transform.position, transform.rotation);
     }
 }

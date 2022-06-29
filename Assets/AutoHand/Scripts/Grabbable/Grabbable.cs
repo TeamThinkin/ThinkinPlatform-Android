@@ -167,6 +167,12 @@ namespace Autohand {
         public bool wasForceReleased { get; internal set; } = false;
         public Hand lastHeldBy { get; protected set; } = null;
 
+        /// ///////////////
+        //This section added by mbell 6/29/22 to facilitate being able to pick up kinematic grabbables
+        public bool wasKinematic { get; set; } 
+        public bool isWaitingForRest { get; set; }
+        public event Action<Grabbable> OnBeginRest;
+        /// ////////////
 
         List<Grabbable> jointedGrabbables = new List<Grabbable>();
         float lastUpdateTime;
@@ -229,6 +235,20 @@ namespace Autohand {
                     }
                 }
             }
+
+            //////////////////////////
+            /// NOTE: This section added by mbell 6/29/22 to facilitate kinematic grabbables
+            if (isWaitingForRest && body != null && body.IsSleeping())
+            {
+                isWaitingForRest = false;
+                if (body != null)
+                {
+                    Debug.Log("Restoring kinematic state");
+                    body.isKinematic = true;
+                    OnBeginRest?.Invoke(this);
+                }
+            }
+            //////////////////
 
 
             lastUpdateTime = Time.realtimeSinceStartup;
@@ -376,6 +396,14 @@ namespace Autohand {
                     if(!float.IsNaN(throwAngularVel.x) && !float.IsNaN(throwAngularVel.y) && !float.IsNaN(throwAngularVel.z))
                         body.angularVelocity = throwAngularVel;
                 }
+
+                //NOTE: This section added by mbell 6/29/22 to facilitate kinematic grabbables
+                if(wasKinematic)
+                {
+                    Debug.Log("Begin wait for rest");
+                    isWaitingForRest = true;
+                }
+                ///////////////////////
 
                 OnReleaseEvent?.Invoke(hand, this);
                 onRelease?.Invoke(hand, this);

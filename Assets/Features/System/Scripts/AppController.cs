@@ -16,6 +16,8 @@ public class AppController : MonoBehaviour
 
     void Start()
     {
+        //PlayerPrefs.DeleteAll();
+
         Instance = this;
 
         ContentSymbolPrefab = _contentSymbolPrefab;

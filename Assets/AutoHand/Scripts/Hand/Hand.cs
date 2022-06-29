@@ -249,6 +249,7 @@ namespace Autohand {
 
         /// <summary>Function for controller trigger fully pressed -> Grabs whatever is directly in front of and closest to the hands palm</summary>
         public virtual void Grab(GrabType grabType) {
+
             OnTriggerGrab?.Invoke(this, null);
             foreach(var triggerArea in triggerEventAreas) {
                 triggerArea.Grab(this);
@@ -260,10 +261,15 @@ namespace Autohand {
                 var newGrabType = this.grabType;
                 if(lookingAtObj.grabType != HandGrabType.Default)
                     newGrabType = lookingAtObj.grabType == HandGrabType.GrabbableToHand ? GrabType.GrabbableToHand : GrabType.HandToGrabbable;
-                
+
+                ////////////////////
+                //NOTE: this section added by mbell 6/29/22 to faciliate kinematic grabbables
+                lookingAtObj.wasKinematic = lookingAtObj.body.isKinematic;
+                lookingAtObj.body.isKinematic = false;
+                /////////////
+
                 grabRoutine = StartCoroutine(GrabObject(GetHighlightHit(), lookingAtObj, newGrabType));
             }
-
             else if(!grabbing && holdingObj == null) {
                 if(HandClosestHit(out RaycastHit closestHit, out Grabbable grabbable, reachDistance, ~handLayers) != Vector3.zero && grabbable != null) {
                     var newGrabType = this.grabType;
@@ -279,12 +285,26 @@ namespace Autohand {
         }
 
         /// <summary>Grabs based on raycast and grab input data</summary>
-        public virtual void Grab(RaycastHit hit, Grabbable grab, GrabType grabType = GrabType.InstantGrab) {
-            bool objectFree = grab.body.isKinematic != true && grab.body.constraints == RigidbodyConstraints.None;
-            if(!grabbing && holdingObj == null && this.CanGrab(grab) && objectFree) {
+        public virtual void Grab(RaycastHit hit, Grabbable grab, GrabType grabType = GrabType.InstantGrab) //NOTE: this implementation by mbell on 6/29/22. Original is listed below
+        {
+            bool objectFree = grab.body.constraints == RigidbodyConstraints.None;
+            if (!grabbing && holdingObj == null && this.CanGrab(grab) && objectFree)
+            {
+                grab.wasKinematic = grab.body.isKinematic;
+                grab.body.isKinematic = false;
                 grabRoutine = StartCoroutine(GrabObject(hit, grab, grabType));
             }
         }
+
+        /// NOTE: This is the original implementation. Mbell replaced 6/29/22 to allow kinematic grabbables to picked up
+        //public virtual void Grab(RaycastHit hit, Grabbable grab, GrabType grabType = GrabType.InstantGrab)
+        //{
+        //    bool objectFree = grab.body.isKinematic != true && grab.body.constraints == RigidbodyConstraints.None;
+        //    if (!grabbing && holdingObj == null && this.CanGrab(grab) && objectFree)
+        //    {
+        //        grabRoutine = StartCoroutine(GrabObject(hit, grab, grabType));
+        //    }
+        //}
 
         /// <summary>Attempts grab on given grabbable</summary>
         public virtual void TryGrab(Grabbable grab) {
@@ -853,6 +873,7 @@ namespace Autohand {
         Vector3 startHandGrabPosition;
         /// <summary>Takes a hit from a grabbable object and moves the hand towards that point, then calculates ideal hand shape</summary>
         protected IEnumerator GrabObject(RaycastHit hit, Grabbable grab, GrabType grabType) {
+
             if (!AllowGrabbing) //NOTE: added by mbell 5/6/22
                 yield break;
 
