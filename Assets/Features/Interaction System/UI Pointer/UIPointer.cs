@@ -40,7 +40,7 @@ public class UIPointer : MonoBehaviour
         {
             PrimaryHand.AllowGrabbing = false;
 
-            if(rayInfo.collider.gameObject.TryGetComponent<IHandlePointerEvent>(out hoverItem))
+            if (rayInfo.collider.gameObject.TryGetComponent<IHandlePointerEvent>(out hoverItem))
             {
                 if (currentHoverItem != null)
                 {

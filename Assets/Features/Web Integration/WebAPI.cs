@@ -50,6 +50,7 @@ public static class WebAPI
     public static async Task<CollectionContentItemDto[]> GetCollectionContents(string CollectionUrl)
     {
         var result = await getRequest<CollectionContentItemDto[]>(NormalizeCollectionUrl(CollectionUrl), new ContentItemDtoConverter());
+        result = result.WhereNotNull().ToArray();
         return result;
     }
 

@@ -32,7 +32,7 @@ public class PresenterFactory : MonoBehaviour
         }
     }
 
-    public async Task<IContentItemPresenter> Instantiate(CollectionContentItemDto Dto)
+    public async Task<IContentItemPresenter> Instantiate(CollectionContentItemDto Dto, Transform Parent)
     {
         IContentItemPresenter presenter = null;
         try
@@ -41,7 +41,7 @@ public class PresenterFactory : MonoBehaviour
             if (dtoToPresenterPrefab.ContainsKey(dtoType))
             {
                 var presenterPrefab = dtoToPresenterPrefab[dtoType];
-                var item = GameObject.Instantiate(presenterPrefab);
+                var item = GameObject.Instantiate(presenterPrefab, Parent);
                 presenter = item.GetComponent<IContentItemPresenter>();
                 if (presenter == null)
                 {

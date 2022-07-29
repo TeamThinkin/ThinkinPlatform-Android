@@ -16,6 +16,7 @@ public class GrabSyncMonitor : MonoBehaviour
         {
             grabbable.onGrab.AddListener(onGrab);
             grabbable.onRelease.AddListener(onRelease);
+
             grabbable.OnBeginRest += Grabbable_OnBeginRest;
 
             body = GetComponent<Rigidbody>();
@@ -28,6 +29,7 @@ public class GrabSyncMonitor : MonoBehaviour
         {
             grabbable.onGrab.RemoveListener(onGrab);
             grabbable.onRelease.RemoveListener(onRelease);
+
             grabbable.OnBeginRest -= Grabbable_OnBeginRest;
         }
     }

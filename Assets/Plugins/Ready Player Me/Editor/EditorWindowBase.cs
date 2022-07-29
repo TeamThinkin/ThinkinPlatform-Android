@@ -6,7 +6,7 @@ namespace ReadyPlayerMe
 {
     public class EditorWindowBase : EditorWindow
     {
-        public const string Version = "v1.9.0";
+        public const string Version = "v1.10.0";
 
         private const string BannerPath = "Assets/Plugins/Ready Player Me/Editor/RPM_EditorImage_Banner.png";
         private const string LovePath = "Assets/Plugins/Ready Player Me/Editor/RPM_EditorImage_Love.png";
@@ -19,7 +19,7 @@ namespace ReadyPlayerMe
         private const string DiscordUrl = "https://bit.ly/UnitySDKDiscord";
 
         private const int HeaderTop = 110;
-        private readonly Vector2 headerSize = new Vector2(350, 10);
+        private readonly Vector2 headerSize = new Vector2(320, 10);
 
         private static Texture2D banner = null;
         private static Texture2D love = null;

@@ -34,19 +34,25 @@ public class MoveToSpawnPoint : MonoBehaviour
         }
         else
         {
-            var spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            targetPoint = spawnPoint.transform.position; // + Vector3.up * VerticalOffset;
+            var spawnPoint = spawnPoints.RandomItem();
+            targetPoint = spawnPoint.transform.position;
             targetRot = spawnPoint.transform.rotation;
+
+            Debug.DrawRay(targetPoint, Vector3.up * 10, Color.yellow, 60);
+            Debug.DrawRay(targetPoint, spawnPoint.transform.forward * 10, Color.yellow, 60);
         }
 
-        transform.rotation = targetRot;
 
-        var playerOffset = (transform.position - Camera.main.transform.position).FlattenY();
-        transform.position = targetPoint + playerOffset;
 
-        TrackerOffsets.localPosition = Vector3.zero;
-        TrackerOffsets.localRotation = Quaternion.identity;
-        //Autohand.AutoHandPlayer player;
-        Player.SetPosition(transform.position, transform.rotation);
+        //transform.rotation = targetRot;
+
+        //var playerOffset = (transform.position - Camera.main.transform.position).FlattenY();
+        //transform.position = targetPoint + playerOffset;
+
+        //TrackerOffsets.localPosition = Vector3.zero;
+        //TrackerOffsets.localRotation = Quaternion.identity;
+        //Player.SetPosition(transform.position, transform.rotation);
+
+        Player.SetPosition(targetPoint, targetRot);
     }
 }

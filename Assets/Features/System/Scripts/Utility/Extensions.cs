@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
+//using UnityEngine.ResourceManagement.AsyncOperations;
 
 public static class Extensions
 {
@@ -32,17 +32,17 @@ public static class Extensions
         return tcs.Task;
     }
 
-    public static Task<T> GetTask<T>(this AsyncOperationHandle<T> asyncOpHandle)
-    {
-        var tcs = new TaskCompletionSource<T>();
+    //public static Task<T> GetTask<T>(this AsyncOperationHandle<T> asyncOpHandle)
+    //{
+    //    var tcs = new TaskCompletionSource<T>();
 
-        asyncOpHandle.Completed += (AsyncOperationHandle<T> e) =>
-        {
-            tcs.SetResult(e.Result);
-        };
+    //    asyncOpHandle.Completed += (AsyncOperationHandle<T> e) =>
+    //    {
+    //        tcs.SetResult(e.Result);
+    //    };
 
-        return tcs.Task;
-    }
+    //    return tcs.Task;
+    //}
 
 
     /// <summary>

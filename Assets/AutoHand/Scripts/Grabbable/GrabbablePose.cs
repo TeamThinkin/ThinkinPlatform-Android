@@ -60,7 +60,15 @@ namespace Autohand{
 
 
         protected virtual void Awake() {
-            for(int i = 0; i < linkedPoses.Length; i++)
+            if (poseScriptable != null)
+            {
+                if (poseScriptable.leftSaved)
+                    leftPoseSet = true;
+                if (poseScriptable.rightSaved)
+                    rightPoseSet = true;
+            }
+
+            for (int i = 0; i < linkedPoses.Length; i++)
                 linkedPoses[i].poseEnabled = false;
         }
 
@@ -92,6 +100,7 @@ namespace Autohand{
         /// </summary>
         /// <param name="isProjection">for pose projections, so they wont fill condition for single handed before grab</param>
         public virtual void SetHandPose(Hand hand, bool isProjection = false) {
+
             if(!isProjection) {
                 if(!posingHands.Contains(hand))
                     posingHands.Add(hand);
@@ -182,6 +191,7 @@ namespace Autohand{
                 Debug.Log("Editor Hand must be assigned");
         }
 
+        [ContextMenu("OVERWRITE SCRIPTABLE")]
         public void SaveScriptable(){
             if (poseScriptable != null){
                 if (rightPoseSet)

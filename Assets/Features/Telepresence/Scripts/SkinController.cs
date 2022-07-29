@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Animations;
 using ReadyPlayerMe;
+using System;
+using System.Threading;
 
 public interface IProvideHandData
 {
     AvatarHandData GetHandData();
 }
-
-
 
 public class SkinController : MonoBehaviour
 {
@@ -33,8 +33,6 @@ public class SkinController : MonoBehaviour
         public Transform Thumb3;
     }
 
-    private static AvatarLoader loader = new AvatarLoader();
-
     [SerializeField] private bool _isDefaultSkin;
     public bool IsDefaultSkin => _isDefaultSkin;
 
@@ -51,7 +49,13 @@ public class SkinController : MonoBehaviour
     private Fingers leftFingers;
     private Fingers rightFingers;
     private bool isLocal;
-    
+    private int hiddenLayer;
+
+    private void Awake()
+    {
+        hiddenLayer = LayerMask.NameToLayer("Hidden");
+    }
+
     public static async Task<SkinController> CreateSkin(bool IsLocal, string AvatarUrl, Transform HeadTransform, Transform LeftHandTransform, Transform RightHandTransform, IProvideHandData LeftHandDataProvider, IProvideHandData RightHandDataProvider)
     {
         var avatar = await loadAvatarFromUrl(AvatarUrl);
@@ -118,35 +122,80 @@ public class SkinController : MonoBehaviour
         rightFingers = findSkinFingers(gameObject, "Right");
         leftFingers = findSkinFingers(gameObject, "Left");
         addBoneConstraints(gameObject);
+        removeExtraComponent(gameObject);
+    }
+    
+
+    private void removeExtraComponent(GameObject skin)
+    {
+        var animator = skin.GetComponent<Animator>();
+        if (animator != null)
+        {
+            Destroy(animator);
+        }
+
+        if(isLocal)
+        {
+            hideObject(skin, "Renderer_Teeth");
+            hideObject(skin, "Renderer_EyeLeft");
+            hideObject(skin, "Renderer_EyeRight");
+            hideObject(skin, "Renderer_Head");
+            hideObject(skin, "Renderer_Beard");
+
+            //hideObject(skin, "Avatar_Renderer_Teeth");
+            //hideObject(skin, "Avatar_Renderer_EyeLeft");
+            //hideObject(skin, "Avatar_Renderer_EyeRight");
+            //hideObject(skin, "Avatar_Renderer_Head");
+            //hideObject(skin, "Avatar_Renderer_Beard");
+        }
+    }
+
+    private void hideObject(GameObject skin, string itemName)
+    {
+        var item = skin.transform.Find(itemName);
+        if (item != null) item.gameObject.layer = hiddenLayer;
     }
 
     public SkinnedMeshRenderer GetMouthRenderer()
     {
-        return gameObject.transform.Find("Avatar_Renderer_Head").gameObject.GetComponent<SkinnedMeshRenderer>();
+        return gameObject.transform.Find("Renderer_Head").gameObject.GetComponent<SkinnedMeshRenderer>();
+        //return gameObject.transform.Find("Avatar_Renderer_Head").gameObject.GetComponent<SkinnedMeshRenderer>();
     }
-
 
     private static async Task<GameObject> loadAvatarFromUrl(string avatarUrl)
     {
+        var loader = new AvatarLoader();
         bool isLoaded = false;
         GameObject loadedSkin = null;
 
-        loader.LoadAvatar(avatarUrl, null, (avatar, metadata) =>
+        EventHandler<CompletionEventArgs> handler = (sender, e) =>
         {
             isLoaded = true;
-            loadedSkin = avatar;
-        });
+            loadedSkin = e.Avatar;
+        };
+
+        loader.OnCompleted += handler;
+        loader.OnFailed += Loader_OnFailed;
+        loader.LoadAvatar(avatarUrl);
 
         await Task.Run(() =>
         {
-            while (!isLoaded) { }
+            while (!isLoaded) 
+            {
+                Thread.Sleep(10); 
+            }
         });
+        loader.OnCompleted -= handler;
 
         loadedSkin.name = "Skin";
+        DontDestroyOnLoad(loadedSkin);
 
         return loadedSkin;
     }
-
+    private static void Loader_OnFailed(object sender, FailureEventArgs e)
+    {
+        Debug.Log("!!! Loader failed: " + e.Message);
+    }
 
     private void patchRendererBounds(GameObject skin)
     {

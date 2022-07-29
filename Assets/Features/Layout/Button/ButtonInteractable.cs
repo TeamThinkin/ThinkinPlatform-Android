@@ -109,6 +109,7 @@ public class ButtonInteractable : HandTouchEvent, IHandlePointerEvent
     protected override void OnTouch(Hand hand, Collision collision)
     {
         base.OnTouch(hand, collision);
+        return;
 
         if (IsPhysicalHandInteractionsDisabled) return;
         if (!collision.InvolvesPrimaryFingerTip()) return; //Only accept input from pointer finger tips to hopefully filter out accidental touches
@@ -119,6 +120,7 @@ public class ButtonInteractable : HandTouchEvent, IHandlePointerEvent
     protected override void OnUntouch(Hand hand, Collision collision)
     {
         base.OnUntouch(hand, collision);
+        return;
 
         if (IsPhysicalHandInteractionsDisabled) return;
         onInteractionEnd(hand);

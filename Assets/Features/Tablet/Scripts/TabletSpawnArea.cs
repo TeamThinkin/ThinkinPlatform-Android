@@ -29,6 +29,7 @@ public class TabletSpawnArea : HandTriggerAreaEvents
         base.Release(hand);
         if (hoverTablet != null)
         {
+            Debug.Log("Spawn area destroying tablet");
             Destroy(hoverTablet.gameObject);
         }
         hoverTablet = null;
@@ -47,7 +48,7 @@ public class TabletSpawnArea : HandTriggerAreaEvents
 
     private IEnumerator attachToHand(Hand hand, GameObject tablet)
     {
-        yield return new WaitForEndOfFrame(); //The grabbable seems to need some things to be setup in the first frame before the TryGrab can succede
+        yield return new WaitForEndOfFrame(); //The grabbable seems to need some things to be setup in the first frame before the TryGrab can succeed
 
         var tabletGrabbable = tablet.GetComponent<Grabbable>();
         hand.TryGrab(tabletGrabbable);

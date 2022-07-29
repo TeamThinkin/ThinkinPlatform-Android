@@ -15,7 +15,12 @@ public class PartnerPostProcessBuild : IPreprocessBuildWithReport
 
         if (string.IsNullOrEmpty(url))
         {
-            bool result = EditorUtility.DisplayDialog("Build Error", "Partner subdomain can not be empty. Go to 'Ready Player Me > WebView Partner Editor' menu and the fill the input field with your partner subdomain or 'demo' keyword.", "Use 'demo' subdomain", "Cancel build");
+            bool result = true;
+            
+            if (!Application.isBatchMode)
+            {
+                result = EditorUtility.DisplayDialog("Build Error", "Partner subdomain can not be empty. Go to 'Ready Player Me > WebView Partner Editor' menu and the fill the input field with your partner subdomain or 'demo' keyword.", "Use 'demo' subdomain", "Cancel build");
+            }
 
             if (result)
             {

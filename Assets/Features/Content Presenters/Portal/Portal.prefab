@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 8821876660106793050}
   - component: {fileID: 8821876660106793049}
   - component: {fileID: 8821876660106793062}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Portal
   m_TagString: SelectOnActivate
   m_Icon: {fileID: 0}

@@ -73,10 +73,11 @@ public static class CollectionManager
     {
         if (string.IsNullOrEmpty(Url)) return new CollectionContentItemDto[0];
         var dtos = await WebAPI.GetCollectionContents(Url);
+
         //TODO: implement local caching layer
         if (filter != null) dtos = dtos.Where(filter).ToArray();
-
-        foreach(var dto in dtos)
+        
+        foreach (var dto in dtos)
         {
             dto.CollectionUrl = Url;
         }
@@ -108,14 +109,10 @@ public static class CollectionManager
 
     public static async Task<IContentItemPresenter[]> LoadDtosIntoContainer(Transform ContentContainer, IEnumerable<CollectionContentItemDto> Dtos)
     {
-        var items = await Task.WhenAll(Dtos.Select(dto => PresenterFactory.Instance.Instantiate(dto)));
+        var items = await Task.WhenAll(Dtos.Select(dto => PresenterFactory.Instance.Instantiate(dto, ContentContainer)));
                 
         items = items.Where(i => i != null).ToArray();
 
-        foreach(var item in items)
-        {
-            item.GameObject.transform.SetParent(ContentContainer);
-        }
         return items;
     }
 }

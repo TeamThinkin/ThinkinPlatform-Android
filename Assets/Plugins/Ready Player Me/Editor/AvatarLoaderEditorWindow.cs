@@ -12,11 +12,9 @@ namespace ReadyPlayerMe
         private const string EyeAnimationSaveKey = "EyeAnimationSaveKey";
         private const string ModelCachingSaveKey = "ModelCachingSaveKey";
 
-        private static EditorAvatarLoader loader = null;
-
         private string url = null;
         private bool useVoiceToAnim = false;
-        private bool useModelCaching = false;
+        private bool useAvatarCaching = false;
         private bool useEyeAnimations = false;
         private bool variablesLoaded = false;
 
@@ -47,7 +45,6 @@ namespace ReadyPlayerMe
         private void OnGUI()
         {
             if (!variablesLoaded) LoadCachedVariables();
-            if (loader == null) loader = new EditorAvatarLoader();
 
             DrawContent(() =>
             {
@@ -85,7 +82,7 @@ namespace ReadyPlayerMe
         private void LoadCachedVariables()
         {
             url = EditorPrefs.GetString(UrlSaveKey);
-            useModelCaching = EditorPrefs.GetBool(ModelCachingSaveKey);
+            useAvatarCaching = EditorPrefs.GetBool(ModelCachingSaveKey);
             useEyeAnimations = EditorPrefs.GetBool(EyeAnimationSaveKey);
             useVoiceToAnim = EditorPrefs.GetBool(VoiceToAnimSaveKey);
 
@@ -108,9 +105,9 @@ namespace ReadyPlayerMe
             EditorGUILayout.BeginVertical("Box");
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Use Model Caching", "Use the model already downloaded instead of downloading it again."), inputFieldWidth);
-            useModelCaching = EditorGUILayout.Toggle(useModelCaching, fieldHeight);
-            EditorPrefs.SetBool(ModelCachingSaveKey, useModelCaching);
+            EditorGUILayout.LabelField(new GUIContent("Use Avatar Caching", "Use the model already downloaded instead of downloading it again."), inputFieldWidth);
+            useAvatarCaching = EditorGUILayout.Toggle(useAvatarCaching, fieldHeight);
+            EditorPrefs.SetBool(ModelCachingSaveKey, useAvatarCaching);
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.HelpBox("Changes you make on Ready Player Me are reflected over the same URL. If caching is toggled on, avatar model with changes will not be downloaded.", MessageType.Info);
@@ -142,20 +139,28 @@ namespace ReadyPlayerMe
             GUI.enabled = !string.IsNullOrEmpty(url);
             if (GUILayout.Button("Load Avatar", avatarButtonStyle))
             {
-                loader.LoadAvatar(url, null, AvatarLoadCallback);
-                loader.UseModelCaching = useModelCaching;
+                var avatarLoader = new AvatarLoader();
+                avatarLoader.OnFailed += Failed;
+                avatarLoader.OnCompleted += Completed;
+                avatarLoader.UseAvatarCaching = useAvatarCaching;
+                avatarLoader.LoadAvatar(url);
             }
             GUI.enabled = true;
         }
 
-        private void AvatarLoadCallback(GameObject avatar, AvatarMetaData metaData)
+        private void Failed(object sender, FailureEventArgs args)
+        {
+            Debug.LogError($"{args.Type} - {args.Message}");
+        }
+
+        private void Completed(object sender, CompletionEventArgs args)
         {
             Debug.Log("Avatar loaded.");
 
-            if (useEyeAnimations) avatar.AddComponent<EyeAnimationHandler>();
-            if (useVoiceToAnim) avatar.AddComponent<VoiceHandler>();
+            if (useEyeAnimations) args.Avatar.AddComponent<EyeAnimationHandler>();
+            if (useVoiceToAnim) args.Avatar.AddComponent<VoiceHandler>();
 
-            Selection.activeObject = avatar;
+            Selection.activeObject = args.Avatar;
         }
 
         private void DrawAnimationButtons()

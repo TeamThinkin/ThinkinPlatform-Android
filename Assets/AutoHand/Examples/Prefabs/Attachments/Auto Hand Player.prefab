@@ -30,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -83,14 +84,14 @@ MonoBehaviour:
   handRight: {fileID: 0}
   handLeft: {fileID: 0}
   useMovement: 1
-  maxMoveSpeed: 1.8
-  moveAcceleration: 15
-  groundedDrag: 10
-  heightSmoothSpeed: 30
+  maxMoveSpeed: 2
+  moveAcceleration: 100
+  groundedDrag: 100
   snapTurning: 1
   snapTurnAngle: 30
   smoothTurnSpeed: 10
-  ignoreMe2: 0
+  showHeight: 1
+  heightSmoothSpeed: 30
   heightOffset: 0
   crouching: 0
   crouchHeight: 0.6
@@ -114,6 +115,11 @@ MonoBehaviour:
   pushingAcceleration: 10
   pushingDrag: 1
   allowPlatforms: 1
+  platformingLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  speed: 0
+  fixedDeltaTime: 0
 --- !u!135 &8834320319295017372
 SphereCollider:
   m_ObjectHideFlags: 0

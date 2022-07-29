@@ -39,7 +39,7 @@ namespace Autohand {
                 if(collisionObjects[i])
                     OnCollisionLastExit?.Invoke(collisionObjects[i], null); //NOTE: collision parameter add by mbell 5/5/22
 
-            for(int i = 0; i < triggerObjects.Count; i++)
+            for (int i = 0; i < triggerObjects.Count; i++)
                 if(triggerObjects[i])
                     OnTriggeLastExit?.Invoke(triggerObjects[i], null); //NOTE: collision parameter add by mbell 5/5/22
 

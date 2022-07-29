@@ -36,6 +36,7 @@ public class MapItem : HandTouchEvent, IHandlePointerEvent
     protected override void OnTouch(Hand hand, Collision collision)
     {
         base.OnTouch(hand, collision);
+        return;
 
         if (!collision.InvolvesPrimaryFingerTip()) return; //Only accept input from pointer finger tips to hopefully filter out accidental touches
 

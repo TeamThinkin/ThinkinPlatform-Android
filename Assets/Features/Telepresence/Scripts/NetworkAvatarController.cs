@@ -34,6 +34,11 @@ public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
     {
         LocalAvatarManager.Instance.OnCurrentSkinLoaded -= LocalAvatarManager_OnCurrentSkinLoaded;
 
+        if(currentSkin != null)
+        {
+            Destroy(currentSkin.gameObject);
+        }
+
         if (model != null)
         {
             model.displayNameDidChange -= CurrentModel_displayNameDidChange;

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.10.0] - 2022.05.24
+
+### Changed
+- General refactoring of the package. Avatar creation operations separated into classes.
+
+### Added
+- OnFailed, OnProgressChanged and OnCompleted events for AvatarLoader. AvatarLoader with callbacks is now obsolete.
+- Vuplex example package. If you own Vuplex, you can use this package to load avatars in VR or standalone builds.
+- Ability to clean up the cache of the WebView, which helps you starts RPM from the beginning.
+- StopCoroutine method added to CoroutineRunner.
+
 ## [1.9.0] - 2022.04.06
 
 ### Added

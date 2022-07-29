@@ -1,6 +1,8 @@
-﻿using UnityEditor;
+﻿using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 namespace ReadyPlayerMe
 {
@@ -14,11 +16,26 @@ namespace ReadyPlayerMe
                 {
                     AvatarLoaderEditorWindow.ShowWindow(false);
                     UpdateAlwaysIncludedShaderList();
+                    AddRpmDefineSymbol();
                     return;
                 }
             }
         }
 
+        #region Environment Settings
+
+        private const string RPM_SYMBOL = "READY_PLAYER_ME";
+        
+        private static void AddRpmDefineSymbol()
+        {
+            var target = EditorUserBuildSettings.selectedBuildTargetGroup;
+            var defineString = PlayerSettings.GetScriptingDefineSymbolsForGroup(target);
+            var symbols = new HashSet<string>(defineString.Split(';')) { RPM_SYMBOL };
+            var newDefineString = string.Join(";", symbols.ToArray());
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(target, newDefineString);
+        }
+        #endregion
+        
         #region Animation Settings
         private const string AnimationAssetPath = "Assets/Plugins/Ready Player Me/Resources/Animations";
 

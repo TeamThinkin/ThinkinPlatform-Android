@@ -121,7 +121,7 @@ public class RegistryEntryDto
     public string Url { get; set; }
 }
 
-[MimeType("environment/unity.addressable")]
+[MimeType("environment/unity.assetbundle")]
 public class EnvironmentContentItemDto : FileContentItemDto
 {
 }
@@ -162,6 +162,8 @@ public class DestinationLinkContentItemDto : FileContentItemDto
 [MimeType("link/room")]
 public class RoomLinkContentItemDto : FileContentItemDto
 {
+    [JsonProperty("placement")]
+    public PlacementDto Placement { get; set; }
 }
 
 [MimeType("layout/3d")]

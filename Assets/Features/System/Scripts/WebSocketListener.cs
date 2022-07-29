@@ -15,6 +15,7 @@ public class WebSocketListener : MonoBehaviour
     private void Awake()
     {
         var communicator = GetComponent<SocketIOCommunicator>();
+        Debug.Log("Connecting socket: " + Config.HomeServerAuthorityAddress);
         communicator.socketIOAddress = Config.HomeServerAuthorityAddress;
         communicator.Instance.Connect();
         Socket = communicator.Instance;

@@ -61,6 +61,8 @@ public class DropDownBox : MonoBehaviour, IHandlePointerEvent
 
     public void SetItems(IEnumerable<ListItemDto> Items)
     {
+        if (listItems == null) return;
+
         listItems.Clear();
         foreach(var item in Items)
         {

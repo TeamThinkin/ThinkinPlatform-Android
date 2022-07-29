@@ -31,8 +31,8 @@ namespace Autohand{
         
         List<Hand> hands;
 
-        public void Touch(Hand hand, Collision collision) //NOTE: collision added by mbell 5/5/22
-        { 
+        public void Touch(Hand hand, Collision collision) //NOTE: collision added by mbell 5/5/22 
+        {
             if (enabled == false || handType == HandType.none || (hand.left && handType == HandType.right) || (!hand.left && handType == HandType.left))
                 return;
 
@@ -47,8 +47,8 @@ namespace Autohand{
 
             OnTouch(hand, collision); //NOTE: added by mbell 5/4/2022
         }
-
-        public virtual void Untouch(Hand hand, Collision collision) //NOTE: collision added by mbell 5/5/22
+        
+        public void Untouch(Hand hand, Collision collision) //NOTE: collision added by mbell 5/5/22 
         {
             if (enabled == false || handType == HandType.none || (hand.left && handType == HandType.right) || (!hand.left && handType == HandType.left))
                 return;
