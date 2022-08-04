@@ -8,6 +8,8 @@ public class PortalPresenter : MonoBehaviour, IContentItemPresenter, IHandlePoin
 {
     [SerializeField] TMPro.TMP_Text Label;
     [SerializeField] Animator StateAnimator;
+    [SerializeField] GameObject DoorVisual;
+    [SerializeField] BoxCollider Collider;
 
     private Type[] dtoTypes = { typeof(RoomLinkContentItemDto) };
     public Type[] DtoTypes => dtoTypes;
@@ -35,7 +37,18 @@ public class PortalPresenter : MonoBehaviour, IContentItemPresenter, IHandlePoin
         {
             transform.position = dto.Placement.Position;
             transform.rotation = dto.Placement.Rotation;
-            transform.localScale = dto.Placement.Scale * Vector3.one;
+            transform.localScale = dto.Placement.ScaleSized;
+        }
+
+        switch(dto.DisplayType)
+        {
+            case RoomDisplayTypeEnum.Hidden:
+                DoorVisual.SetActive(false);
+                Collider.size = Vector3.one;
+                Collider.center = Vector3.zero;
+                break;
+            default:
+                break;
         }
     }
 

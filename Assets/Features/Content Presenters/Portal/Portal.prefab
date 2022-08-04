@@ -237,6 +237,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Label: {fileID: 8821876660090164701}
   StateAnimator: {fileID: 8821876660106793050}
+  DoorVisual: {fileID: 8551477818406036471}
+  Collider: {fileID: 8821876660106793062}
 --- !u!65 &8821876660106793062
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -327,6 +329,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20863058fe560cf4faab71a5f5daffcd, type: 3}
+--- !u!1 &8551477818406036471 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 20863058fe560cf4faab71a5f5daffcd, type: 3}
+  m_PrefabInstance: {fileID: 8821876661192777382}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9072258904951961933 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 20863058fe560cf4faab71a5f5daffcd, type: 3}

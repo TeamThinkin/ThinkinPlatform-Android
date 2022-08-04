@@ -141,8 +141,22 @@ public class PlacementDto
     [JsonProperty("scale")]
     public float Scale { get; set; }
 
+    [JsonProperty("size")]
+    public Vector3Dto Size { get; set; }
+
     [JsonProperty("rotation")]
     public Vector4Dto Rotation { get; set; }
+
+    public Vector3 ScaleSized
+    {
+        get
+        {
+            if (Size != null)
+                return (Vector3)Size * Scale;
+            else
+                return Vector3.one * Scale;
+        }
+    }
 }
 
 [MimeType("image/jpg", "image/jpeg", "image/png")]
@@ -164,6 +178,15 @@ public class RoomLinkContentItemDto : FileContentItemDto
 {
     [JsonProperty("placement")]
     public PlacementDto Placement { get; set; }
+
+    [JsonProperty("displayType")]
+    public RoomDisplayTypeEnum DisplayType { get; set; }
+}
+
+public enum RoomDisplayTypeEnum
+{
+    Default,
+    Hidden
 }
 
 [MimeType("layout/3d")]

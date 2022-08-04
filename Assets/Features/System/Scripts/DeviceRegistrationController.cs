@@ -44,7 +44,15 @@ public static class DeviceRegistrationController
             registerDeviceWithWebSocket();
             RoomManager.Instance.LoadRoomUrl(!string.IsNullOrEmpty(UserInfo.CurrentUser.CurrentRoomUrl) ? UserInfo.CurrentUser.CurrentRoomUrl : UserInfo.CurrentUser.HomeRoomUrl);
         }
-        else await AppSceneManager.Instance.LoadLocalScene("Login");
+        else await loadLoginRoom(); //await AppSceneManager.Instance.LoadLocalScene("Login");
+
+    }
+
+    private static async Task loadLoginRoom()
+    {
+        await TransitionController.Instance.HideScene();
+        await AppSceneManager.Instance.LoadLocalScene("Login");
+        TransitionController.Instance.RevealScene();
     }
 
     private static void WebSocketListener_OnSocketConnected()

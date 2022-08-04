@@ -27,14 +27,20 @@ public class NetworkItemSync : RealtimeComponent<NetworkItemSyncModel>
             Syncs.Remove(LocalKey);
     }
 
-    public static NetworkItemSync Create(GameObject TargetItem)
+    private static string getTargetItemKey(GameObject targetItem)
+    {
+        return targetItem.name;// .GetPath();
+    }
+
+    public static NetworkItemSync CreateOrFind(GameObject TargetItem)
     {
         if (!RoomManager.Instance.RealtimeNetwork.connected) return null;
 
-        string key = TargetItem.name; // .GetPath();
+        string key = getTargetItemKey(TargetItem); 
 
         if (Syncs.ContainsKey(key))
         {
+            Debug.Log("Network sync already present: " + key);
             var sync = Syncs[key];
             sync.RequestTransformOwnership();
             return sync;

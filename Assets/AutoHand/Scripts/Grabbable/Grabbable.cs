@@ -544,6 +544,14 @@ namespace Autohand {
                         body.angularVelocity = throwAngularVel;
                 }
 
+                //NOTE: This section added by mbell 6/29/22 to facilitate kinematic grabbables
+                if (wasKinematic)
+                {
+                    Debug.Log("Begin wait for rest");
+                    isWaitingForRest = true;
+                }
+                ///////////////////////
+
                 OnReleaseEvent?.Invoke(hand, this);
                 onRelease?.Invoke(hand, this);
 

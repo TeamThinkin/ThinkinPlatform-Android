@@ -36,7 +36,7 @@ public class GrabSyncMonitor : MonoBehaviour
 
     private void onGrab(Hand Hand, Grabbable Grabbable)
     {
-        sync = NetworkItemSync.Create(this.gameObject);
+        sync = NetworkItemSync.CreateOrFind(this.gameObject);
     }
 
     private void onRelease(Hand Hand, Grabbable Grabbable)
