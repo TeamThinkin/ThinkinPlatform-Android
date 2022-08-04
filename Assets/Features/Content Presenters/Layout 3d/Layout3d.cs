@@ -42,7 +42,7 @@ public class Layout3d : MonoBehaviour, IContentItemPresenter
     private async void loadSubContent()
     {
         var url = !string.IsNullOrEmpty(dto.Url) ? dto.Url : dto.CollectionUrl;
-        Debug.Log("Layout 3d loading collection: " + url + " | " + dto.Url + " | " + dto.CollectionUrl);
+        //Debug.Log("Layout 3d loading collection: " + url + " | " + dto.Url + " | " + dto.CollectionUrl);
         var items = await RoomManager.Instance.LoadCollection(url);
         var layoutDataItems = items.Where(i => i is AbsoluteLayoutDataPresenter).Select(i => i as AbsoluteLayoutDataPresenter).ToArray();
         foreach(var layoutData in layoutDataItems)

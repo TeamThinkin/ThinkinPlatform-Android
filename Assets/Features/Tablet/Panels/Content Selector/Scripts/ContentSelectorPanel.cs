@@ -131,7 +131,7 @@ public class ContentSelectorPanel : TabPanel
         contentItemDtos.Clear();
         contentItemVisualPool.Clear();
         fetchCollection(CollectionManager.PublicCollectionUrl);
-        fetchCollection(CollectionManager.UserRootCollectionUrl);
+        fetchCollection(CollectionManager.UserHomeCollectionUrl);
     }
 
     private void startBusy()

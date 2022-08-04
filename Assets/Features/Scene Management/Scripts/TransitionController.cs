@@ -7,6 +7,7 @@ using UnityEngine;
 public class TransitionController : MonoBehaviour
 {
     [SerializeField] Animator TransitionAnimator;
+    [SerializeField] MeshRenderer itemRenderer;
 
     public event System.Action OnSceneHidden;
 
@@ -23,8 +24,11 @@ public class TransitionController : MonoBehaviour
     private Task hideSceneTask;
     public async Task HideScene()
     {
+        if (TransitionAnimator.GetBool("IsSolid")) return;
+
         isHidePending = true;
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
+        itemRenderer.enabled = true;
         TransitionAnimator.SetBool("IsSolid", true);
 
         await Task.Run(() =>
@@ -58,6 +62,7 @@ public class TransitionController : MonoBehaviour
 
     public void OnDissolvedEvent() //Called from Animation Event
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        itemRenderer.enabled = false;
     }
 }

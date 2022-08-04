@@ -38,8 +38,8 @@ public class MoveToSpawnPoint : MonoBehaviour
             targetPoint = spawnPoint.transform.position;
             targetRot = spawnPoint.transform.rotation;
 
-            Debug.DrawRay(targetPoint, Vector3.up * 10, Color.yellow, 60);
-            Debug.DrawRay(targetPoint, spawnPoint.transform.forward * 10, Color.yellow, 60);
+            //Debug.DrawRay(targetPoint, Vector3.up * 10, Color.yellow, 60);
+            //Debug.DrawRay(targetPoint, spawnPoint.transform.forward * 10, Color.yellow, 60);
         }
 
 
@@ -53,6 +53,8 @@ public class MoveToSpawnPoint : MonoBehaviour
         //TrackerOffsets.localRotation = Quaternion.identity;
         //Player.SetPosition(transform.position, transform.rotation);
 
+        Player.body.velocity = Vector3.zero;
+        Player.body.angularVelocity = Vector3.zero;
         Player.SetPosition(targetPoint, targetRot);
     }
 }

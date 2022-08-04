@@ -40,12 +40,15 @@ public class CollectionNodeDto : INodeItem<CollectionNodeDto>
 
 public static class CollectionManager
 {
-    private static GraphNode<CollectionNodeDto> _userRootCollection = new GraphNode<CollectionNodeDto>() { Item = new CollectionNodeDto() { DisplayName = "Your Collections", Url = UserRootCollectionUrl } };
-    public static GraphNode<CollectionNodeDto> UserRootCollection => _userRootCollection;
+    private static GraphNode<CollectionNodeDto> _userHomeCollection = new GraphNode<CollectionNodeDto>() { Item = new CollectionNodeDto() { DisplayName = "Home Collection", Url = UserHomeCollectionUrl } };
+    public static GraphNode<CollectionNodeDto> UserHomeCollection => _userHomeCollection;
+
+    private static GraphNode<CollectionNodeDto> _publicCollection = new GraphNode<CollectionNodeDto>() { Item = new CollectionNodeDto() { DisplayName = "Public Collection", Url = PublicCollectionUrl } };
+    public static GraphNode<CollectionNodeDto> PublicCollection => _publicCollection;
 
     public static string PublicCollectionUrl => "public";
 
-    public static string UserRootCollectionUrl => (UserInfo.IsLoggedIn ? "user-" + UserInfo.CurrentUser.Id : null);
+    public static string UserHomeCollectionUrl => (UserInfo.IsLoggedIn ? "user-" + UserInfo.CurrentUser.Id : null);
 
     public static async Task FormChildNodes(this GraphNode<CollectionNodeDto> parentNode)
     {

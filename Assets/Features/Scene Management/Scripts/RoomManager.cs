@@ -72,17 +72,16 @@ public class RoomManager : MonoBehaviour
 
     public async Task<IContentItemPresenter[]> LoadRoomUrl(string Url)
     {
-        Debug.Log("Loading room url: " + Url);
         var task = loadRoomUrl(Url);
         pendingRequests[Url] = task;
         var result = await task;
         pendingRequests.Remove(Url);
-        Debug.Log("Loading room complete");
         return result;
     }
 
     private async Task<IContentItemPresenter[]> loadRoomUrl(string Url)
     {
+        Url = WebAPI.NormalizeCollectionUrl(Url);
         var newRoomId = Url.GetHashCode();
         if (newRoomId == CurrentRoomId) return ContentItems.Where(i => i.ContentDto.CollectionUrl == Url).ToArray();
 
@@ -91,7 +90,9 @@ public class RoomManager : MonoBehaviour
         CurrentRoomId = newRoomId;
         
         var dtoTask = CollectionManager.GetCollectionContents(Url);
+        Debug.Log("Hiding scene....");
         await TransitionController.Instance.HideScene();
+        Debug.Log("Scene hidden");
         
         ContentItems.Clear();
         OnRoomUnloaded?.Invoke();
@@ -113,7 +114,6 @@ public class RoomManager : MonoBehaviour
     {
         if(pendingRequests.ContainsKey(Url))
         {
-            Debug.Log("Loading collection already in progress: " + Url);
             var result = await pendingRequests[Url];
             return result;
         }
@@ -122,12 +122,10 @@ public class RoomManager : MonoBehaviour
             var existingCollectionItems = ContentItems.Where(i => i.ContentDto.CollectionUrl == Url);
             if (existingCollectionItems.Any())
             {
-                Debug.Log("Loading collection (returning existing items)");
                 return existingCollectionItems.ToArray();
             }
             else
             {
-                Debug.Log("Loading collection (fresh call)" + Url);
                 var requestTask = CollectionManager.LoadUrlIntoContainer(_roomItemContainer, Url);
                 pendingRequests.Add(Url, requestTask);
                 var result = await requestTask;

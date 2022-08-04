@@ -103,7 +103,6 @@ public class AppSceneManager : MonoBehaviour
 
         if(currentCatalogUrl != address.CatalogUrl)
         {
-            Debug.Log("Loading Catalog url: " + address.CatalogUrl);
             currentAssetBundle?.Unload(true);
             var request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(address.CatalogUrl, 0);
             await request.SendWebRequest().GetTask();
@@ -113,8 +112,6 @@ public class AppSceneManager : MonoBehaviour
         string scenePath = address.AssetPath;
         if (string.IsNullOrEmpty(scenePath)) scenePath = currentAssetBundle.GetAllScenePaths()[0];
 
-        Debug.Log("Loading remote scene: " + scenePath);
-        
         await SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Single).GetTask();
         //await SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Additive).GetTask();
 

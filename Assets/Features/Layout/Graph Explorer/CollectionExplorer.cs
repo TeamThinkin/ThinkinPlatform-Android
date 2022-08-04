@@ -9,6 +9,8 @@ public class CollectionExplorer : MonoBehaviour
     [SerializeField] private GraphExplorer Graph;
     [SerializeField] private CollectionList List;
 
+    private GraphNode<CollectionNodeDto> rootNode;
+
     void Start()
     {
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
@@ -31,8 +33,13 @@ public class CollectionExplorer : MonoBehaviour
     {
         if (UserInfo.CurrentUser == null) return;
 
-        await CollectionManager.UserRootCollection.Item.PopulateItems();
-        Graph.SetGraphRoot(CollectionManager.UserRootCollection);
+        await CollectionManager.UserHomeCollection.Item.PopulateItems();
+
+        rootNode = new GraphNode<CollectionNodeDto>(new CollectionNodeDto("Root"),
+            CollectionManager.UserHomeCollection,
+            CollectionManager.PublicCollection);
+
+        Graph.SetGraphRoot(rootNode);
         //Graph.SetGraphRoot(getMockGraph());
     }
 

@@ -74,6 +74,13 @@ public class SkinController : MonoBehaviour
             updateFingersFromData(leftFingers, leftHandData);
             updateFingersFromData(rightFingers, rightHandData);
         }
+
+        updateBodyPosition();
+    }
+
+    private void LateUpdate()
+    {
+        updateBodyPosition();
     }
 
     private void updateFingersFromData(Fingers fingers, AvatarHandData handData)
@@ -99,12 +106,15 @@ public class SkinController : MonoBehaviour
         fingers.Thumb3.localRotation = handData.FingerThumb3;
     }
 
-    private void LateUpdate()
+    private void updateBodyPosition()
     {
         if (neckBone != null && headBone != null)
         {
-            neckBone.position = headBone.position + neckHeadOffset;
-            neckBone.rotation = Quaternion.Slerp(neckBone.rotation, headBone.rotation, 0.5f * Time.deltaTime); //TODO: Limit non vertical axis rotation so cocking your head to the side doesnt rotate torso
+            //neckBone.position = headBone.position + neckHeadOffset;
+            //neckBone.rotation = Quaternion.Slerp(neckBone.rotation, headBone.rotation, 0.5f * Time.deltaTime); //TODO: Limit non vertical axis rotation so cocking your head to the side doesnt rotate torso
+
+            neckBone.position = headTransform.position + neckHeadOffset;
+            neckBone.rotation = Quaternion.Slerp(neckBone.rotation, headTransform.rotation, 0.5f * Time.deltaTime); //TODO: Limit non vertical axis rotation so cocking your head to the side doesnt rotate torso
         }
     }
 

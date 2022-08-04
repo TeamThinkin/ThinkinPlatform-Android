@@ -128,3 +128,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionAnimator: {fileID: 230130326282933441}
+  itemRenderer: {fileID: 230130326282933452}

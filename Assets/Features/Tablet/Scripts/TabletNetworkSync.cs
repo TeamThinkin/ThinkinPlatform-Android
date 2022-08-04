@@ -12,18 +12,12 @@ public class TabletNetworkSync : RealtimeComponent<TabletNetworkSyncModel>
 
     private Tablet sourceTablet;
 
-    //protected override void OnRealtimeModelReplaced(TabletNetworkSyncModel previousModel, TabletNetworkSyncModel currentModel)
-    //{
-    //    base.OnRealtimeModelReplaced(previousModel, currentModel);
-    //}
-
     public void SetSource(Tablet SourceTablet)
     {
         IsSourceItem = true;
         this.sourceTablet = SourceTablet;
         NetworkTransform.RequestOwnership();
         Visual.SetActive(false);
-        Debug.Log("Source tablet set: " + this.sourceTablet);
     }
 
     private void Update()
