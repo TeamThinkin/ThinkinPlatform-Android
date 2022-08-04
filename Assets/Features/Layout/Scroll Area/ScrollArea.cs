@@ -235,6 +235,8 @@ public class ScrollArea : LayoutContainer
 
     public override void UpdateLayout()
     {
+        if (contentLayoutContainer != null) contentLayoutContainer.UpdateLayout();
+
         updateContentBounds();
         constrainScrollPosition();
         updateScrollIndicator();

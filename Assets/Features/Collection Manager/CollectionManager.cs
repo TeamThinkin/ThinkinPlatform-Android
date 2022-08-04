@@ -112,7 +112,7 @@ public static class CollectionManager
 
     public static async Task<IContentItemPresenter[]> LoadDtosIntoContainer(Transform ContentContainer, IEnumerable<CollectionContentItemDto> Dtos)
     {
-        var items = await Task.WhenAll(Dtos.Select(dto => PresenterFactory.Instance.Instantiate(dto, ContentContainer)));
+        var items = await Task.WhenAll(Dtos.Select(dto => PresenterFactory.Instance.Instantiate(dto, ContentContainer, false)));
                 
         items = items.Where(i => i != null).ToArray();
 

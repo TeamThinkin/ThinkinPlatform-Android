@@ -13,10 +13,12 @@ public class AbsoluteLayoutDataPresenter : MonoBehaviour, IContentItemPresenter
 
     public string Id { get; set; }
 
+    public bool HasVisual => false;
+
     public CollectionContentItemDto ContentDto => Dto;
     public AbsoluteLayoutDataContentItemDto Dto { get; private set; }
 
-    public async Task LoadFromDto(CollectionContentItemDto Dto)
+    public async Task LoadFromDto(CollectionContentItemDto Dto, bool IsSymbolic)
     {
         this.Dto = Dto as AbsoluteLayoutDataContentItemDto;
     }

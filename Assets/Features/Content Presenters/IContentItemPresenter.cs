@@ -12,7 +12,9 @@ public interface IContentItemPresenter
 
     string Id { get; }
 
+    bool HasVisual { get; }
+
     CollectionContentItemDto ContentDto { get; }
 
-    Task LoadFromDto(CollectionContentItemDto Dto);
+    Task LoadFromDto(CollectionContentItemDto Dto, bool IsSymbolic);
 }

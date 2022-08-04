@@ -90,9 +90,7 @@ public class RoomManager : MonoBehaviour
         CurrentRoomId = newRoomId;
         
         var dtoTask = CollectionManager.GetCollectionContents(Url);
-        Debug.Log("Hiding scene....");
         await TransitionController.Instance.HideScene();
-        Debug.Log("Scene hidden");
         
         ContentItems.Clear();
         OnRoomUnloaded?.Invoke();

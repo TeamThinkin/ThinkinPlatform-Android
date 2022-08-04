@@ -32,7 +32,7 @@ public class PresenterFactory : MonoBehaviour
         }
     }
 
-    public async Task<IContentItemPresenter> Instantiate(CollectionContentItemDto Dto, Transform Parent)
+    public async Task<IContentItemPresenter> Instantiate(CollectionContentItemDto Dto, Transform Parent, bool IsSymbolic)
     {
         IContentItemPresenter presenter = null;
         try
@@ -49,7 +49,7 @@ public class PresenterFactory : MonoBehaviour
                 }
                 else
                 {
-                    await presenter.LoadFromDto(Dto);
+                    await presenter.LoadFromDto(Dto, IsSymbolic);
                     presenter.GameObject.name = Dto.Id;
                 }
             }

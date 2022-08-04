@@ -9,7 +9,9 @@ public class ContentSymbol : MonoBehaviour
     [SerializeField] private TMP_Text Label;
     [SerializeField] private Material HighlightMaterial;
     [SerializeField] private Renderer SymbolRenderer;
+    [SerializeField] private Transform VisualContainer;
     [SerializeField] private BlockLayoutItem _layoutItem;
+    
 
     private bool _isHighlighted;
     public bool IsHighlighted
@@ -27,11 +29,19 @@ public class ContentSymbol : MonoBehaviour
 
     private CollectionContentItemDto dto;
     private Material normalMaterial;
+    private IContentItemPresenter visual;
 
-    public void SetDto(CollectionContentItemDto Dto)
+    public async void SetDto(CollectionContentItemDto Dto)
     {
         this.dto = Dto;
         Label.text = dto.DisplayName;
+
+        ///////////////////
+
+        if (visual != null) Destroy(visual.GameObject);
+
+        visual = await PresenterFactory.Instance.Instantiate(Dto, VisualContainer, true);
+        DefaultVisual.SetActive(visual == null || !visual.HasVisual);
     }
 
     public void UpdateFromDto()

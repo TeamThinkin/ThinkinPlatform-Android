@@ -17,11 +17,18 @@ public class PortalPresenter : MonoBehaviour, IContentItemPresenter, IHandlePoin
 
     public string Id => dto?.Id;
 
+    public bool HasVisual { get; private set; }
+
     public CollectionContentItemDto ContentDto => dto;
 
-    public async Task LoadFromDto(CollectionContentItemDto Dto)
+    public async Task LoadFromDto(CollectionContentItemDto Dto, bool IsSymbolic)
     {
         dto = Dto as RoomLinkContentItemDto;
+
+        HasVisual = !IsSymbolic;
+
+        if (IsSymbolic) return;
+
         Label.text = dto.DisplayName;
 
         if(dto.Placement != null)

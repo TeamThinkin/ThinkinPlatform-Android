@@ -60,12 +60,12 @@ public class ContentSelectorPanel : TabPanel
 
     private void contentItemVisualPool_Get(ContentListItem item)
     {
-        item.OnPressedEvent += ContentItem_OnPressedEvent;
+        //item.OnPressedEvent += ContentItem_OnPressedEvent;
     }
 
     private void contentItemVisualPool_Released(ContentListItem item)
     {
-        item.OnPressedEvent -= ContentItem_OnPressedEvent;
+        //item.OnPressedEvent -= ContentItem_OnPressedEvent;
         item.IsItemSelected = false;
         if (SelectedListItem == item) SelectedListItem = null;
     }
@@ -82,14 +82,14 @@ public class ContentSelectorPanel : TabPanel
     }
 
 
-    private void ContentItem_OnPressedEvent(ButtonInteractable Sender)
-    {
-        Debug.Log("Content Selector Panel Item selected");
-        if (SelectedListItem != null) SelectedListItem.IsItemSelected = false;
+    //private void ContentItem_OnPressedEvent(ButtonInteractable Sender)
+    //{
+    //    Debug.Log("Content Selector Panel Item selected");
+    //    if (SelectedListItem != null) SelectedListItem.IsItemSelected = false;
 
-        SelectedListItem = Sender as ContentListItem;
-        SelectedListItem.IsItemSelected = true;
-    }
+    //    SelectedListItem = Sender as ContentListItem;
+    //    SelectedListItem.IsItemSelected = true;
+    //}
 
     private void TagButton_OnInteractionEvent(ButtonInteractable Sender)
     {

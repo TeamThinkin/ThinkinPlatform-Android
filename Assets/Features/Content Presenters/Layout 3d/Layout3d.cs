@@ -17,13 +17,15 @@ public class Layout3d : MonoBehaviour, IContentItemPresenter
 
     public string Id => dto?.Id;
 
+    public bool HasVisual => false;
+
     public CollectionContentItemDto ContentDto => dto;
 
-    public async Task LoadFromDto(CollectionContentItemDto Dto)
+    public async Task LoadFromDto(CollectionContentItemDto Dto, bool IsSymbolic)
     {
         dto = Dto as Layout3dContentItemDto;
 
-        loadSubContent();
+        if(!IsSymbolic) loadSubContent();
 
         //var dtos = await WebAPI.GetCollectionContents(dto.Url);
         //foreach (ItemTransformDto dto in dtos)

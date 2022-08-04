@@ -5,10 +5,34 @@ using UnityEngine;
 
 public class CollectionList : MonoBehaviour
 {
-    [SerializeField] private TMPro.TMP_Text Label;
+    [SerializeField] private GameObject ContentListItemPrefab;
+    [SerializeField] private LayoutContainer ItemsContainer;
+
+    private List<ContentListItem> listItems = new List<ContentListItem>();
 
     public void SetItems(CollectionContentItemDto[] Items)
     {
-        Label.text = string.Join("\n", Items.Select(i => "- " + i.DisplayName));
+        if (Items == null) return;
+
+        clearListItems();
+
+        foreach(var dto in Items)
+        {
+            var listItem = Instantiate(ContentListItemPrefab, ItemsContainer.ContentContainer.transform).GetComponent<ContentListItem>();
+            listItem.SetDto(dto);
+            listItems.Add(listItem);
+        }
+
+        ItemsContainer.UpdateLayout();
+    }
+
+    private void clearListItems()
+    {
+        foreach(var item in listItems)
+        {
+            DestroyImmediate(item.gameObject);
+        }
+
+        listItems.Clear();
     }
 }

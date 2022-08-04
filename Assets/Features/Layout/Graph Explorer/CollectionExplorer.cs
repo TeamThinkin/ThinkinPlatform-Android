@@ -35,7 +35,7 @@ public class CollectionExplorer : MonoBehaviour
 
         await CollectionManager.UserHomeCollection.Item.PopulateItems();
 
-        rootNode = new GraphNode<CollectionNodeDto>(new CollectionNodeDto("Root"),
+        rootNode = new GraphNode<CollectionNodeDto>(new CollectionNodeDto("Available Collections"),
             CollectionManager.UserHomeCollection,
             CollectionManager.PublicCollection);
 

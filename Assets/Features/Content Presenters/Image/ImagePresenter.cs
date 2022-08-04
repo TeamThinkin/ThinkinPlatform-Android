@@ -24,19 +24,23 @@ public class ImagePresenter : MonoBehaviour, IContentItemPresenter
 
     public string Id => dto?.Id;
 
+    public bool HasVisual { get; private set; }
+
     public CollectionContentItemDto ContentDto => dto;
 
 
-    public async Task LoadFromDto(CollectionContentItemDto Dto)
+    public async Task LoadFromDto(CollectionContentItemDto Dto, bool IsSymbolic)
     {
         dto = Dto as ImageContentItemDto;
 
         var material = await GetImageMaterial(dto);
         if (material != null && gameObject != null) //Bail out if the object has been destroyed while we were waiting to retrieve the image)
         {
-            var size = getScaledSize(material.mainTexture.width, material.mainTexture.height, 0.4f);
+            //var size = getWidthScaledSize(material.mainTexture.width, material.mainTexture.height, 1);
+            var size = getHeightScaledSize(material.mainTexture.width, material.mainTexture.height, 1);
             ImageRenderer.sharedMaterial = material;
             Visual.localScale = new Vector3(size.x, size.y, 1);
+            HasVisual = true;
         }
     }
 
@@ -70,10 +74,17 @@ public class ImagePresenter : MonoBehaviour, IContentItemPresenter
         return material;
     }
 
-    private Vector2 getScaledSize(float originalWidth, float originalHeight, float targetWidth)
+    private Vector2 getWidthScaledSize(float originalWidth, float originalHeight, float targetWidth)
     {
         // w / h = W / H
         // h * W / w = H
         return new Vector2(targetWidth, originalHeight * targetWidth / originalWidth);
+    }
+
+    private Vector2 getHeightScaledSize(float originalWidth, float originalHeight, float targetHeight)
+    {
+        // w / h = W / H
+        // h * W / w = H
+        return new Vector2(originalWidth * targetHeight / originalHeight, targetHeight);
     }
 }

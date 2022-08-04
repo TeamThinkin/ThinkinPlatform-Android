@@ -1,10 +1,12 @@
+using Autohand;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class NodeVisual : MonoBehaviour// : ButtonInteractable
+public class NodeVisual : MonoBehaviour, IHandlePointerEvent
+
 {
     [SerializeField] private TMPro.TMP_Text Label;
     [SerializeField] private Animator NodeAnimator;
@@ -31,6 +33,39 @@ public class NodeVisual : MonoBehaviour// : ButtonInteractable
     {
         NodeAnimator.SetBool("Is Open", false);
         onCloseAnimationCompleteCallback = OnComplete;
+    }
+
+    //protected override void onInteractionStart(Hand hand)
+    //{
+    //    Debug.Log("NodeVisual interaction start");
+    //    base.onInteractionStart(hand);
+    //    NodeViewModel.ParentController.SelectNode(NodeViewModel.Node);
+    //}
+
+    public void OnHoverStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnHoverEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+    }
+
+    public void OnGripEnd(UIPointer Sender)
+    {
+    }
+
+    public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
+    {
+        Debug.Log("NodeVisual trigger start");
+        NodeViewModel.ParentController.SelectNode(NodeViewModel.Node);
+    }
+
+    public void OnTriggerEnd(UIPointer Sender)
+    {
     }
 
     //protected override void OnActivated(ActivateEventArgs args)
