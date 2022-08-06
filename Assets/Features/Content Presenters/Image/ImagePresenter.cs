@@ -42,6 +42,14 @@ public class ImagePresenter : MonoBehaviour, IContentItemPresenter
             Visual.localScale = new Vector3(size.x, size.y, 1);
             HasVisual = true;
         }
+
+        if(IsSymbolic)
+        {
+            Destroy(GetComponent<GrabSyncMonitor>());
+            Destroy(GetComponent<Autohand.DistanceGrabbable>());
+            Destroy(GetComponent<Autohand.Grabbable>());
+            Destroy(GetComponent<Rigidbody>());
+        }
     }
 
 
