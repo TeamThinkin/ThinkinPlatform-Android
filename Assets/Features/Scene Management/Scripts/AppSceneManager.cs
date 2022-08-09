@@ -76,6 +76,7 @@ public class AppSceneManager : MonoBehaviour
         });
 
         currentScene = SceneName;
+        currentSceneUrl = null;
         currentSceneIsRemote = false;
         OnEnvironmentLoaded?.Invoke();
 
@@ -97,7 +98,13 @@ public class AppSceneManager : MonoBehaviour
 
     private async Task loadRemoteScene(string SceneUrl)
     {
-        if (currentSceneUrl == SceneUrl) return;
+        if (currentSceneUrl == SceneUrl)
+        {
+            Debug.Log("Skipping loadRemoteScene because the currentScaneUrl and SceneUrl match");
+            return;
+        }
+
+        Debug.Log("Loading remote scene.... " + SceneUrl);
 
         var address = new AddressableUrl(SceneUrl);
 
