@@ -46,7 +46,8 @@ public class GrabSyncMonitor : MonoBehaviour
     private void Grabbable_OnBeginRest(Grabbable obj)
     {
         Debug.Log("Grab synce monitor sees the grabbable has come to rest");
-        sync?.Destroy();
-        sync = null;
+        //if (sync != null) sync.Destroy();
+        //sync?.Destroy();
+        //sync = null;
     }
 }
