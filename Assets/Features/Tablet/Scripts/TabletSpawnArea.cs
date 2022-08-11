@@ -13,6 +13,7 @@ public class TabletSpawnArea : HandTriggerAreaEvents
     public override void Enter(Hand hand)
     {
         base.Enter(hand);
+        if (!this.enabled) return;
 
         var heldItem = hand.GetHeld();
         if(heldItem != null) hoverTablet = heldItem.GetComponent<Tablet>();
@@ -21,12 +22,16 @@ public class TabletSpawnArea : HandTriggerAreaEvents
     public override void Exit(Hand hand)
     {
         base.Exit(hand);
+        if (!this.enabled) return;
+
         hoverTablet = null;
     }
 
     public override void Release(Hand hand)
     {
         base.Release(hand);
+        if (!this.enabled) return;
+
         if (hoverTablet != null)
         {
             Debug.Log("Spawn area destroying tablet");
@@ -38,6 +43,7 @@ public class TabletSpawnArea : HandTriggerAreaEvents
     public override void Grab(Hand hand)
     {
         base.Grab(hand);
+        if (!this.enabled) return;
 
         var tablet = Instantiate(TabletPrefab);
         tablet.transform.position = hand.transform.position;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SelectOnActivate
   - PointerFingerTip
+  - Hat
   layers:
   - Default
   - TransparentFX
