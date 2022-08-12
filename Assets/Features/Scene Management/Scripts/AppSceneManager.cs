@@ -22,37 +22,42 @@ public class AppSceneManager
     public static async Task LoadLocalScene(string SceneName)
     {
         if (isLoading) return;
-        if (currentScene == SceneName) return;
+        if (currentScene != SceneName)
+        {
+            isLoading = true;
+            //for (int i=0;i<SceneManager.sceneCount;i++)
+            //{
+            //    if (SceneManager.GetSceneAt(i).name == SceneName) return;
+            //}
 
-        isLoading = true;
-        //for (int i=0;i<SceneManager.sceneCount;i++)
-        //{
-        //    if (SceneManager.GetSceneAt(i).name == SceneName) return;
-        //}
+            OnEnvironmentUnloaded?.Invoke();
 
-        OnEnvironmentUnloaded?.Invoke();
+            await SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Single).GetTask();
 
-        await SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Single).GetTask();
-
-        currentScene = SceneName;
-        currentSceneUrl = null;
-        currentSceneIsRemote = false;
+            currentScene = SceneName;
+            currentSceneUrl = null;
+            currentSceneIsRemote = false;
+            isLoading = false;
+        }
         OnEnvironmentLoaded?.Invoke();
 
-        isLoading = false;
+        
     }
 
     public static async Task LoadRemoteScene(string SceneUrl)
     {
         if (isLoading) return;
-        if (currentScene == SceneUrl) return;
+        if (currentScene != SceneUrl)
+        {
 
-        isLoading = true;
-        OnEnvironmentUnloaded?.Invoke();
-        currentScene = SceneUrl;
-        currentSceneIsRemote = true;
-        await loadRemoteScene(SceneUrl);
-        isLoading = false;
+            isLoading = true;
+            OnEnvironmentUnloaded?.Invoke();
+            currentScene = SceneUrl;
+            currentSceneIsRemote = true;
+            await loadRemoteScene(SceneUrl);
+            isLoading = false;
+        }
+        OnEnvironmentLoaded?.Invoke();
     }
 
 
@@ -60,7 +65,7 @@ public class AppSceneManager
     {
         if (currentSceneUrl == SceneUrl) return;
 
-        var address = new AddressableUrl(SceneUrl);
+        var address = new AssetUrl(SceneUrl);
 
         if(currentCatalogUrl != address.CatalogUrl)
         {
@@ -78,6 +83,5 @@ public class AppSceneManager
         currentScene = scenePath;
         currentSceneUrl = SceneUrl;
         currentSceneIsRemote = true;
-        OnEnvironmentLoaded?.Invoke();
     }
 }

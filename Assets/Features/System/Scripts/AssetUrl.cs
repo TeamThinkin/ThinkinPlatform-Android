@@ -1,14 +1,13 @@
 using System;
 using Thinkin.Web;
 
-//TODO: this should be renamed since we arent using Addressables anymore
-public struct AddressableUrl
+public struct AssetUrl
 {
     public Uri Parsed;
     public string CatalogUrl;
     public string AssetPath;
 
-    public AddressableUrl(string url)
+    public AssetUrl(string url)
     {
         Parsed = new Uri(url.Replace("{PLATFORM}", Config.PlatformKey));
         CatalogUrl = $"{Parsed.Scheme}://{Parsed.Authority}{Parsed.PathAndQuery}";

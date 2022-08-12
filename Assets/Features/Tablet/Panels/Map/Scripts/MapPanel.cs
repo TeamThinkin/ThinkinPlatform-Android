@@ -75,3 +75,29 @@ public class MapPanel : TabPanel
         await MapContents.LoadCollection(mapUrl);
     }
 }
+
+/*
+Old Collection based Urls
+
+Classroom
+https://thinkin-api.glitch.me/v1/auth/collection/test-room
+
+Board Room
+destination-5b676cd5-3a65-407a-94bc-7cf7edcd9577
+
+Theater
+destination-c17b835e-631c-4001-871f-5bd511b702f5
+
+Hotel
+destination-1e496332-8b15-466b-aede-efc0e81ec1ef
+
+Campus
+destination-b4a9935d-7854-4540-9787-1a00a1d1f8b4
+
+https://usc-intervrse.glitch.me/campus
+https://usc-intervrse.glitch.me/theater
+https://usc-intervrse.glitch.me/hotel
+https://usc-intervrse.glitch.me/boardroom
+https://usc-intervrse.glitch.me/classroom
+
+*/

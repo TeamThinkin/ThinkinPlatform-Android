@@ -125,10 +125,12 @@ public class ScrollArea : LayoutContainer
         }
         else
         {
-            var layoutItems = ContentContainer.transform.GetChildren().SelectNotNull(i => i.GetComponent<ILayoutItem>()).ToArray();
+            //var layoutItems = ContentContainer.transform.GetChildren().Where(i => i.gameObject.activeSelf).SelectNotNull(i => i.GetComponentInChildren<ILayoutItem>()).ToArray();
             bool isFirstItem = true;
             foreach (Transform childTransform in ContentContainer.transform)
             {
+                if (!childTransform.gameObject.activeSelf) continue;
+
                 var layoutItem = childTransform.GetComponentInChildren<ILayoutItem>();
                 if (layoutItem != null)
                 {
