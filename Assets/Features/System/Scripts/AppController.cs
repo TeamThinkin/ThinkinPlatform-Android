@@ -1,4 +1,5 @@
 using Firesplash.UnityAssets.SocketIO;
+using Normal.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,9 @@ using UnityEngine;
 
 public class AppController : MonoBehaviour
 {
+    [SerializeField] private Realtime _realtimeNetwork;
+    public Realtime RealtimeNetwork => _realtimeNetwork;
+
     [SerializeField] private GameObject _contentSymbolPrefab;
 
     public static GameObject ContentSymbolPrefab { get; private set; }
@@ -41,6 +45,6 @@ public class AppController : MonoBehaviour
 
     private void UserInfo_OnCurrentUserChanged(UserInfo obj)
     {
-        if(UserInfo.CurrentUser == null) AppSceneManager.Instance.LoadLocalScene("Login");
+        if(UserInfo.CurrentUser == null) AppSceneManager.LoadLocalScene("Login");
     }
 }

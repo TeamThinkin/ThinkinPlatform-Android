@@ -21,6 +21,6 @@ public class LocalScenePresenter : MonoBehaviour, IContentItemPresenter
     public async Task LoadFromDto(CollectionContentItemDto Dto, bool IsSymbolic)
     {
         dto = Dto as LocalSceneContentItemDto;
-        if(!IsSymbolic) await AppSceneManager.Instance.LoadLocalScene(dto.Path);
+        if(!IsSymbolic) await AppSceneManager.LoadLocalScene(dto.Path);
     }
 }

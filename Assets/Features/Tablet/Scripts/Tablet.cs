@@ -33,7 +33,7 @@ public class Tablet : MonoBehaviour
 
     private void createNetworkSync()
     {
-        if (!RoomManager.Instance.RealtimeNetwork.connected) return;
+        if (!AppController.Instance.RealtimeNetwork.connected) return;
 
         networkSync = Normal.Realtime.Realtime.Instantiate("Tablet (Remote)", Normal.Realtime.Realtime.InstantiateOptions.defaults).GetComponent<TabletNetworkSync>();
         networkSync.SetSource(this);

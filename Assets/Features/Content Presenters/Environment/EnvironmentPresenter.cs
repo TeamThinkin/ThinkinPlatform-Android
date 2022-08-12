@@ -22,6 +22,6 @@ public class EnvironmentPresenter : MonoBehaviour, IContentItemPresenter
     public async Task LoadFromDto(CollectionContentItemDto Dto, bool IsSymbolic)
     {
         dto = Dto as EnvironmentContentItemDto;
-        if (!IsSymbolic) await AppSceneManager.Instance.LoadRemoteScene(dto.Url);
+        if (!IsSymbolic) await AppSceneManager.LoadRemoteScene(dto.Url);
     }
 }

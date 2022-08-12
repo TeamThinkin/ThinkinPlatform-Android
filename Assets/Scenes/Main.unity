@@ -17609,7 +17609,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _roomItemContainer: {fileID: 1743312392}
-  _realtimeNetwork: {fileID: 4027863759026795326}
 --- !u!1 &1196924549
 GameObject:
   m_ObjectHideFlags: 0
@@ -22106,6 +22105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ce3b0803c0b984c88635b1d859dfc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _realtimeNetwork: {fileID: 4027863759026795326}
   _contentSymbolPrefab: {fileID: 8848975255799615182, guid: 29967bb040001b64c9a124279f7a76ec, type: 3}
 --- !u!1 &1444901808
 GameObject:
@@ -30065,10 +30065,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1945855019}
-  - component: {fileID: 1945855020}
   - component: {fileID: 1945855021}
   m_Layer: 0
-  m_Name: Scene Manager
+  m_Name: Sync Telepresence Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30089,20 +30088,6 @@ Transform:
   m_Father: {fileID: 2027487597}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1945855020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945855018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9840674b17ea54f812b78d78341199, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ClearCacheOnAwake: 0
-  RoomItemContainer: {fileID: 1743312392}
 --- !u!114 &1945855021
 MonoBehaviour:
   m_ObjectHideFlags: 0

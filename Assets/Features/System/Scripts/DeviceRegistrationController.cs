@@ -51,7 +51,7 @@ public static class DeviceRegistrationController
     private static async Task loadLoginRoom()
     {
         await TransitionController.Instance.HideScene();
-        await AppSceneManager.Instance.LoadLocalScene("Login");
+        await AppSceneManager.LoadLocalScene("Login");
         TransitionController.Instance.RevealScene();
     }
 

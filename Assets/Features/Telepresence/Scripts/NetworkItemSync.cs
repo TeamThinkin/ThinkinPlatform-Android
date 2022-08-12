@@ -31,7 +31,7 @@ public class NetworkItemSync : RealtimeComponent<NetworkItemSyncModel>
 
     public static NetworkItemSync CreateOrFind(GameObject TargetItem)
     {
-        if (!RoomManager.Instance.RealtimeNetwork.connected) return null;
+        if (!AppController.Instance.RealtimeNetwork.connected) return null;
 
         string key = getTargetItemKey(TargetItem); 
 
