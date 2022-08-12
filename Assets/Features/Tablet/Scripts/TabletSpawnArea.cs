@@ -34,7 +34,6 @@ public class TabletSpawnArea : HandTriggerAreaEvents
 
         if (hoverTablet != null)
         {
-            Debug.Log("Spawn area destroying tablet");
             Destroy(hoverTablet.gameObject);
         }
         hoverTablet = null;

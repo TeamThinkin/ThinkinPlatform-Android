@@ -97,7 +97,6 @@ public static class WebAPI
             }
             else
             {
-                Debug.Log("POST request complete");
                 return JsonConvert.DeserializeObject<TResult>(request.downloadHandler.text);
             }
         }
