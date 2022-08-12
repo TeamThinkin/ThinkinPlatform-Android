@@ -5,15 +5,35 @@ using UnityEngine;
 
 public class HatAttachmentArea : MonoBehaviour
 {
-    [SerializeField] private Transform AttachPoint; 
+    [SerializeField] private MonoBehaviour[] AreasToDisableWhenHovering;
+    [SerializeField] private Transform AttachPoint;
+    [SerializeField] private LayerMask HandLayer;
 
     private Grabbable hoverItem;
     private Grabbable attachedHat;
 
+    private List<GameObject> hoveringHandItems = new List<GameObject>();
+
     private void OnTriggerEnter(Collider other)
     {
+        //Check for hands in the trigger area, so we can disable things like the Tablet Spawn Area to prevent accidental activations when the user is trying to remove their hat
+        if (HandLayer.Contains(other.gameObject.layer))
+        {
+            hoveringHandItems.Add(other.gameObject);
+            if (attachedHat != null)
+            {
+                foreach (var area in AreasToDisableWhenHovering)
+                {
+                    area.enabled = false;
+                }
+
+                attachedHat.enabled = true;
+            }
+        }
+
+        //Check for hovering hat
         var grabbable = other.GetComponentInParent<Grabbable>();
-        if (grabbable != null && grabbable.IsHeld())
+        if (grabbable != null && grabbable.gameObject.tag == "Hat" && grabbable.IsHeld())
         {
             grabbable.onRelease.AddListener(hoverItemReleased);
             hoverItem = grabbable;
@@ -22,6 +42,25 @@ public class HatAttachmentArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        //Check for hands leaving trigger area
+        if (HandLayer.Contains(other.gameObject.layer))
+        {
+            hoveringHandItems.Remove(other.gameObject);
+            if(hoveringHandItems.Count == 0)
+            {
+                foreach(var area in AreasToDisableWhenHovering)
+                {
+                    area.enabled = true;
+                }
+
+                if(attachedHat != null)
+                {
+                    attachedHat.enabled = false;
+                }
+            }
+        }
+
+        //Check for hats leaving the area
         var grabbable = other.GetComponentInParent<Grabbable>();
         if (grabbable != null && grabbable == hoverItem)
         {
@@ -36,32 +75,23 @@ public class HatAttachmentArea : MonoBehaviour
 
     private void attachHat(Grabbable grabbable)
     {
-        Debug.Log("Attaching hat!");
         attachedHat = hoverItem;
+        attachedHat.enabled = false;
         attachedHat.body.isKinematic = true;
         attachedHat.onGrab.AddListener(attachedHatGrabbed);
-        //attachedHat.onRelease.AddListener(attachedHatReleased);
     }
 
     private void detachHat()
     {
         if (attachedHat == null) return;
         attachedHat.onGrab.RemoveListener(attachedHatGrabbed);
-        //attachedHat.onRelease.RemoveListener(attachedHatReleased);
-        //attachedHat.body.isKinematic = attachedHat.wasKinematic;
         attachedHat = null;
     }
 
     private void attachedHatGrabbed(Hand hand, Grabbable grabbable)
     {
-        Debug.Log("Attached hat grabbed");
         detachHat();
     }
-
-    //private void attachedHatReleased(Hand hand, Grabbable grabbable)
-    //{
-    //    if (hoverItem == null) detachHat();
-    //}
 
     private void Update()
     {

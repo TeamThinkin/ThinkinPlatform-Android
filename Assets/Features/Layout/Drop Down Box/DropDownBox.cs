@@ -81,6 +81,7 @@ public class DropDownBox : MonoBehaviour, IHandlePointerEvent
 
     public void ToggleAreaTouched()
     {
+        Debug.Log("Toggling DropDownBox");
         if (isListVisible) 
             hideList(); 
         else 

@@ -18,7 +18,7 @@ public class Tablet : MonoBehaviour
 
         AppSceneManager.OnEnvironmentUnloaded += AppSceneManager_OnEnvironmentUnloaded;
 
-        BuildLabel.text = Application.version;
+        BuildLabel.text = Application.version + ", " + GeneratedInfo.BundleVersionCode;
     }
 
     private void OnDestroy()

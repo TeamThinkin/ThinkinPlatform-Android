@@ -79,6 +79,7 @@ public static class WebAPI
 
     public static async Task<TResult> postRequest<TResult>(string Url, object body)
     {
+        Debug.Log("POST request: " + Url);
         using (var request = new UnityWebRequest(Url, "POST"))
         {
             var json = body.ToJSON();
@@ -96,6 +97,7 @@ public static class WebAPI
             }
             else
             {
+                Debug.Log("POST request complete");
                 return JsonConvert.DeserializeObject<TResult>(request.downloadHandler.text);
             }
         }

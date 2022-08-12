@@ -1,3 +1,4 @@
+using Autohand;
 using Normal.Realtime;
 using System;
 using System.Collections;
@@ -91,7 +92,9 @@ public class RoomManager : MonoBehaviour
         
         var dtoTask = CollectionManager.GetCollectionContents(Url);
         await TransitionController.Instance.HideScene();
-        
+
+        stashPlayer();
+
         ContentItems.Clear();
         OnRoomUnloaded?.Invoke();
         _roomItemContainer.ClearChildren();
@@ -105,7 +108,24 @@ public class RoomManager : MonoBehaviour
         OnRoomLoaded?.Invoke();
         TransitionController.Instance.RevealScene();
 
+        releaseStashedPlayer();
+
+
         return items;
+    }
+
+    private void stashPlayer()
+    {
+        var player = AutoHandPlayer.Instance;
+        player.body.isKinematic = true;
+        player.body.velocity = Vector3.zero;
+        player.body.angularVelocity = Vector3.zero;
+        player.SetPosition(Vector3.one * -10000);
+    }
+
+    private void releaseStashedPlayer()
+    {
+        AutoHandPlayer.Instance.body.isKinematic = false;
     }
 
     public async Task<IContentItemPresenter[]> LoadCollection(string Url)
