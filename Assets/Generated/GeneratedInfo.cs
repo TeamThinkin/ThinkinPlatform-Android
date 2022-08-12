@@ -1,1 +1,1 @@
-public static class GeneratedInfo { public static string BundleVersionCode = "22"; }
+public static class GeneratedInfo { public static string BundleVersionCode = "23"; }
