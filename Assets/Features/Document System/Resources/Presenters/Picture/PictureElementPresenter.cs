@@ -39,8 +39,9 @@ public class PictureElementPresenter : ElementPresenterBase
         var material = await GetImageMaterial(src);
         if (material != null && gameObject != null) //Bail out if the object has been destroyed while we were waiting to retrieve the image)
         {
-            //var size = getWidthScaledSize(material.mainTexture.width, material.mainTexture.height, 1);
-            var size = getHeightScaledSize(material.mainTexture.width, material.mainTexture.height, 1);
+            //var size = (Vector3)getWidthScaledSize(material.mainTexture.width, material.mainTexture.height, 1);
+            var size = (Vector3)getHeightScaledSize(material.mainTexture.width, material.mainTexture.height, 1);
+            size.z = 1f;
             ImageRenderer.sharedMaterial = material;
 
             if (placement.Scale.HasValue)
