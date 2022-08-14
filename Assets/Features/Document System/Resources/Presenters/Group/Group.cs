@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[ElementPresenter("group", "Presenters/Group/Group")]
+[ElementPresenter("group", "Presenters/Group/Group", true)]
 public class Group : ElementPresenterBase
 {
     public override void ParseDataElement(IElement ElementData)

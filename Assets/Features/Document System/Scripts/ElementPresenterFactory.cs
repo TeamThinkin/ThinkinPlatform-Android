@@ -9,14 +9,15 @@ using UnityEngine;
 
 public static class ElementPresenterFactory
 {
-    struct ElementPresenterInfo
+    public struct ElementPresenterInfo
     {
         public string HtmlTag;
         public Type PresenterType;
         public GameObject Prefab;
+        public bool IsContainer;
     }
 
-    private static Dictionary<string, ElementPresenterInfo> Presenters;
+    public static Dictionary<string, ElementPresenterInfo> Presenters { get; private set; }
 
     static ElementPresenterFactory()
     {
@@ -42,7 +43,8 @@ public static class ElementPresenterFactory
                     {
                         HtmlTag = presenterAttribute.Tag,
                         PresenterType = type,
-                        Prefab = prefab
+                        Prefab = prefab,
+                        IsContainer = presenterAttribute.IsContainer
                     });
                 else
                     Debug.LogError("Invalid prefab path for IContentPresenter (" + type.Name + "): " + presenterAttribute.PrefabPath);

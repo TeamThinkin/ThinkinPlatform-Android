@@ -72,7 +72,7 @@ public class PortalPresenter : MonoBehaviour, IContentItemPresenter, IHandlePoin
 
     public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
     {
-        RoomManager.Instance.LoadRoomUrl(dto.Url);
+        DestinationPresenter.Instance.DisplayUrl(dto.Url);
     }
 
     public void OnTriggerEnd(UIPointer Sender)

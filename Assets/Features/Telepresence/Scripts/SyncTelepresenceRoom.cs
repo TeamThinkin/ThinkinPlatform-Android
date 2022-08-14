@@ -8,25 +8,25 @@ public class SyncTelepresenceRoom : MonoBehaviour
 
     private void Start()
     {
-        RoomManager.OnRoomLoaded += RoomManager_OnRoomLoaded;
-        RoomManager.OnRoomUnloaded += RoomManager_OnRoomUnloaded;
+        DestinationPresenter.OnDestinationLoaded += DestinationPresenter_OnDestinationLoaded;
+        DestinationPresenter.OnDestinationUnloaded += DestinationPresenter_OnDestinationUnloaded;
     }
 
     private void OnDestroy()
     {
-        RoomManager.OnRoomLoaded -= RoomManager_OnRoomLoaded;
-        RoomManager.OnRoomUnloaded -= RoomManager_OnRoomUnloaded;
+        DestinationPresenter.OnDestinationLoaded -= DestinationPresenter_OnDestinationLoaded;
+        DestinationPresenter.OnDestinationUnloaded -= DestinationPresenter_OnDestinationUnloaded;
     }
 
-    private void RoomManager_OnRoomLoaded()
+    private void DestinationPresenter_OnDestinationLoaded()
     {
         if (!enabled) return;
-        if (RoomManager.CurrentRoomId == null) return;
+        if (DestinationPresenter.CurrentDestinationId == null) return;
 
-        Normcore.Connect(RoomManager.CurrentRoomId.ToString());
+        Normcore.Connect(DestinationPresenter.CurrentDestinationId.ToString());
     }
 
-    private void RoomManager_OnRoomUnloaded()
+    private void DestinationPresenter_OnDestinationUnloaded()
     {
         if (!enabled) return;
         Normcore.Disconnect();

@@ -40,7 +40,7 @@ public class MapPanel : TabPanel
 
     public async void NavigateHome()
     {
-        await RoomManager.Instance.LoadRoomUrl(UserInfo.CurrentUser.HomeRoomUrl);
+        await DestinationPresenter.Instance.DisplayUrl(UserInfo.CurrentUser.HomeRoomUrl);
     }
 
     public void NewDestinationButtonClicked()

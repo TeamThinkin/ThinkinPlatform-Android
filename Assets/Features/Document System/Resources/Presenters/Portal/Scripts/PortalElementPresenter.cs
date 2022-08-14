@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[ElementPresenter("portal", "Presenters/Portal/Portal")]
+[ElementPresenter("portal", "Presenters/Portal/Portal", false)]
 public class PortalElementPresenter : ElementPresenterBase, IHandlePointerEvent
 {
     public enum DisplayTypeEnum
@@ -76,8 +76,7 @@ public class PortalElementPresenter : ElementPresenterBase, IHandlePointerEvent
 
     public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
     {
-        Debug.Log("Portal clicked: " + Href);
-        RoomManager.Instance.LoadRoomUrl(Href);
+        DestinationPresenter.Instance.DisplayUrl(Href);
     }
 
     public void OnTriggerEnd(UIPointer Sender)

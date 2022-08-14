@@ -30,7 +30,7 @@ public class MapItem : HandTouchEvent, IHandlePointerEvent
     {
         if (isEditable) return;
 
-        await RoomManager.Instance.LoadRoomUrl(Dto.Url);
+        await DestinationPresenter.Instance.DisplayUrl(Dto.Url);
     }
 
     protected override void OnTouch(Hand hand, Collision collision)

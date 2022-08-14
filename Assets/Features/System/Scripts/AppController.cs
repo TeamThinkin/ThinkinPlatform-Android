@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class AppController : MonoBehaviour
 {
+    [SerializeField] private DestinationPresenter _destinationPresenter;
+
     [SerializeField] private Realtime _realtimeNetwork;
     public Realtime RealtimeNetwork => _realtimeNetwork;
 
@@ -28,13 +30,23 @@ public class AppController : MonoBehaviour
         
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
+        DestinationPresenter.UrlChanged += DestinationPresenter_UrlChanged;
+
         DeviceRegistrationController.CheckDeviceRegistration();
     }
+
+    
 
     private void OnDestroy()
     {
         UserInfo.OnCurrentUserChanged -= UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser -= WebSocketListener_OnSetUser;
+        DestinationPresenter.UrlChanged -= DestinationPresenter_UrlChanged;
+    }
+
+    private void DestinationPresenter_UrlChanged(string Url)
+    {
+        WebSocketListener.Socket.Emit("userLocationChanged", Url);
     }
 
     private void WebSocketListener_OnSetUser(UserDto obj)

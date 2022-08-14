@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[ElementPresenter("environment", "Presenters/Environment/Environment")]
+[ElementPresenter("environment", "Presenters/Environment/Environment", false)]
 public class EnvironmentElementPresenter : ElementPresenterBase
 {
     string typeName;

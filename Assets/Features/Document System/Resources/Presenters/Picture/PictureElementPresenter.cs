@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
 
-[ElementPresenter("picture", "Presenters/Picture/Picture")]
+[ElementPresenter("picture", "Presenters/Picture/Picture", false)]
 public class PictureElementPresenter : ElementPresenterBase
 {
     [SerializeField] private Renderer ImageRenderer;

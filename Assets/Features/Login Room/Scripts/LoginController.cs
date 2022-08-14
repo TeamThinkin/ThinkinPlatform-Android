@@ -75,6 +75,6 @@ public class LoginController : MonoBehaviour
 
     public void OnContinueButtonPressed()
     {
-        RoomManager.Instance.LoadRoomUrl(UserInfo.CurrentUser.HomeRoomUrl);
+        DestinationPresenter.Instance.DisplayUrl(UserInfo.CurrentUser.HomeRoomUrl);
     }
 }

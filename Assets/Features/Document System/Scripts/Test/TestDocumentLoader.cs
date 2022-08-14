@@ -14,7 +14,9 @@ using System.Linq;
 
 public class TestDocumentLoader : MonoBehaviour
 {
-    public string Url;
+    [SerializeField] private DestinationPresenter _destinationPresenter;
+
+    [SerializeField] private string Url;
 
     void Start()
     {
@@ -25,7 +27,7 @@ public class TestDocumentLoader : MonoBehaviour
     private async void loadRoom()
     {
         Debug.Log("Loading...");
-        await DocumentManager.LoadUrl(Url, this.transform);
+        await _destinationPresenter.DisplayUrl(Url);
         Debug.Log("Load complete");
     }
 
