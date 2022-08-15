@@ -91,7 +91,9 @@ public class DestinationPresenter : MonoBehaviour
         IElementPresenter currentPresenter = null;
 
         if (ElementPresenterFactory.HasTag(dataElement.TagName))
+        {
             currentPresenter = ElementPresenterFactory.Instantiate(dataElement, parentPresenter);
+        }
 
         foreach (var child in dataElement.Children)
         {

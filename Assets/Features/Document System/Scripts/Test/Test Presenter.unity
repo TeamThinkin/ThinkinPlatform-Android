@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destinationPresenter: {fileID: 156906696}
-  Url: https://usc-intervrse.glitch.me/campus
+  Url: https://usc-intervrse.glitch.me/test-room
 --- !u!4 &948641248
 Transform:
   m_ObjectHideFlags: 0

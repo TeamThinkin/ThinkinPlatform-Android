@@ -77,10 +77,6 @@ public static class ElementPresenterFactory
         Transform sceneContainer = null;
         if (parentElement != null && parentElement.SceneChildrenContainer != null) sceneContainer = parentElement.SceneChildrenContainer.transform;
         var presenter = GameObject.Instantiate(presenterInfo.Prefab, sceneContainer).GetComponent<IElementPresenter>();
-        if (!string.IsNullOrEmpty(dataElement.Id))
-            presenter.gameObject.name = dataElement.Id + " (" + dataElement.TagName + ")";
-        else
-            presenter.gameObject.name = dataElement.TagName;
 
         if (presenter == null)
         {
@@ -88,10 +84,24 @@ public static class ElementPresenterFactory
             return null;
         }
 
+        if (!string.IsNullOrEmpty(dataElement.Id))
+            presenter.gameObject.name = dataElement.Id + " (" + dataElement.TagName + ")";
+        else
+            presenter.gameObject.name = dataElement.TagName;
+
+        presenter.gameObject.name += " " + getUniqueIdForElement(dataElement);
+
         if (parentElement != null) parentElement.AddDOMChild(presenter);
         presenter.SetDOMParent(parentElement);
         presenter.ParseDataElement(dataElement);
         //presenter.Initialize();
         return presenter;
+    }
+
+    private static string getUniqueIdForElement(IElement dataElement)
+    {
+        //NOTE: it is important that this method return not only a unique id for the data element,
+        //but also consistently return the same unique id for the same item across executions so that networking can be synced by game object name
+        return dataElement.GetSelector().GetHashCode().ToString();
     }
 }
