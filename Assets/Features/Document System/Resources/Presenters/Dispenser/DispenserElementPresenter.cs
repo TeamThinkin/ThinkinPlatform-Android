@@ -17,8 +17,11 @@ public class DispenserElementPresenter : ElementPresenterBase
         public GameObject Prefab;
         public GameObject Instance;
         public Vector3 LocalPosition;
+        public ConnectingLine Line;
     }
 
+    [SerializeField] private TMPro.TMP_Text Label;
+    [SerializeField] private GameObject LinePrefab;
     [SerializeField] private ScrollGestureZone GestureInput;
     [SerializeField] private Transform ContentContainer;
     [SerializeField] private Transform LayoutReference;
@@ -27,16 +30,21 @@ public class DispenserElementPresenter : ElementPresenterBase
     [SerializeField] private int RowCount = 3;
     [SerializeField] private Vector3 JitterScale = Vector3.one;
     [SerializeField] private float Scroll;
+    [SerializeField] private float ScrollMargin;
 
     public bool IsPolar;
 
     private string src;
+    private string title;
     private PlacementInfo placement;
     private ItemInfo[] items;
+    private float minScroll;
+    private float maxScroll;
 
     public override void ParseDataElement(IElement ElementData)
     {
         src = ElementData.Attributes["src"].Value;
+        title = ElementData.Attributes["title"]?.Value;
         placement = GetPlacementInfo(ElementData);
     }
 
@@ -46,7 +54,9 @@ public class DispenserElementPresenter : ElementPresenterBase
         var request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(address.CatalogUrl, 0);
         await request.SendWebRequest().GetTask();
         var bundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(request);
-        var names = bundle.GetAllAssetNames(); //.Take(30);
+        var names = bundle.GetAllAssetNames().Take(30);
+
+        Label.text = title;
 
         ApplyPlacement(placement, this.transform);
         ContentContainer.ClearChildren();
@@ -89,6 +99,9 @@ public class DispenserElementPresenter : ElementPresenterBase
         }
 
         item.Instance = instance;
+
+        item.Line = Instantiate(LinePrefab, ContentContainer).GetComponent<ConnectingLine>();
+        item.Line.TargetItem = item.Instance.transform;
         return item;
     }
 
@@ -138,10 +151,19 @@ public class DispenserElementPresenter : ElementPresenterBase
                 item.Instance.transform.localScale = scale * ItemSize * Vector3.one;
 
                 item.Instance.SetActive(true);
-                //Debug.DrawLine(transform.TransformPoint(Vector3.zero), ContentContainer.TransformPoint(item.Instance.transform.localPosition), Color.red);
+                item.Line.gameObject.SetActive(true);
+                item.Line.SetSize(scale);
             }
-            else item.Instance.SetActive(false);
+            else
+            {
+                item.Instance.SetActive(false);
+                item.Line.gameObject.SetActive(false);
+            }
         }
+
+        minScroll = items.Min(i => i.LocalPosition.x) + ScrollMargin;
+        maxScroll = items.Max(i => i.LocalPosition.x) - ScrollMargin;
+        Scroll = Mathf.Clamp(Scroll, minScroll, maxScroll);
     }
 
     private void updateLayout()
