@@ -19,6 +19,7 @@ public class DispenserElementPresenter : ElementPresenterBase
         public Vector3 LocalPosition;
     }
 
+    [SerializeField] private ScrollGestureZone GestureInput;
     [SerializeField] private Transform ContentContainer;
     [SerializeField] private Transform LayoutReference;
     [SerializeField] private PhysicMaterial DefaultMaterial;
@@ -50,7 +51,7 @@ public class DispenserElementPresenter : ElementPresenterBase
         ApplyPlacement(placement, this.transform);
         ContentContainer.ClearChildren();
 
-        items = names.Select(i => getItem(i, bundle)).ToArray();
+        items = names.Select(i => getItem(i, bundle)).ToArray(); //TODO: need to manage how these things get in and out of memory
 
         updateLayout();
         //int i = 0;
@@ -65,7 +66,7 @@ public class DispenserElementPresenter : ElementPresenterBase
         //    makeGrabbable(item);
         //}
 
-        
+
     }
 
     private ItemInfo getItem(string assetName, AssetBundle bundle)
@@ -80,18 +81,32 @@ public class DispenserElementPresenter : ElementPresenterBase
         //instance.transform.SetParent(ContentContainer);
         instance.transform.localScale = ItemSize * Vector3.one;
         instance.transform.localRotation = Quaternion.Euler(0, 180, 0);
+
+        var colliders = instance.GetComponentsInChildren<Collider>();
+        foreach(var collider in colliders)
+        {
+            collider.enabled = false;
+        }
+
         item.Instance = instance;
         return item;
     }
 
     private void Update()
     {
+        trackGestureInput();
         updateLayout();
         updateScroll();
     }
 
+    private void trackGestureInput()
+    {
+        Scroll += GestureInput.ScrollValue;
+    }
+
     private void updateScroll()
     {
+        //TODO: this code and updateLayout() need to be evaluated for cleanliness
         if (items == null) return;
 
         var width = LayoutReference.localScale.x;
@@ -123,7 +138,7 @@ public class DispenserElementPresenter : ElementPresenterBase
                 item.Instance.transform.localScale = scale * ItemSize * Vector3.one;
 
                 item.Instance.SetActive(true);
-                Debug.DrawLine(transform.TransformPoint(Vector3.zero), ContentContainer.TransformPoint(item.Instance.transform.localPosition), Color.red);
+                //Debug.DrawLine(transform.TransformPoint(Vector3.zero), ContentContainer.TransformPoint(item.Instance.transform.localPosition), Color.red);
             }
             else item.Instance.SetActive(false);
         }

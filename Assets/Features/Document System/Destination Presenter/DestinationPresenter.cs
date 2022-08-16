@@ -83,6 +83,10 @@ public class DestinationPresenter : MonoBehaviour
         rootPresenter.gameObject.name = "Root";
 
         traverseDOMforPresenters(Document.DocumentElement, rootPresenter);
+        
+        bool hasEnviornment = rootPresenter.All().Any(i => i is EnvironmentElementPresenter);
+        if(!hasEnviornment) await AppSceneManager.LoadLocalScene("Empty Room");
+        
         await Task.WhenAll(rootPresenter.All().Select(i => i.Initialize()));
     }
 
