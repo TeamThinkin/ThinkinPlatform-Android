@@ -335,7 +335,7 @@ namespace Autohand {
 
                             if(HandClosestHit(out RaycastHit closestHit, out Grabbable grabbable, reachDistance * 2, 1 << grabbingLayer) != Vector3.zero && grabbable != null) {
                                 //SetLayerRecursive(grab.transform, grabLayer); //NOTE: mbell commented this out 5/5/22
-                                grab.gameObject.layer = grabbingLayer; //NOTE: added by mbell 5/5/22
+                                grab.gameObject.layer = grabLayer; //NOTE: added by mbell 5/5/22
 
                                 grabbable.body.velocity = Vector3.zero;
                                 grabbable.body.angularVelocity = Vector3.zero;

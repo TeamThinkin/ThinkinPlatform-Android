@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UIPointer : MonoBehaviour
 {
-    [SerializeField] private Hand PrimaryHand;
+    [SerializeField] private Hand _PrimaryHand;
     [SerializeField] private LayerMask Layers;
     [SerializeField] private float MaxRayDistance = 10;
     [SerializeField] private LineRenderer Line;
@@ -16,6 +16,8 @@ public class UIPointer : MonoBehaviour
     private IHandlePointerEvent currentTriggerItem;
     private IHandlePointerEvent currentGripItem;
     private RaycastHit rayInfo;
+
+    public Hand PrimaryHand => _PrimaryHand;
 
     private void OnEnable()
     {

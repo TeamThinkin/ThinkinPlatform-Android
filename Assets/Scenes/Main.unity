@@ -19135,6 +19135,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 175194623816562370, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
   m_PrefabInstance: {fileID: 5789895118402321973}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1242332483 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5353911437217235253, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
+  m_PrefabInstance: {fileID: 5789895118402321973}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9413d460e98076241a1f46c91201217d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1249034451
 GameObject:
   m_ObjectHideFlags: 0
@@ -21319,6 +21330,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3138605850509004834, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
   m_PrefabInstance: {fileID: 5789895118402321973}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1371184044 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2098508649921871438, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
+  m_PrefabInstance: {fileID: 5789895118402321973}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9413d460e98076241a1f46c91201217d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1379215566
 GameObject:
   m_ObjectHideFlags: 0
@@ -33598,9 +33620,17 @@ PrefabInstance:
       value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 1338639616722023477, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
+      propertyPath: _PrimaryHand
+      value: 
+      objectReference: {fileID: 1371184044}
+    - target: {fileID: 1338639616722023477, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
       propertyPath: MaxRayDistance
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1338639616833374529, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
+      propertyPath: _PrimaryHand
+      value: 
+      objectReference: {fileID: 1242332483}
     - target: {fileID: 1338639616833374529, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
       propertyPath: MaxRayDistance
       value: 10

@@ -64,19 +64,6 @@ public class DispenserElementPresenter : ElementPresenterBase
         items = names.Select(i => getItem(i, bundle)).ToArray(); //TODO: need to manage how these things get in and out of memory
 
         updateLayout();
-        //int i = 0;
-        //foreach(var name in names)
-        //{
-        //    i++;
-        //    var prefab = bundle.LoadAsset<GameObject>(name);
-        //    var item = Instantiate(prefab, ContentContainer);
-        //    item.name = prefab.name +  " " + (this.transform.parent.name + i.ToString()).GetHashCode().ToString();
-        //    item.transform.localPosition = UnityEngine.Random.insideUnitSphere * 0.5f;
-        //    item.transform.localScale = 0.2f * Vector3.one;
-        //    makeGrabbable(item);
-        //}
-
-
     }
 
     private ItemInfo getItem(string assetName, AssetBundle bundle)
@@ -87,16 +74,16 @@ public class DispenserElementPresenter : ElementPresenterBase
         item.Prefab = bundle.LoadAsset<GameObject>(item.AssetName);
 
         var instance = Instantiate(item.Prefab, ContentContainer);
-        //var instance = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        //instance.transform.SetParent(ContentContainer);
         instance.transform.localScale = ItemSize * Vector3.one;
         instance.transform.localRotation = Quaternion.Euler(0, 180, 0);
+        var dispenserItem = instance.AddComponent<DispenserItem>();
+        dispenserItem.SetItemPrefab(item.Prefab);
 
-        var colliders = instance.GetComponentsInChildren<Collider>();
-        foreach(var collider in colliders)
-        {
-            collider.enabled = false;
-        }
+        //var colliders = instance.GetComponentsInChildren<Collider>();
+        //foreach(var collider in colliders)
+        //{
+        //    collider.enabled = false;
+        //}
 
         item.Instance = instance;
 
@@ -212,17 +199,17 @@ public class DispenserElementPresenter : ElementPresenterBase
         );
     }
 
-    private void makeGrabbable(GameObject item)
-    {
-        var body = item.AddComponent<Rigidbody>();
-        body.useGravity = false;
-        body.isKinematic = true;
-        checkPhysicsMaterials(item);
+    //private void makeGrabbable(GameObject item)
+    //{
+    //    var body = item.AddComponent<Rigidbody>();
+    //    body.useGravity = false;
+    //    body.isKinematic = true;
+    //    checkPhysicsMaterials(item);
 
-        item.AddComponent<Grabbable>();
-        item.AddComponent<DistanceGrabbable>();
-        item.AddComponent<GrabSyncMonitor>();
-    }
+    //    item.AddComponent<Grabbable>();
+    //    item.AddComponent<DistanceGrabbable>();
+    //    item.AddComponent<GrabSyncMonitor>();
+    //}
 
     private void checkPhysicsMaterials(GameObject item)
     {
