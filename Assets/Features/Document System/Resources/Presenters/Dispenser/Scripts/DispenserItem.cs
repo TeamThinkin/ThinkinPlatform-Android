@@ -25,7 +25,7 @@ public class DispenserItem : MonoBehaviour, IHandlePointerEvent
         clone.name = gameObject.name + " Clone " + ParentDispenser.GetNextItemId();
         clone.transform.localScale = 0.1f * Vector3.one;
         clone.transform.position = Sender.PrimaryHand.transform.position + Sender.PrimaryHand.transform.right * -0.1f;
-        makeGrabbable(clone);
+        NetworkItemSync.MakeGrabbable(clone);
 
         var networkSync = NetworkItemSync.FindOrCreate(clone, itemInfo.AssetSourceUrl);
 
@@ -33,19 +33,19 @@ public class DispenserItem : MonoBehaviour, IHandlePointerEvent
     }
 
 
-    private void makeGrabbable(GameObject item)
-    {
-        var body = item.AddComponent<Rigidbody>();
-        body.useGravity = false;
-        body.drag = 0.2f;
-        body.angularDrag = 0.2f;
-        //body.isKinematic = true;
-        //checkPhysicsMaterials(item);
+    //private void makeGrabbable(GameObject item)
+    //{
+    //    var body = item.AddComponent<Rigidbody>();
+    //    body.useGravity = false;
+    //    body.drag = 0.2f;
+    //    body.angularDrag = 0.2f;
+    //    //body.isKinematic = true;
+    //    //checkPhysicsMaterials(item);
 
-        item.AddComponent<Grabbable>();
-        item.AddComponent<DistanceGrabbable>();
-        item.AddComponent<GrabSyncMonitor>();
-    }
+    //    item.AddComponent<Grabbable>();
+    //    item.AddComponent<DistanceGrabbable>();
+    //    item.AddComponent<GrabSyncMonitor>();
+    //}
 
     private IEnumerator attachToHand(Hand hand, GameObject clone)
     {
