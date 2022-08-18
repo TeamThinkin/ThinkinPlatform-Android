@@ -11,8 +11,9 @@ using Autohand;
 [ElementPresenter("dispenser", "Presenters/Dispenser/Dispenser", false)]
 public class DispenserElementPresenter : ElementPresenterBase
 {
-    class ItemInfo
+    public class ItemInfo
     {
+        public string AssetSourceUrl;
         public string AssetName;
         public GameObject Prefab;
         public GameObject Instance;
@@ -40,6 +41,7 @@ public class DispenserElementPresenter : ElementPresenterBase
     private ItemInfo[] items;
     private float minScroll;
     private float maxScroll;
+    private int itemCounter;
     private DispenserSync sync;
 
     public override void ParseDataElement(IElement ElementData)
@@ -57,10 +59,12 @@ public class DispenserElementPresenter : ElementPresenterBase
 
         if (!string.IsNullOrEmpty(src))
         {
-            var address = new AssetUrl(src);
-            var request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(address.CatalogUrl, 0);
-            await request.SendWebRequest().GetTask();
-            var bundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(request);
+            //var address = new AssetUrl(src);
+            //var request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(address.CatalogUrl, 0);
+            //await request.SendWebRequest().GetTask();
+            //var bundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(request);
+
+            var bundle = await AssetBundleManager.LoadAssetBundle(src);
             var names = bundle.GetAllAssetNames().Take(30);
 
             items = names.Select(i => getItem(i, bundle)).ToArray(); //TODO: need to manage how these things get in and out of memory
@@ -81,18 +85,26 @@ public class DispenserElementPresenter : ElementPresenterBase
         this.sync = Sync;
     }
 
+    public int GetNextItemId()
+    {
+        if (sync != null) sync.RequestOwnership();
+        return itemCounter++;
+    }
+
     private ItemInfo getItem(string assetName, AssetBundle bundle)
     {
         var item = new ItemInfo();
 
         item.AssetName = assetName;
-        item.Prefab = bundle.LoadAsset<GameObject>(item.AssetName);
+        item.AssetSourceUrl = src + "#" + item.AssetName;
+        item.Prefab = bundle.LoadAsset<GameObject>(item.AssetName); //TODO: move this over to the async version
 
         var instance = Instantiate(item.Prefab, ContentContainer);
         instance.transform.localScale = ItemSize * Vector3.one;
         instance.transform.localRotation = Quaternion.Euler(0, 180, 0);
         var dispenserItem = instance.AddComponent<DispenserItem>();
-        dispenserItem.SetItemPrefab(item.Prefab);
+        dispenserItem.SetItemInfo(item);
+        dispenserItem.ParentDispenser = this;
 
         //var colliders = instance.GetComponentsInChildren<Collider>();
         //foreach(var collider in colliders)
@@ -136,10 +148,12 @@ public class DispenserElementPresenter : ElementPresenterBase
         if(sync.isOwnedRemotelySelf)
         {
             Scroll = sync.Model.scrollValue;
+            itemCounter = sync.Model.counter;
         }
         else
         {
             sync.Model.scrollValue = Scroll;
+            sync.Model.counter = itemCounter;
         }
     }
 
@@ -242,18 +256,6 @@ public class DispenserElementPresenter : ElementPresenterBase
             r * Mathf.Sin(lat) * Mathf.Sin(lon)
         );
     }
-
-    //private void makeGrabbable(GameObject item)
-    //{
-    //    var body = item.AddComponent<Rigidbody>();
-    //    body.useGravity = false;
-    //    body.isKinematic = true;
-    //    checkPhysicsMaterials(item);
-
-    //    item.AddComponent<Grabbable>();
-    //    item.AddComponent<DistanceGrabbable>();
-    //    item.AddComponent<GrabSyncMonitor>();
-    //}
 
     private void checkPhysicsMaterials(GameObject item)
     {

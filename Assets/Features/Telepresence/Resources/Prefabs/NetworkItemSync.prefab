@@ -74,7 +74,7 @@ MonoBehaviour:
   _interpolate: 1
   _syncPosition: 1
   _syncRotation: 1
-  _syncScale: 0
+  _syncScale: 1
   _syncVelocity: 1
   _maintainOwnershipWhileSleeping: 0
 --- !u!114 &8258008833597462657
@@ -91,4 +91,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkItem: {fileID: 8258008833597462658}
   NetworkTransform: {fileID: 164495186838888105}
-  SyncDirection: 0

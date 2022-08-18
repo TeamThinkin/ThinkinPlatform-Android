@@ -5,25 +5,29 @@ using UnityEngine;
 
 public class DispenserItem : MonoBehaviour, IHandlePointerEvent
 {
-    private GameObject itemPrefab; //NOTE: might need to move to sharing ItemInfo instead of prefabs if we start dynamically loading and unloading prefabs from memory
+    public DispenserElementPresenter ParentDispenser;
+
+    private DispenserElementPresenter.ItemInfo itemInfo;
 
     private void Awake()
     {
         this.gameObject.layer = LayerMask.NameToLayer("UI");
     }
 
-    public void SetItemPrefab(GameObject ItemPrefab)
+    public void SetItemInfo(DispenserElementPresenter.ItemInfo ItemInfo)
     {
-        itemPrefab = ItemPrefab;
+        this.itemInfo = ItemInfo;
     }
 
     public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
     {
-        var clone = Instantiate(itemPrefab);
-        
+        var clone = Instantiate(itemInfo.Prefab, ParentDispenser.SceneChildrenContainer.transform);
+        clone.name = gameObject.name + " Clone " + ParentDispenser.GetNextItemId();
         clone.transform.localScale = 0.1f * Vector3.one;
         clone.transform.position = Sender.PrimaryHand.transform.position + Sender.PrimaryHand.transform.right * -0.1f;
         makeGrabbable(clone);
+
+        var networkSync = NetworkItemSync.FindOrCreate(clone, itemInfo.AssetSourceUrl);
 
         StartCoroutine(attachToHand(Sender.PrimaryHand, clone));
     }
@@ -33,12 +37,14 @@ public class DispenserItem : MonoBehaviour, IHandlePointerEvent
     {
         var body = item.AddComponent<Rigidbody>();
         body.useGravity = false;
+        body.drag = 0.2f;
+        body.angularDrag = 0.2f;
         //body.isKinematic = true;
         //checkPhysicsMaterials(item);
 
         item.AddComponent<Grabbable>();
         item.AddComponent<DistanceGrabbable>();
-        //item.AddComponent<GrabSyncMonitor>();
+        item.AddComponent<GrabSyncMonitor>();
     }
 
     private IEnumerator attachToHand(Hand hand, GameObject clone)

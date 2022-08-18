@@ -11,29 +11,19 @@ public class NetworkItemSync : RealtimeComponent<NetworkItemSyncModel>
     [SerializeField] private RealtimeView NetworkItem;
     [SerializeField] private RealtimeTransform NetworkTransform;
 
-    public string LocalKey { get; private set; }
-
     public GameObject TargetItem { get; private set; }
 
-    private void OnDestroy()
+    public void RequestTransformOwnership()
     {
-        var entry = Syncs.FirstOrDefault(i => i.Value == this);
-        if (entry.Value == this)
-        {
-            Syncs.Remove(entry.Key);
-        }
+        NetworkItem.RequestOwnership();
+        NetworkTransform.RequestOwnership();
     }
 
-    private static string getTargetItemKey(GameObject targetItem)
-    {
-        return targetItem.name;// .GetPath();
-    }
-
-    public static NetworkItemSync CreateOrFind(GameObject TargetItem)
+    public static NetworkItemSync FindOrCreate(GameObject TargetItem, string SpawnUrl = null)
     {
         if (!AppController.Instance.RealtimeNetwork.connected) return null;
 
-        string key = getTargetItemKey(TargetItem); 
+        string key = TargetItem.name; 
 
         if (Syncs.ContainsKey(key))
         {
@@ -44,13 +34,23 @@ public class NetworkItemSync : RealtimeComponent<NetworkItemSyncModel>
         else
         {
             var sync = Normal.Realtime.Realtime.Instantiate("Prefabs/NetworkItemSync", Normal.Realtime.Realtime.InstantiateOptions.defaults).GetComponent<NetworkItemSync>();
-            sync.SetKey(key);
+            sync.model.key = key;
+            sync.model.spawnUrl = SpawnUrl;
+            sync.model.spawnParentKey = TargetItem.transform.parent.gameObject.name;
             sync.RequestTransformOwnership();
-            Syncs.Add(sync.LocalKey, sync);
+            Syncs.Add(key, sync);
             return sync;
         }
     }
 
+    private void OnDestroy()
+    {
+        var entry = Syncs.FirstOrDefault(i => i.Value == this);
+        if (entry.Value == this)
+        {
+            Syncs.Remove(entry.Key);
+        }
+    }
 
     private void Update()
     {
@@ -62,42 +62,41 @@ public class NetworkItemSync : RealtimeComponent<NetworkItemSyncModel>
             copyTransform(TargetItem.transform, this.transform);
     }
 
-
-    public void SetKey(string Key)
-    {
-        LocalKey = Key;
-        model.key = Key;
-    }
-
-    public void RequestTransformOwnership()
-    {
-        NetworkItem.RequestOwnership();
-        NetworkTransform.RequestOwnership();
-    }
-
-    public void Destroy()
-    {
-        if(this != null && this.gameObject != null) Normal.Realtime.Realtime.Destroy(this.gameObject);
-    }
-
-    public static bool Exists(string Key)
-    {
-        return Syncs.ContainsKey(Key);
-    }
-
     protected override void OnRealtimeModelReplaced(NetworkItemSyncModel previousModel, NetworkItemSyncModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
         if(previousModel != null)
         {
             previousModel.keyDidChange -= Model_keyDidChange;
+            previousModel.spawnUrlDidChange -= Model_spawnUrlDidChange;
         }
         if(currentModel != null)
         {
-            currentModel.keyDidChange += Model_keyDidChange;
             Model_keyDidChange(currentModel, currentModel.key);
+            Model_spawnUrlDidChange(currentModel, currentModel.spawnUrl);
+
+            currentModel.keyDidChange += Model_keyDidChange;
+            currentModel.spawnUrlDidChange += Model_spawnUrlDidChange;
+
             if (currentModel.key != null && !Syncs.ContainsKey(currentModel.key)) Syncs.Add(currentModel.key, this);
         }  
+    }
+
+    private async void Model_spawnUrlDidChange(NetworkItemSyncModel model, string value)
+    {
+        if(TargetItem == null && !string.IsNullOrEmpty(model.spawnUrl))
+        {
+            Debug.Log("Spawning new item: " + model.spawnUrl);
+
+            var address = new AssetUrl(model.spawnUrl);
+            Debug.Log(address.CatalogUrl);
+            Debug.Log(address.AssetPath);
+
+            var prefab = await AssetBundleManager.LoadPrefab(address);
+            var parentObject = GameObject.Find(model.spawnParentKey);
+            TargetItem = Instantiate(prefab, parentObject?.transform);
+            TargetItem.name = model.key;
+        }
     }
 
     private void Model_keyDidChange(NetworkItemSyncModel model, string value)
@@ -112,5 +111,6 @@ public class NetworkItemSync : RealtimeComponent<NetworkItemSyncModel>
     {
         destinationItem.position = sourceItem.position;
         destinationItem.rotation = sourceItem.rotation;
+        destinationItem.localScale = sourceItem.localScale;
     }
 }

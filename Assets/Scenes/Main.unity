@@ -30727,6 +30727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _normcore: {fileID: 4027863759026795326}
+  _roomItemContainer: {fileID: 1743312392}
 --- !u!114 &1962896855
 MonoBehaviour:
   m_ObjectHideFlags: 0

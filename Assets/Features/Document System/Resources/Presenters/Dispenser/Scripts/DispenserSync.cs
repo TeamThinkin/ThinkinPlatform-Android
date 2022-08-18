@@ -8,6 +8,7 @@ public class DispenserSync : RealtimeComponent<DispenserSyncModel>
     private static Dictionary<string, DispenserSync> existingSyncs = new Dictionary<string, DispenserSync>();
 
     private DispenserElementPresenter source;
+    private RealtimeView parentView;
 
     public DispenserSyncModel Model => model;
 
@@ -21,6 +22,17 @@ public class DispenserSync : RealtimeComponent<DispenserSyncModel>
         var sync = Realtime.Instantiate("Presenters/Dispenser/Dispenser Sync", options).GetComponent<DispenserSync>();
         sync.model.key = Source.name;
         return sync;
+    }
+
+    new public void RequestOwnership()
+    {
+        parentView.RequestOwnership();
+        base.RequestOwnership();
+    }
+
+    private void Awake()
+    {
+        parentView = GetComponent<RealtimeView>();
     }
 
     private void OnDestroy()
