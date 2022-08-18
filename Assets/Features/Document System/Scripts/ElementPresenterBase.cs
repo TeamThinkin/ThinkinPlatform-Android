@@ -19,7 +19,9 @@ public abstract class ElementPresenterBase : MonoBehaviour, IElementPresenter
     public GameObject SceneChildrenContainer => _SceneChildContainer;
 
     public abstract void ParseDataElement(IElement ElementData);
-    
+
+    public virtual void CreateNetworkSync() { return; }
+
     public void AddDOMChild(IElementPresenter Child)
     {
         children.Add(Child);

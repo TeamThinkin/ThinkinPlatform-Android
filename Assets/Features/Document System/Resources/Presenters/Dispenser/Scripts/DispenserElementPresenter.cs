@@ -40,30 +40,45 @@ public class DispenserElementPresenter : ElementPresenterBase
     private ItemInfo[] items;
     private float minScroll;
     private float maxScroll;
+    private DispenserSync sync;
 
     public override void ParseDataElement(IElement ElementData)
     {
-        src = ElementData.Attributes["src"].Value;
+        src = ElementData.Attributes["src"]?.Value;
         title = ElementData.Attributes["title"]?.Value;
         placement = GetPlacementInfo(ElementData);
     }
 
     public override async Task Initialize()
     {
-        var address = new AssetUrl(src);
-        var request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(address.CatalogUrl, 0);
-        await request.SendWebRequest().GetTask();
-        var bundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(request);
-        var names = bundle.GetAllAssetNames().Take(30);
-
         Label.text = title;
-
         ApplyPlacement(placement, this.transform);
         ContentContainer.ClearChildren();
 
-        items = names.Select(i => getItem(i, bundle)).ToArray(); //TODO: need to manage how these things get in and out of memory
+        if (!string.IsNullOrEmpty(src))
+        {
+            var address = new AssetUrl(src);
+            var request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(address.CatalogUrl, 0);
+            await request.SendWebRequest().GetTask();
+            var bundle = UnityEngine.Networking.DownloadHandlerAssetBundle.GetContent(request);
+            var names = bundle.GetAllAssetNames().Take(30);
 
-        updateLayout();
+            items = names.Select(i => getItem(i, bundle)).ToArray(); //TODO: need to manage how these things get in and out of memory
+
+            updateLayout();
+        }
+    }
+
+    public override void CreateNetworkSync()
+    {
+        base.CreateNetworkSync();
+
+        sync = DispenserSync.FindOrCreate(this);
+    }
+
+    public void AttachNetworkSync(DispenserSync Sync)
+    {
+        this.sync = Sync;
     }
 
     private ItemInfo getItem(string assetName, AssetBundle bundle)
@@ -92,11 +107,40 @@ public class DispenserElementPresenter : ElementPresenterBase
         return item;
     }
 
+    private void Awake()
+    {
+        GestureInput.OnUserInput += GestureInput_OnUserInput;
+    }
+    private void OnDestroy()
+    {
+        GestureInput.OnUserInput -= GestureInput_OnUserInput;
+    }
+
     private void Update()
     {
+        handleSync();
         trackGestureInput();
         updateLayout();
         updateScroll();
+    }
+
+    private void GestureInput_OnUserInput()
+    {
+        if (sync != null) sync.RequestOwnership();
+    }
+
+    private void handleSync()
+    {
+        if (sync == null) return;
+
+        if(sync.isOwnedRemotelySelf)
+        {
+            Scroll = sync.Model.scrollValue;
+        }
+        else
+        {
+            sync.Model.scrollValue = Scroll;
+        }
     }
 
     private void trackGestureInput()

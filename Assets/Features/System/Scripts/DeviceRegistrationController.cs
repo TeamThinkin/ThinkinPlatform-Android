@@ -87,4 +87,9 @@ public static class DeviceRegistrationController
         }
     }
 
+    public static void Logout()
+    {
+        PlayerPrefs.DeleteKey("deviceUID");
+        UserInfo.CurrentUser = UserInfo.UnknownUser;
+    }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ScrollGestureZone : MonoBehaviour
 {
+    public event System.Action OnUserInput;
+
     [SerializeField] private Renderer visualRenderer;
     [SerializeField] private Material activeMaterial;
     [SerializeField] private Vector3 direction = Vector3.right;
@@ -53,6 +55,8 @@ public class ScrollGestureZone : MonoBehaviour
             TrackDelta = Vector3.zero;
             DirectionDeltaMomentum.Set(0);
             lastHandPosition = TrackPosition;
+
+            OnUserInput?.Invoke();
         }
     }
 

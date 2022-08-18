@@ -41,20 +41,6 @@ public class DispenserItem : MonoBehaviour, IHandlePointerEvent
         //item.AddComponent<GrabSyncMonitor>();
     }
 
-
-
-    //public override void Grab(Hand hand)
-    //{
-    //    base.Grab(hand);
-    //    if (!this.enabled) return;
-
-    //    var tablet = Instantiate(TabletPrefab);
-    //    tablet.transform.position = hand.transform.position;
-    //    tablet.transform.rotation = hand.transform.rotation;
-
-    //    StartCoroutine(attachToHand(hand, tablet));
-    //}
-
     private IEnumerator attachToHand(Hand hand, GameObject clone)
     {
         yield return new WaitForEndOfFrame(); //The grabbable seems to need some things to be setup in the first frame before the TryGrab can succeed

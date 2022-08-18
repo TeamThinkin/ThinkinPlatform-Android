@@ -15,13 +15,17 @@ public class DestinationPresenter : MonoBehaviour
     public static event Action OnDestinationLoaded;
     public static event Action OnDestinationUnloaded;
 
+    public static DestinationPresenter Instance { get; private set; }
+    public static int? CurrentDestinationId { get; private set; }
+
     [SerializeField] private Transform _contentContainer;
     public Transform ContentItemContainer => _contentContainer;
 
     [SerializeField] private TransitionController _transitionController;
 
-    public static DestinationPresenter Instance { get; private set; }
-    public static int? CurrentDestinationId { get; private set; }
+    public IElementPresenter RootPresenter { get; private set; }
+
+    
 
     private void Awake()
     {
@@ -65,7 +69,7 @@ public class DestinationPresenter : MonoBehaviour
         player.body.isKinematic = true;
         player.body.velocity = Vector3.zero;
         player.body.angularVelocity = Vector3.zero;
-        player.SetPosition(Vector3.one * -10000);
+        player.SetPosition(Vector3.one * -1000);
     }
 
     private void releaseStashedPlayer()
@@ -78,16 +82,16 @@ public class DestinationPresenter : MonoBehaviour
 
     private async Task loadDocument(IDocument Document)
     {
-        var rootPresenter = ElementPresenterFactory.Instantiate(typeof(RootPresenter), Document.DocumentElement, null);
-        rootPresenter.transform.SetParent(_contentContainer);
-        rootPresenter.gameObject.name = "Root";
+        RootPresenter = ElementPresenterFactory.Instantiate(typeof(RootPresenter), Document.DocumentElement, null);
+        RootPresenter.transform.SetParent(_contentContainer);
+        RootPresenter.gameObject.name = "Root";
 
-        traverseDOMforPresenters(Document.DocumentElement, rootPresenter);
+        traverseDOMforPresenters(Document.DocumentElement, RootPresenter);
         
-        bool hasEnviornment = rootPresenter.All().Any(i => i is EnvironmentElementPresenter);
+        bool hasEnviornment = RootPresenter.All().Any(i => i is EnvironmentElementPresenter);
         if(!hasEnviornment) await AppSceneManager.LoadLocalScene("Empty Room");
         
-        await Task.WhenAll(rootPresenter.All().Select(i => i.Initialize()));
+        await Task.WhenAll(RootPresenter.All().Select(i => i.Initialize()));
     }
 
     private static void traverseDOMforPresenters(IElement dataElement, IElementPresenter parentPresenter, int depth = 0)

@@ -41,6 +41,7 @@ public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
 
         if (model != null)
         {
+            RoomManager.Instance.RemoveUser(model);
             model.displayNameDidChange -= CurrentModel_displayNameDidChange;
 
             if (model.isOwnedLocallyInHierarchy)
@@ -66,7 +67,10 @@ public class NetworkAvatarController : RealtimeComponent<UserInfoModel>
                 gameObject.name = "Network Avatar (Local)";
                 UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
                 updateModelFromUserInfo();
+                model.clientId = RoomManager.Instance.ClientId;
                 linkMouthMover();
+
+                RoomManager.Instance.AddUser(model);
             }
             else
             {
