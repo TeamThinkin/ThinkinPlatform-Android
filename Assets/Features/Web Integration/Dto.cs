@@ -19,6 +19,9 @@ public class RegisterDeviceRequestDto
 {
     [JsonProperty("uid")]
     public string Uid { get; set; }
+
+    [JsonProperty("mac")]
+    public string Mac { get; set; }
 }
 
 public class RegisterDeviceResultDto : UserDto

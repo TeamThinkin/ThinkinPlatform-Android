@@ -992,14 +992,14 @@ PrefabInstance:
     - target: {fileID: 6480844210704405349, guid: 937da84bdc73ccd4b90143407d4602e2, type: 3}
       propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3305356124973127430}
     - target: {fileID: 6480844210704405349, guid: 937da84bdc73ccd4b90143407d4602e2, type: 3}
       propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SwitchCameras
+      value: LogoutButtonPressed
       objectReference: {fileID: 0}
     - target: {fileID: 6480844210704405349, guid: 937da84bdc73ccd4b90143407d4602e2, type: 3}
       propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CameraPanel, Assembly-CSharp
+      value: ConfigPanel, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8686173768594435557, guid: 937da84bdc73ccd4b90143407d4602e2, type: 3}
       propertyPath: m_text

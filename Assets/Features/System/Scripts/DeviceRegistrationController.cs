@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -67,7 +69,7 @@ public static class DeviceRegistrationController
 
     public static async Task RegisterDevice()
     {
-        var userDto = await WebAPI.RegisterDevice(UID);
+        var userDto = await WebAPI.RegisterDevice(UID, getMacAddress());
         if (userDto != null)
         {
             var user = new UserInfo()
@@ -87,9 +89,30 @@ public static class DeviceRegistrationController
         }
     }
 
-    public static void Logout()
+    public static async void Logout()
     {
         PlayerPrefs.DeleteKey("deviceUID");
+        //PlayerPrefs.DeleteAll();
         UserInfo.CurrentUser = UserInfo.UnknownUser;
+        await loadLoginRoom(); 
+    }
+
+
+    private static string getMacAddress()
+    {
+        var macAdress = "";
+        var nics = NetworkInterface.GetAllNetworkInterfaces();
+
+        foreach (var adapter in nics)
+        {
+            var address = adapter.GetPhysicalAddress();
+            if (address.ToString() != "")
+            {
+                macAdress = address.ToString();
+                Debug.Log("Mac Address retrieved: " + macAdress);
+                return macAdress;
+            }
+        }
+        return "UNKNOWN";
     }
 }

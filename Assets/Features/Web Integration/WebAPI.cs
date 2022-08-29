@@ -32,9 +32,9 @@ public static class WebAPI
         return ServerApiBaseUrl + "auth/collection/" + CollectionKey;
     }
 
-    public static async Task<RegisterDeviceResultDto> RegisterDevice(string Uid)
+    public static async Task<RegisterDeviceResultDto> RegisterDevice(string Uid, string MacAddress)
     {
-        return await postRequest<RegisterDeviceResultDto>(HomeServerApiBaseUrl + "device/register", new RegisterDeviceRequestDto() { Uid = Uid });
+        return await postRequest<RegisterDeviceResultDto>(HomeServerApiBaseUrl + "device/register", new RegisterDeviceRequestDto() { Uid = Uid, Mac = MacAddress });
     }
 
     public static async Task<RegistryEntryDto[]> Maps()

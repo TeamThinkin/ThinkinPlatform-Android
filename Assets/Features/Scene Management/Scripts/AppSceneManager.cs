@@ -33,6 +33,7 @@ public class AppSceneManager
             OnEnvironmentUnloaded?.Invoke();
 
             await SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Single).GetTask();
+            disableExtraCameras();
 
             currentScene = SceneName;
             currentSceneUrl = null;
@@ -79,9 +80,20 @@ public class AppSceneManager
         if (string.IsNullOrEmpty(scenePath)) scenePath = currentAssetBundle.GetAllScenePaths()[0];
 
         await SceneManager.LoadSceneAsync(scenePath, LoadSceneMode.Single).GetTask();
+        disableExtraCameras();
 
         currentScene = scenePath;
         currentSceneUrl = SceneUrl;
         currentSceneIsRemote = true;
+    }
+
+    private static void disableExtraCameras()
+    {
+        var cameras = GameObject.FindObjectsOfType<Camera>();
+        var mainCamera = AppController.Instance.MainCamera;
+        foreach (var camera in cameras)
+        {
+            if (camera != mainCamera) camera.gameObject.SetActive(false);
+        }
     }
 }

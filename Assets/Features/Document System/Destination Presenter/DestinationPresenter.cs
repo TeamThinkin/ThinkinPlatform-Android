@@ -25,6 +25,9 @@ public class DestinationPresenter : MonoBehaviour
 
     public IElementPresenter RootPresenter { get; private set; }
 
+    public string CurrentUrl { get; private set; }
+    public DocumentManager.PresenceInfoDto CurrentPresenceInfo { get; private set; }
+
     
 
     private void Awake()
@@ -44,17 +47,21 @@ public class DestinationPresenter : MonoBehaviour
         CurrentDestinationId = newRoomId;
 
         var documentTask = DocumentManager.FetchDocument(Url);
+        var presenceTask = DocumentManager.FetchPresenceInfo(Url);
 
         await _transitionController.HideScene();
-
+        
         stashPlayer();
 
         OnDestinationUnloaded?.Invoke();
         _contentContainer.ClearChildren();
 
-        var document = await documentTask;
+        await Task.WhenAll(documentTask, presenceTask);
+        var document = documentTask.Result;
+        CurrentPresenceInfo = presenceTask.Result;
+        
         await loadDocument(document);
-
+        CurrentUrl = Url;
         OnDestinationLoaded?.Invoke();
         _transitionController.RevealScene();
 

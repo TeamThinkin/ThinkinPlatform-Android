@@ -8743,7 +8743,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2027487597}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &532582729
 MonoBehaviour:
@@ -22031,6 +22031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ce3b0803c0b984c88635b1d859dfc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 7942002210750109186}
   _destinationPresenter: {fileID: 4785698962766529789}
   _realtimeNetwork: {fileID: 4027863759026795326}
   _contentSymbolPrefab: {fileID: 8848975255799615182, guid: 29967bb040001b64c9a124279f7a76ec, type: 3}
@@ -29983,51 +29984,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1945855018
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1945855019}
-  - component: {fileID: 1945855021}
-  m_Layer: 0
-  m_Name: Sync Telepresence Room
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1945855019
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945855018}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2027487597}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1945855021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1945855018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3663f431eb5aa64bb626341fa6c590f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Normcore: {fileID: 4027863759026795326}
 --- !u!1001 &1950232018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30712,7 +30668,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2027487597}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1962896854
 MonoBehaviour:
@@ -30727,7 +30683,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _normcore: {fileID: 4027863759026795326}
-  _roomItemContainer: {fileID: 1743312392}
 --- !u!114 &1962896855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31994,7 +31949,6 @@ Transform:
   m_Children:
   - {fileID: 1954564938}
   - {fileID: 1443573264}
-  - {fileID: 1945855019}
   - {fileID: 532582728}
   - {fileID: 1962896853}
   m_Father: {fileID: 617033242}
@@ -33880,6 +33834,11 @@ PrefabInstance:
 --- !u!4 &7942002210750109180 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4498671623670590409, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
+  m_PrefabInstance: {fileID: 5789895118402321973}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &7942002210750109186 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4498671623670590418, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
   m_PrefabInstance: {fileID: 5789895118402321973}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7942002212003976843 stripped

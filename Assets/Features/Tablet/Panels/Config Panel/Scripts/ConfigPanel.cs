@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class ConfigPanel : TabPanel
@@ -10,20 +11,22 @@ public class ConfigPanel : TabPanel
 
     public void LogoutButtonPressed()
     {
+        Debug.Log("Logging out...");
         DeviceRegistrationController.Logout();
         updateCurrentUserInfo();
+        Debug.Log("Logged out");
     }
 
     private void OnEnable()
     {
-        RoomManager.Instance.OnUserListChanged += Instance_OnUserListChanged;
+        TelepresenceRoomManager.Instance.OnUserListChanged += Instance_OnUserListChanged;
         updateCurrentUserInfo();
         updateConnectedUsers();
     }
 
     private void OnDisable()
     {
-        RoomManager.Instance.OnUserListChanged -= Instance_OnUserListChanged;
+        TelepresenceRoomManager.Instance.OnUserListChanged -= Instance_OnUserListChanged;
     }
 
     private void Instance_OnUserListChanged()
@@ -45,6 +48,6 @@ public class ConfigPanel : TabPanel
 
     private void updateConnectedUsers()
     {
-        ConnectedUsersLabel.text = string.Join('\n', RoomManager.Instance.ConnectedUsers.Select(i => i.displayName).ToArray());
+        ConnectedUsersLabel.text = string.Join('\n', TelepresenceRoomManager.Instance.ConnectedUsers.Select(i => i.displayName).ToArray());
     }
 }

@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class RoomManager : RealtimeComponent<RoomManagerModel>
+public class TelepresenceRoomManager : RealtimeComponent<TelepresenceRoomManagerModel>
 {
     public event Action OnUserListChanged;
 
-    public static RoomManager Instance { get; private set; }
+    public static TelepresenceRoomManager Instance { get; private set; }
 
     [SerializeField] private Realtime _normcore;
 
@@ -36,17 +36,35 @@ public class RoomManager : RealtimeComponent<RoomManagerModel>
     {
         Instance = this;
         _normcore.didConnectToRoom += _normcore_didConnectToRoom;
+        DestinationPresenter.OnDestinationLoaded += DestinationPresenter_OnDestinationLoaded;
+        DestinationPresenter.OnDestinationUnloaded += DestinationPresenter_OnDestinationUnloaded;
     }
 
     private void OnDestroy()
     {
         _normcore.didConnectToRoom -= _normcore_didConnectToRoom;
+        DestinationPresenter.OnDestinationLoaded -= DestinationPresenter_OnDestinationLoaded;
+        DestinationPresenter.OnDestinationUnloaded -= DestinationPresenter_OnDestinationUnloaded;
 
         if (model != null)
         {
             model.connectedUsers.modelAdded -= ConnectedUsers_modelAdded;
             model.connectedUsers.modelRemoved -= ConnectedUsers_modelRemoved;
         }
+    }
+
+    private void DestinationPresenter_OnDestinationLoaded()
+    {
+        if (!enabled) return;
+        if (DestinationPresenter.CurrentDestinationId == null) return;
+
+        _normcore.Connect(DestinationPresenter.CurrentDestinationId.ToString());
+    }
+
+    private void DestinationPresenter_OnDestinationUnloaded()
+    {
+        if (!enabled) return;
+        _normcore.Disconnect();
     }
 
     public void AddUser(UserInfoModel UserInfo)
@@ -83,7 +101,7 @@ public class RoomManager : RealtimeComponent<RoomManagerModel>
         }
     }
 
-    protected override void OnRealtimeModelReplaced(RoomManagerModel previousModel, RoomManagerModel currentModel)
+    protected override void OnRealtimeModelReplaced(TelepresenceRoomManagerModel previousModel, TelepresenceRoomManagerModel currentModel)
     {
         base.OnRealtimeModelReplaced(previousModel, currentModel);
 

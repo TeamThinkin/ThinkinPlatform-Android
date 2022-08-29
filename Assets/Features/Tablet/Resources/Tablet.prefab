@@ -1827,17 +1827,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 701aeb67c5bb01d4faab46f353d31ccd, type: 3}
---- !u!114 &827415942788508988 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4843451088826978482, guid: 701aeb67c5bb01d4faab46f353d31ccd, type: 3}
-  m_PrefabInstance: {fileID: 5209810929434606990}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fc46c74ea8ef6641bb7660b6385dc87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2970262775110088314 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7022388565810416628, guid: 701aeb67c5bb01d4faab46f353d31ccd, type: 3}
@@ -2208,7 +2197,11 @@ PrefabInstance:
     - target: {fileID: 4713586929588648974, guid: 8f8f309beb89a71478028c0001033c9e, type: 3}
       propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 827415942788508988}
+      objectReference: {fileID: 5029172331295206744}
+    - target: {fileID: 4713586929588648974, guid: 8f8f309beb89a71478028c0001033c9e, type: 3}
+      propertyPath: OnPressed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LogoutButtonPressed
+      objectReference: {fileID: 0}
     - target: {fileID: 5929648496529983121, guid: 8f8f309beb89a71478028c0001033c9e, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2264,6 +2257,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5929648496529983121, guid: 8f8f309beb89a71478028c0001033c9e, type: 3}
   m_PrefabInstance: {fileID: 7500127755896207966}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5029172331295206744 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3305356124973127430, guid: 8f8f309beb89a71478028c0001033c9e, type: 3}
+  m_PrefabInstance: {fileID: 7500127755896207966}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae567fd2e6394e41a7856bfe03380c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8162340002067090183
 PrefabInstance:
   m_ObjectHideFlags: 0

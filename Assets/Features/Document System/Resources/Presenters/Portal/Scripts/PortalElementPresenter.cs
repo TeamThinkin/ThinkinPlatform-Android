@@ -14,10 +14,14 @@ public class PortalElementPresenter : ElementPresenterBase, IHandlePointerEvent
         Hidden
     }
 
-    [SerializeField] TMPro.TMP_Text Label;
-    [SerializeField] Animator StateAnimator;
-    [SerializeField] GameObject DoorVisual;
-    [SerializeField] BoxCollider Collider;
+    [SerializeField] private TMPro.TMP_Text Label;
+    [SerializeField] private Animator StateAnimator;
+    [SerializeField] private GameObject DoorVisual;
+    [SerializeField] private BoxCollider Collider;
+
+    private bool isLocalDestination;
+    private Vector3? localDestinationPosition;
+    private Vector3? localDestinationEuler;
 
     public bool HasVisual { get; private set; }
 
@@ -54,7 +58,70 @@ public class PortalElementPresenter : ElementPresenterBase, IHandlePointerEvent
             default:
                 break;
         }
+
+        parseHref();
     }
+
+    private void parseHref()
+    {
+        var hashIndex = Href.IndexOf("#");
+        isLocalDestination = hashIndex > -1;
+        if (isLocalDestination)
+        {
+
+            var hash = Href.Substring(hashIndex + 1);
+            hash = Thinkin.Web.HttpUtility.UrlDecode(hash);
+            // Assumed format: {0.1,0.2,0.3},{0.2,0.4,0.6}
+
+            int startBrace = 0;
+            int endBrace = 0;
+            string chunk;
+            for(int i=0;i<2;i++)
+            {
+                startBrace = hash.IndexOf('{', endBrace);
+
+                if (startBrace > -1)
+                {
+                    endBrace = hash.IndexOf('}', startBrace);
+
+                    if (endBrace > -1)
+                    {
+                        chunk = hash.Substring(startBrace, endBrace - startBrace + 1);
+                        if(i == 0)
+                            localDestinationPosition = parseVector3String(chunk);
+                        else if(i == 1)
+                            localDestinationEuler = parseVector3String(chunk);
+                    }
+                    else break;
+                }
+                else break;
+            } 
+
+            if (localDestinationPosition.HasValue) Debug.Log("Destination position: " + localDestinationPosition.Value);
+            if (localDestinationEuler.HasValue) Debug.Log("Destination euler: " + localDestinationEuler.Value);
+        }
+    }
+
+    private Vector3? parseVector3String(string text)
+    {
+        // Assumed format: {0.1,0.2,0.3}
+        try
+        {
+            text = text.Trim();
+            text = text.Substring(1, text.Length - 2);
+            var pieces = text.Split(',');
+            var x = float.Parse(pieces[0].Trim());
+            var y = float.Parse(pieces[1].Trim());
+            var z = float.Parse(pieces[2].Trim());
+            return new Vector3(x, y, z);
+        }
+        catch(System.Exception ex)
+        {
+            Debug.LogError("Invalid vector string (Expecting {0.1,0.2,0.3}): " + text);
+            return null;
+        }
+    }
+
 
     public void OnHoverStart(UIPointer Sender, RaycastHit RayInfo)
     {
@@ -76,7 +143,16 @@ public class PortalElementPresenter : ElementPresenterBase, IHandlePointerEvent
 
     public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
     {
-        DestinationPresenter.Instance.DisplayUrl(Href);
+        if (isLocalDestination)
+        {
+            Debug.Log("Local destination");
+            if (localDestinationEuler.HasValue) Autohand.AutoHandPlayer.Instance.SetRotation(Quaternion.Euler(localDestinationEuler.Value));
+            if (localDestinationPosition.HasValue) Autohand.AutoHandPlayer.Instance.SetPosition(localDestinationPosition.Value);
+        }
+        else
+        {
+            DestinationPresenter.Instance.DisplayUrl(Href);
+        }
     }
 
     public void OnTriggerEnd(UIPointer Sender)

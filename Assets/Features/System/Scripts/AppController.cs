@@ -9,6 +9,9 @@ using UnityEngine;
 
 public class AppController : MonoBehaviour
 {
+    [SerializeField] private Camera _mainCamera;
+    public Camera MainCamera => _mainCamera;
+
     [SerializeField] private DestinationPresenter _destinationPresenter;
 
     [SerializeField] private Realtime _realtimeNetwork;
