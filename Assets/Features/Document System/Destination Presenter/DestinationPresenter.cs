@@ -26,7 +26,7 @@ public class DestinationPresenter : MonoBehaviour
     public IElementPresenter RootPresenter { get; private set; }
 
     public string CurrentUrl { get; private set; }
-    public DocumentManager.PresenceInfoDto CurrentPresenceInfo { get; private set; }
+    //public DocumentManager.PresenceInfoDto CurrentPresenceInfo { get; private set; }
 
     
 
@@ -47,7 +47,7 @@ public class DestinationPresenter : MonoBehaviour
         CurrentDestinationId = newRoomId;
 
         var documentTask = DocumentManager.FetchDocument(Url);
-        var presenceTask = DocumentManager.FetchPresenceInfo(Url);
+        //var presenceTask = DocumentManager.FetchPresenceInfo(Url);
 
         await _transitionController.HideScene();
         
@@ -56,9 +56,10 @@ public class DestinationPresenter : MonoBehaviour
         OnDestinationUnloaded?.Invoke();
         _contentContainer.ClearChildren();
 
-        await Task.WhenAll(documentTask, presenceTask);
-        var document = documentTask.Result;
-        CurrentPresenceInfo = presenceTask.Result;
+        var document = await documentTask;
+        //await Task.WhenAll(documentTask, presenceTask);
+        //var document = documentTask.Result;
+        //CurrentPresenceInfo = presenceTask.Result;
         
         await loadDocument(document);
         CurrentUrl = Url;

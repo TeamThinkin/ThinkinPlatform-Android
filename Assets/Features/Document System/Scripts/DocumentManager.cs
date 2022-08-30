@@ -11,42 +11,42 @@ using UnityEngine.Networking;
 
 public static class DocumentManager
 {
-    public const string BROWSER_KEY = "775d447b-8333-42bc-882b-6926d91a14ae";
+    //public const string BROWSER_KEY = "775d447b-8333-42bc-882b-6926d91a14ae";
 
-    public struct PresenceInfoDto
-    {
-        [JsonProperty("provider")]
-        public string Provider { get; set; }
+    //public struct PresenceInfoDto
+    //{
+    //    [JsonProperty("provider")]
+    //    public string Provider { get; set; }
 
-        [JsonProperty("key")]
-        public string Key { get; set; }
-    }
+    //    [JsonProperty("key")]
+    //    public string Key { get; set; }
+    //}
 
-    public static async Task<PresenceInfoDto> FetchPresenceInfo(string BaseUrl)
-    {
-        var url = new Uri(new Uri(BaseUrl), "/api/presence").AbsoluteUri;
-        Debug.Log("Presence info url: " + url);
+    //public static async Task<PresenceInfoDto> FetchPresenceInfo(string BaseUrl)
+    //{
+    //    var url = new Uri(new Uri(BaseUrl), "/api/presence").AbsoluteUri;
+    //    Debug.Log("Presence info url: " + url);
 
-        using (var request = new UnityWebRequest(url, "GET"))
-        {
-            request.SetRequestHeader("Browser-Key", BROWSER_KEY);
-            request.SetRequestHeader("User-Agent", "Thinkin/" + Application.version);
-            if (UserInfo.CurrentUser != null) request.SetRequestHeader("auth", UserInfo.CurrentUser.AuthToken);
-            request.downloadHandler = new DownloadHandlerBuffer();
+    //    using (var request = new UnityWebRequest(url, "GET"))
+    //    {
+    //        request.SetRequestHeader("Browser-Key", BROWSER_KEY);
+    //        request.SetRequestHeader("User-Agent", "Thinkin/" + Application.version);
+    //        if (UserInfo.CurrentUser != null) request.SetRequestHeader("auth", UserInfo.CurrentUser.AuthToken);
+    //        request.downloadHandler = new DownloadHandlerBuffer();
 
-            await request.SendWebRequest().GetTask();
+    //        await request.SendWebRequest().GetTask();
 
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Presence Request error: " + request.error);
-                return new PresenceInfoDto();
-            }
-            else
-            {
-                return JsonConvert.DeserializeObject<PresenceInfoDto>(request.downloadHandler.text);
-            }
-        }
-    }
+    //        if (request.result != UnityWebRequest.Result.Success)
+    //        {
+    //            Debug.LogError("Presence Request error: " + request.error);
+    //            return new PresenceInfoDto();
+    //        }
+    //        else
+    //        {
+    //            return JsonConvert.DeserializeObject<PresenceInfoDto>(request.downloadHandler.text);
+    //        }
+    //    }
+    //}
 
     public static async Task<IDocument> FetchDocument(string Url)
     {
