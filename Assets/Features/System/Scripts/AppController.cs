@@ -7,10 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class AppController : MonoBehaviour
+public class AppController : AppControllerBase
 {
+    [SerializeField] private Autohand.AutoHandPlayer _autoHandPlayer;
+
     [SerializeField] private Camera _mainCamera;
-    public Camera MainCamera => _mainCamera;
+    public override Camera MainCamera => _mainCamera;
 
     [SerializeField] private DestinationPresenter _destinationPresenter;
 
@@ -19,16 +21,15 @@ public class AppController : MonoBehaviour
 
     [SerializeField] private GameObject _contentSymbolPrefab;
 
-    public static GameObject ContentSymbolPrefab { get; private set; }
+    public override Transform PlayerTransform => _autoHandPlayer.transform;
 
-    public static AppController Instance { get; private set; }
+    public override Rigidbody PlayerBody => _autoHandPlayer.body;
+
+    public static GameObject ContentSymbolPrefab { get; private set; }
 
     void Start()
     {
         //PlayerPrefs.DeleteAll();
-
-        Instance = this;
-
         ContentSymbolPrefab = _contentSymbolPrefab;
         
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
@@ -37,8 +38,6 @@ public class AppController : MonoBehaviour
 
         DeviceRegistrationController.CheckDeviceRegistration();
     }
-
-    
 
     private void OnDestroy()
     {
@@ -61,5 +60,20 @@ public class AppController : MonoBehaviour
     private void UserInfo_OnCurrentUserChanged(UserInfo obj)
     {
         if(UserInfo.CurrentUser == null) AppSceneManager.LoadLocalScene("Login");
+    }
+
+    public override void SetPlayerPosition(Vector3 WorldPosition)
+    {
+        _autoHandPlayer.SetPosition(WorldPosition);
+    }
+
+    public override void SetPlayerPosition(Vector3 WorldPosition, Quaternion WorldRotation)
+    {
+        _autoHandPlayer.SetPosition(WorldPosition, WorldRotation);
+    }
+
+    public override void SetPlayerRotation(Quaternion WorldRotation)
+    {
+        _autoHandPlayer.SetRotation(WorldRotation);
     }
 }

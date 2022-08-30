@@ -1,3 +1,9 @@
 [submodule "Packages/thinkin.core.package"]
 	path = Packages/thinkin.core.package
 	url = https://github.com/TeamThinkin/thinkin.core.package.git
+[submodule "Packages/thinkin.ui.xr.package"]
+	path = Packages/thinkin.ui.xr.package
+	url = https://github.com/TeamThinkin/thinkin.ui.xr.package.git
+[submodule "Packages/thinkin.presence.package"]
+	path = Packages/thinkin.presence.package
+	url = https://github.com/TeamThinkin/thinkin.presence.package.git

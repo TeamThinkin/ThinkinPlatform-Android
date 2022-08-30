@@ -52,30 +52,30 @@ public class PortalPresenter : MonoBehaviour, IContentItemPresenter, IHandlePoin
         }
     }
 
-    public void OnHoverStart(UIPointer Sender, RaycastHit RayInfo)
+    public void OnHoverStart(IUIPointer Sender, RaycastHit RayInfo)
     {
         StateAnimator.SetBool("Is Partially Open", true);
     }
 
-    public void OnHoverEnd(UIPointer Sender)
+    public void OnHoverEnd(IUIPointer Sender)
     {
         if(StateAnimator != null) StateAnimator.SetBool("Is Partially Open", false);
     }
 
-    public void OnGripStart(UIPointer Sender, RaycastHit RayInfo)
+    public void OnGripStart(IUIPointer Sender, RaycastHit RayInfo)
     {
     }
 
-    public void OnGripEnd(UIPointer Sender)
+    public void OnGripEnd(IUIPointer Sender)
     {
     }
 
-    public void OnTriggerStart(UIPointer Sender, RaycastHit RayInfo)
+    public void OnTriggerStart(IUIPointer Sender, RaycastHit RayInfo)
     {
         DestinationPresenter.Instance.DisplayUrl(dto.Url);
     }
 
-    public void OnTriggerEnd(UIPointer Sender)
+    public void OnTriggerEnd(IUIPointer Sender)
     {
     }
 }
