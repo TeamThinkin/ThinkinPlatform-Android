@@ -1,0 +1,3 @@
+[submodule "Packages/thinkin.core.package"]
+	path = Packages/thinkin.core.package
+	url = https://github.com/TeamThinkin/thinkin.core.package.git

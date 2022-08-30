@@ -9,6 +9,12 @@
       },
       "url": "https://normcore-registry.normcore.io"
     },
+    "com.thinkin.core": {
+      "version": "file:thinkin.core.package",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.burst": {
       "version": "1.7.3",
       "depth": 1,

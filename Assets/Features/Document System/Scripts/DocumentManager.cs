@@ -60,7 +60,7 @@ public static class DocumentManager
 
     private static async Task<string> getRequest(string Url)
     {
-        Debug.Log("Get request: " + Url);
+        Debug.Log("Get request url: " + Url);
         using (var request = new UnityWebRequest(Url, "GET"))
         {
             request.SetRequestHeader("User-Agent", "Thinkin/" + Application.version);
