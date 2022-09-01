@@ -19,19 +19,21 @@ public class AppController : AppControllerBase
     [SerializeField] private Realtime _realtimeNetwork;
     public Realtime RealtimeNetwork => _realtimeNetwork;
 
-    [SerializeField] private GameObject _contentSymbolPrefab;
-
     public override Transform PlayerTransform => _autoHandPlayer.transform;
 
     public override Rigidbody PlayerBody => _autoHandPlayer.body;
 
-    public static GameObject ContentSymbolPrefab { get; private set; }
+    public override string BundleVersionCode => GeneratedInfo.BundleVersionCode;
+
+    //[SerializeField] private GameObject _contentSymbolPrefab;
+    //public static GameObject ContentSymbolPrefab { get; private set; }
 
     void Start()
     {
         //PlayerPrefs.DeleteAll();
-        ContentSymbolPrefab = _contentSymbolPrefab;
-        
+        //ContentSymbolPrefab = _contentSymbolPrefab;
+        Firesplash.UnityAssets.SocketIO.SocketIOCommunicator x;
+
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
         DestinationPresenter.UrlChanged += DestinationPresenter_UrlChanged;
