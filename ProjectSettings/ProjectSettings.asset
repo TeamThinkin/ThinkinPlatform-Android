@@ -161,7 +161,7 @@ PlayerSettings:
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 30
+  AndroidBundleVersionCode: 31
   AndroidMinSdkVersion: 23
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
@@ -699,6 +699,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
     Android: NORMCORE;READY_PLAYER_ME
+    Standalone: READY_PLAYER_ME;NORMCORE
     WebGL: READY_PLAYER_ME;NORMCORE
   additionalCompilerArguments: {}
   platformArchitecture: {}

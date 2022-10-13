@@ -25,14 +25,12 @@ public class AppController : AppControllerBase
 
     public override string BundleVersionCode => GeneratedInfo.BundleVersionCode;
 
-    //[SerializeField] private GameObject _contentSymbolPrefab;
-    //public static GameObject ContentSymbolPrefab { get; private set; }
+    private XRUIManager _uiManager = new XRUIManager();
+    public override IUIManager UIManager => _uiManager;
 
     void Start()
     {
-        //PlayerPrefs.DeleteAll();
-        //ContentSymbolPrefab = _contentSymbolPrefab;
-        Firesplash.UnityAssets.SocketIO.SocketIOCommunicator x;
+        ElementPresenterFactoryHelper.RegisterAdditionalTypes();
 
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
