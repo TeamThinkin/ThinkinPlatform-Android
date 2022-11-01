@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ecf38a8a013e049a5adf83295ceea5, type: 3}
+  m_Name: Tablet Options
+  m_EditorClassIdentifier: 
+  Panels:
+  - {fileID: 203129502264018916, guid: 8de3078db67f8ea4f98175ee91a0ab02, type: 3}
+  - {fileID: 4843451088826978482, guid: 701aeb67c5bb01d4faab46f353d31ccd, type: 3}
+  - {fileID: 3305356124973127430, guid: 8f8f309beb89a71478028c0001033c9e, type: 3}

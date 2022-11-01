@@ -21989,7 +21989,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2027487597}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1443573265
 MonoBehaviour:
@@ -22003,6 +22003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ce3b0803c0b984c88635b1d859dfc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TabletSettings: {fileID: 11400000, guid: e0d0ef0f1b63a094ca2db1b90dd2dfcf, type: 2}
   _autoHandPlayer: {fileID: 1497446004}
   _mainCamera: {fileID: 7942002210750109186}
   _destinationPresenter: {fileID: 4785698962766529789}
@@ -30405,7 +30406,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2027487597}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1954564939
 MonoBehaviour:
@@ -31936,8 +31937,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1954564938}
   - {fileID: 1443573264}
+  - {fileID: 1954564938}
   - {fileID: 1962896853}
   m_Father: {fileID: 617033242}
   m_RootOrder: 0
@@ -33752,6 +33753,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.03386
       objectReference: {fileID: 0}
+    - target: {fileID: 5789895119112244103, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
+      propertyPath: TabletPrefab
+      value: 
+      objectReference: {fileID: 5130892491599139750, guid: 1304cf79600451b47a53b9299fddba7b, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1747d9f63681eb24c8707dcd15c11404, type: 3}
 --- !u!1001 &7491101360202172227
