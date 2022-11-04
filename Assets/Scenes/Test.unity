@@ -723,14 +723,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 303190935}
     m_Modifications:
-    - target: {fileID: 1695062113762335100, guid: 1304cf79600451b47a53b9299fddba7b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.3122595
-      objectReference: {fileID: 0}
-    - target: {fileID: 1999650039494230917, guid: 1304cf79600451b47a53b9299fddba7b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.1639
-      objectReference: {fileID: 0}
     - target: {fileID: 5130892491599139750, guid: 1304cf79600451b47a53b9299fddba7b, type: 3}
       propertyPath: m_Name
       value: Tablet (XR)
@@ -778,14 +770,6 @@ PrefabInstance:
     - target: {fileID: 5130892491599139768, guid: 1304cf79600451b47a53b9299fddba7b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7383090074593740669, guid: 1304cf79600451b47a53b9299fddba7b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.029402453
-      objectReference: {fileID: 0}
-    - target: {fileID: 7651682085576367492, guid: 1304cf79600451b47a53b9299fddba7b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.0203
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1304cf79600451b47a53b9299fddba7b, type: 3}

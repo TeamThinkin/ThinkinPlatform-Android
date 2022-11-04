@@ -33,11 +33,16 @@ public class MockAppController : AppControllerBase
     {
         playerTransform.rotation = WorldRotation;
     }
+
+    private void Start()
+    {
+        TransitionController.Instance.RevealScene();
+    }
 }
 
 public class MockUIManager : IUIManager
 {
-    public void MakeGrabbalbe(GameObject Item)
+    public void MakeGrabbable(GameObject Item)
     {
     }
 }
