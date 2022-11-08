@@ -21,12 +21,6 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.thinkin.ui.xr": {
-      "version": "file:thinkin.ui.xr.package",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.unity.burst": {
       "version": "1.7.3",
       "depth": 1,

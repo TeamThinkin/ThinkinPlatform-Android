@@ -9,8 +9,6 @@ using UnityEngine;
 
 public class AppController : AppControllerBase
 {
-    [SerializeField] private Autohand.AutoHandPlayer _autoHandPlayer;
-
     [SerializeField] private Camera _mainCamera;
     public override Camera MainCamera => _mainCamera;
 
@@ -19,18 +17,20 @@ public class AppController : AppControllerBase
     [SerializeField] private Realtime _realtimeNetwork;
     public Realtime RealtimeNetwork => _realtimeNetwork;
 
-    public override Transform PlayerTransform => _autoHandPlayer.transform;
+    [SerializeField] private Transform _playerTransform;
+    public override Transform PlayerTransform => _playerTransform;
 
-    public override Rigidbody PlayerBody => _autoHandPlayer.body;
+    [SerializeField] private Rigidbody _playerBody;
+    public override Rigidbody PlayerBody => _playerBody;
 
     public override string BundleVersionCode => GeneratedInfo.BundleVersionCode;
 
-    private XRUIManager _uiManager = new XRUIManager();
+    private AndroidUIManager _uiManager = new AndroidUIManager();
     public override IUIManager UIManager => _uiManager;
 
     void Start()
     {
-        ElementPresenterFactoryHelper.RegisterAdditionalTypes();
+        //ElementPresenterFactoryHelper.RegisterAdditionalTypes();
 
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
@@ -64,16 +64,17 @@ public class AppController : AppControllerBase
 
     public override void SetPlayerPosition(Vector3 WorldPosition)
     {
-        _autoHandPlayer.SetPosition(WorldPosition);
+        _playerTransform.position = WorldPosition;
     }
 
     public override void SetPlayerPosition(Vector3 WorldPosition, Quaternion WorldRotation)
     {
-        _autoHandPlayer.SetPosition(WorldPosition, WorldRotation);
+        _playerTransform.rotation = WorldRotation;
+        _playerTransform.position = WorldPosition;
     }
 
     public override void SetPlayerRotation(Quaternion WorldRotation)
     {
-        _autoHandPlayer.SetRotation(WorldRotation);
+        _playerTransform.rotation = WorldRotation;
     }
 }
