@@ -7,3 +7,6 @@
 [submodule "Packages/thinkin.presence.package"]
 	path = Packages/thinkin.presence.package
 	url = https://github.com/TeamThinkin/thinkin.presence.package.git
+[submodule "Packages/thinkin.ui.pancake.package"]
+	path = Packages/thinkin.ui.pancake.package
+	url = https://github.com/TeamThinkin/thinkin.ui.pancake.package.git

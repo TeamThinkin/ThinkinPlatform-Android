@@ -21,6 +21,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.thinkin.ui.pancake": {
+      "version": "file:thinkin.ui.pancake.package",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.burst": {
       "version": "1.7.3",
       "depth": 1,
