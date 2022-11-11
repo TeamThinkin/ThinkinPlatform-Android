@@ -31,6 +31,7 @@ public class AppController : AppControllerBase
     void Start()
     {
         //ElementPresenterFactoryHelper.RegisterAdditionalTypes();
+        NetworkSyncFactory.Initialize();
 
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
