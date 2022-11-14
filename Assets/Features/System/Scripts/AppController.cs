@@ -25,7 +25,7 @@ public class AppController : AppControllerBase
 
     public override string BundleVersionCode => GeneratedInfo.BundleVersionCode;
 
-    private AndroidUIManager _uiManager = new AndroidUIManager();
+    private UIManager _uiManager = new UIManager();
     public override IUIManager UIManager => _uiManager;
 
     void Start()
@@ -38,6 +38,10 @@ public class AppController : AppControllerBase
         DestinationPresenter.UrlChanged += DestinationPresenter_UrlChanged;
 
         DeviceRegistrationController.CheckDeviceRegistration();
+
+        CoreModule.Initialize();
+        PancakeUIModule.Initialize();
+        PresenceModule.Initialize();
     }
 
     private void OnDestroy()
