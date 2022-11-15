@@ -30,14 +30,9 @@ public class AppController : AppControllerBase
 
     void Start()
     {
-        //ElementPresenterFactoryHelper.RegisterAdditionalTypes();
-        NetworkSyncFactory.Initialize();
-
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
         DestinationPresenter.UrlChanged += DestinationPresenter_UrlChanged;
-
-        DeviceRegistrationController.CheckDeviceRegistration();
 
         CoreModule.Initialize();
         PancakeUIModule.Initialize();
