@@ -28,6 +28,8 @@ public class AppController : AppControllerBase
     private UIManager _uiManager = new UIManager();
     public override IUIManager UIManager => _uiManager;
 
+    public override bool IsPancake => true;
+
     void Start()
     {
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
