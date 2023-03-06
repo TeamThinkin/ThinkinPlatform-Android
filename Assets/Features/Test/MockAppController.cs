@@ -21,6 +21,8 @@ public class MockAppController : AppControllerBase
 
     public override bool IsPancake => true;
 
+    public override IKeyboard Keyboard => null;
+
     public override void SetPlayerPosition(Vector3 WorldPosition)
     {
         playerTransform.position = WorldPosition;

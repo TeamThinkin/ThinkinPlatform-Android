@@ -28,6 +28,9 @@ public class AppController : AppControllerBase
     private UIManager _uiManager = new UIManager();
     public override IUIManager UIManager => _uiManager;
 
+    [SerializeField] private Keyboard _keyboard;
+    public override IKeyboard Keyboard => _keyboard;
+
     public override bool IsPancake => true;
 
     void Start()
@@ -55,8 +58,8 @@ public class AppController : AppControllerBase
 
     private void WebSocketListener_OnSetUser(UserDto obj)
     {
-        Debug.Log("App Controller sees that the user has been set (logged in)");
-        DeviceRegistrationController.RegisterDevice();
+        Debug.Log("App Controller sees that the user has been set (logged in). Currently ignoring it");
+        //DeviceRegistrationController.RegisterDevice();
     }
 
     private void UserInfo_OnCurrentUserChanged(UserInfo obj)
