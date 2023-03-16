@@ -713,7 +713,7 @@ PrefabInstance:
     - target: {fileID: 5769221352179233917, guid: 3e7f27322cb6ddc40b364cb9e18eff99, type: 3}
       propertyPath: _normcoreAppSettings
       value: 
-      objectReference: {fileID: 11400000, guid: 7e0e3ee300a47e2449698cf6380cfcf8, type: 2}
+      objectReference: {fileID: 11400000, guid: 6cbec099b72264a45bda4012cd1c0adc, type: 2}
     - target: {fileID: 5769578474593513323, guid: 3e7f27322cb6ddc40b364cb9e18eff99, type: 3}
       propertyPath: _localPlayer.head
       value: 
