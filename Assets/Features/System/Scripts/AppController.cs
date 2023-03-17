@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class AppController : AppControllerBase
 {
-    [SerializeField] MonoBehaviour _movementController;
+    [SerializeField] MonoBehaviour[] _movementControllers;
 
     [SerializeField] private Camera _mainCamera;
     public override Camera MainCamera => _mainCamera;
@@ -58,10 +58,11 @@ public class AppController : AppControllerBase
 
     private void FocusManager_OnFocusItemChanged(IFocusItem item)
     {
-        if(item != null && item is Textbox)
-            _movementController.enabled = false;
-        else
-            _movementController.enabled = true;
+        bool movementEnabled = item == null || !(item is Textbox);
+        foreach(var controller in _movementControllers)
+        {
+            controller.enabled = movementEnabled;
+        }
     }
 
     private void DestinationPresenter_UrlChanged(string Url)
