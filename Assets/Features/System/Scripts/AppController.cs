@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class AppController : AppControllerBase
 {
+    [SerializeField] MonoBehaviour _movementController;
+
     [SerializeField] private Camera _mainCamera;
     public override Camera MainCamera => _mainCamera;
 
@@ -38,17 +40,28 @@ public class AppController : AppControllerBase
         UserInfo.OnCurrentUserChanged += UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser += WebSocketListener_OnSetUser;
         DestinationPresenter.UrlChanged += DestinationPresenter_UrlChanged;
+        FocusManager.OnFocusItemChanged += FocusManager_OnFocusItemChanged;
 
         CoreModule.Initialize();
         PancakeUIModule.Initialize();
         PresenceModule.Initialize();
     }
 
+
     private void OnDestroy()
     {
         UserInfo.OnCurrentUserChanged -= UserInfo_OnCurrentUserChanged;
         WebSocketListener.OnSetUser -= WebSocketListener_OnSetUser;
         DestinationPresenter.UrlChanged -= DestinationPresenter_UrlChanged;
+        FocusManager.OnFocusItemChanged -= FocusManager_OnFocusItemChanged;
+    }
+
+    private void FocusManager_OnFocusItemChanged(IFocusItem item)
+    {
+        if(item != null && item is Textbox)
+            _movementController.enabled = false;
+        else
+            _movementController.enabled = true;
     }
 
     private void DestinationPresenter_UrlChanged(string Url)
